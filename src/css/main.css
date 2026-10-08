@@ -1,0 +1,19 @@
+/* Ponto de entrada do CSS. Ordem importa: tokens → base → layout → componentes → seções. */
+@import "./fonts.css";
+@import "./tokens.css";
+@import "./base.css";
+@import "./layout.css";
+@import "./components.css";
+@import "./header.css";
+@import "./hero.css";
+@import "./manifesto.css";
+@import "./lines.css";
+@import "./catalog.css";
+@import "./product-modal.css";
+@import "./resell.css";
+@import "./forms.css";
+@import "./sections.css";
+@import "./footer.css";
+@import "./gold.css";
+@import "./motion.css";
+@import "./whatsapp.css";

@@ -1,0 +1,51 @@
+/* Estilos exclusivos de styleguide.html (dev). Não importado por main.css. */
+.sg-intro { padding-block: var(--space-24) var(--space-12); }
+.sg-muted { color: var(--section-muted); margin-top: var(--space-4); }
+.sg-title { margin-bottom: var(--space-10); font-size: var(--fs-2xl); }
+
+.sg-swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: var(--space-6);
+}
+.sg-swatch { display: grid; gap: var(--space-1); font-size: var(--fs-sm); }
+.sg-swatch code { color: var(--section-muted); font-size: var(--fs-xs); }
+.sg-chip {
+  display: block;
+  aspect-ratio: 4 / 3;
+  margin-bottom: var(--space-2);
+  border: var(--border-hairline) solid var(--section-border);
+}
+.sg-chip--black { background: var(--color-black); }
+.sg-chip--ink { background: var(--color-ink); }
+.sg-chip--graphite { background: var(--color-graphite); }
+.sg-chip--smoke { background: var(--color-smoke); }
+.sg-chip--ivory { background: var(--color-ivory); }
+.sg-chip--sand { background: var(--color-sand); }
+.sg-chip--stone { background: var(--color-stone); }
+.sg-chip--gold { background: var(--gold-solid); }
+.sg-chip--gold-gradient { background: var(--gold-gradient); }
+.sg-chip--gold-gradient-text { background: var(--gold-gradient-text); }
+.sg-chip--gold-gradient-deep { background: var(--gold-gradient-deep); }
+.sg-chip--gold-light { background: var(--gold-light); }
+.sg-chip--gold-deep { background: var(--gold-deep); }
+
+.sg-type { display: grid; gap: var(--space-8); }
+.sg-type__row {
+  display: grid;
+  gap: var(--space-2);
+  padding-bottom: var(--space-8);
+  border-bottom: var(--border-hairline) solid var(--section-border);
+}
+.sg-type__row code { font-size: var(--fs-2xs); color: var(--section-muted); }
+.sg-display { font-family: var(--font-display); font-weight: var(--fw-light); line-height: var(--lh-snug); max-width: none; }
+.sg-5xl { font-size: var(--fs-5xl); line-height: var(--lh-tight); }
+.sg-4xl { font-size: var(--fs-4xl); color: var(--gold-solid); }
+.sg-3xl { font-size: var(--fs-3xl); }
+.sg-2xl { font-size: var(--fs-2xl); }
+.sg-xl { font-size: var(--fs-xl); font-weight: var(--fw-regular); }
+.sg-md { font-size: var(--fs-md); font-weight: var(--fw-light); }
+.sg-sm { font-size: var(--fs-sm); color: var(--section-muted); }
+
+.sg-row { display: flex; flex-wrap: wrap; gap: var(--space-4); align-items: center; }
+.sg-divider { margin-block: var(--space-10); }

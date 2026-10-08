@@ -1,0 +1,6 @@
+# Arquivo GERADO por scripts/generate-static.mjs — edite config/security-headers.mjs ou config/site.mjs
+# Política de divulgação de vulnerabilidades da 303 Parfum (RFC 9116)
+Contact: mailto:contato@303parfum.com.br
+Expires: 2027-10-08T00:00:00.000Z
+Preferred-Languages: pt, en
+Canonical: https://www.303parfum.com.br/.well-known/security.txt

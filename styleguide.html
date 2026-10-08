@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Styleguide — 303 Parfum (dev)</title>
+
+    <link rel="stylesheet" href="./src/css/main.css" />
+    <link rel="stylesheet" href="./src/css/styleguide.css" />
+  </head>
+
+  <body>
+    <!-- Página de desenvolvimento: fora do build (ver vite.config.js) -->
+    <header class="section section--dark sg-intro">
+      <div class="container">
+        <p class="eyebrow eyebrow--rule">Apenas desenvolvimento</p>
+        <h1>Styleguide</h1>
+        <p class="sg-muted">Tokens, tipografia e componentes do 303 Parfum.</p>
+      </div>
+    </header>
+
+    <main>
+      <!-- Cores -->
+      <section class="section section--light" aria-labelledby="sg-cores">
+        <div class="container">
+          <h2 id="sg-cores" class="sg-title">Cores</h2>
+          <ul class="sg-swatches" role="list">
+            <li class="sg-swatch"><span class="sg-chip sg-chip--black"></span><b>black</b><code>#0A0A0A</code></li>
+            <li class="sg-swatch"><span class="sg-chip sg-chip--ink"></span><b>ink</b><code>#141414</code></li>
+            <li class="sg-swatch"><span class="sg-chip sg-chip--graphite"></span><b>graphite</b><code>#1E1E1E</code></li>
+            <li class="sg-swatch"><span class="sg-chip sg-chip--smoke"></span><b>smoke</b><code>#2A2A2A</code></li>
+            <li class="sg-swatch"><span class="sg-chip sg-chip--ivory"></span><b>ivory</b><code>#F6F4F0</code></li>
+            <li class="sg-swatch"><span class="sg-chip sg-chip--sand"></span><b>sand</b><code>#EAE3D6</code></li>
+            <li class="sg-swatch"><span class="sg-chip sg-chip--stone"></span><b>stone</b><code>#D9D1C3</code></li>
+            <li class="sg-swatch"><span class="sg-chip sg-chip--gold"></span><b>gold-solid</b><code>#C9A13B</code></li>
+            <li class="sg-swatch"><span class="sg-chip sg-chip--gold-gradient"></span><b>gold-gradient</b><code>linhas, bordas, texto grande no escuro</code></li>
+            <li class="sg-swatch"><span class="sg-chip sg-chip--gold-gradient-text"></span><b>gold-gradient-text</b><code>texto pequeno no escuro</code></li>
+            <li class="sg-swatch"><span class="sg-chip sg-chip--gold-gradient-deep"></span><b>gold-gradient-deep</b><code>texto grande no claro</code></li>
+            <li class="sg-swatch"><span class="sg-chip sg-chip--gold-light"></span><b>gold-light</b><code>#F3E2A4</code></li>
+            <li class="sg-swatch"><span class="sg-chip sg-chip--gold-deep"></span><b>gold-deep</b><code>#7A5C1E</code></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Tipografia -->
+      <section class="section section--dark" aria-labelledby="sg-tipo">
+        <div class="container">
+          <h2 id="sg-tipo" class="sg-title">Tipografia</h2>
+          <div class="sg-type">
+            <div class="sg-type__row"><code>--fs-5xl · display</code><p class="sg-display sg-5xl">Alta perfumaria.</p></div>
+            <div class="sg-type__row"><code>--fs-4xl · display itálico</code><p class="sg-display sg-4xl"><i>Preço justo.</i></p></div>
+            <div class="sg-type__row"><code>--fs-3xl · h2</code><p class="sg-display sg-3xl">Fragrâncias com assinatura</p></div>
+            <div class="sg-type__row"><code>--fs-2xl</code><p class="sg-display sg-2xl">Notas de topo, coração e fundo</p></div>
+            <div class="sg-type__row"><code>--fs-xl · h3</code><p class="sg-display sg-xl">Âmbar Noturno</p></div>
+            <div class="sg-type__row"><code>--fs-md · lead</code><p class="sg-md">Fragrâncias marcantes, criadas com o rigor da alta perfumaria e entregues sem o custo de grife.</p></div>
+            <div class="sg-type__row"><code>--fs-base · corpo</code><p>Manrope regular para textos corridos. A medida máxima é de 62 caracteres por linha para manter o conforto de leitura em qualquer tela.</p></div>
+            <div class="sg-type__row"><code>--fs-sm</code><p class="sg-sm">Texto auxiliar, legendas e informações secundárias.</p></div>
+            <div class="sg-type__row"><code>.eyebrow</code><p class="eyebrow eyebrow--rule">Alta perfumaria · Recife &amp; Garanhuns</p></div>
+            <div class="sg-type__row"><code>.link-underline</code><p><a class="link-underline" href="#sg-tipo">Link com sublinhado animado</a> · <a class="link-underline link-underline--persistent" href="#sg-tipo">persistente</a></p></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Botões -->
+      <section class="section section--dark" aria-labelledby="sg-btn-dark">
+        <div class="container">
+          <h2 id="sg-btn-dark" class="sg-title">Botões · fundo escuro</h2>
+          <div class="sg-row">
+            <a class="btn btn--primary btn--on-dark" href="#sg-btn-dark">Conheça a coleção</a>
+            <a class="btn btn--outline btn--on-dark" href="#sg-btn-dark">Quero revender</a>
+            <a class="btn btn--ghost btn--on-dark" href="#sg-btn-dark">Saiba mais</a>
+            <a class="btn btn--outline btn--on-dark btn--sm" href="#sg-btn-dark">Pequeno</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--light" aria-labelledby="sg-btn-light">
+        <div class="container">
+          <h2 id="sg-btn-light" class="sg-title">Botões · fundo claro</h2>
+          <div class="sg-row">
+            <a class="btn btn--primary btn--on-light" href="#sg-btn-light">Conheça a coleção</a>
+            <a class="btn btn--outline btn--on-light" href="#sg-btn-light">Quero revender</a>
+            <a class="btn btn--ghost btn--on-light" href="#sg-btn-light">Saiba mais</a>
+            <a class="btn btn--outline btn--on-light btn--sm" href="#sg-btn-light">Pequeno</a>
+          </div>
+          <hr class="divider sg-divider" />
+          <p class="eyebrow">Eyebrow em fundo claro</p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

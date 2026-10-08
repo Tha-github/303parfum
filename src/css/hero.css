@@ -1,0 +1,271 @@
+/* ==========================================================================
+   Hero — fundo escuro, 100svh, foto da modelo (baner.png) à direita
+
+   REGRA PRINCIPAL: a foto termina exatamente onde termina a seção e
+   aparece SEMPRE inteira.
+   - ancorada na base: bottom: 0; nada de padding/margem embaixo dela;
+   - object-fit: contain + object-position: bottom right (cover cortaria
+     o corpo — nunca usar aqui);
+   - a seção corta só nas laterais (overflow-x: clip), nunca a base.
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* reserva: iOS < 15.4 */
+  min-height: 100svh;
+  padding-top: var(--header-height);
+  padding-bottom: 0; /* a foto encosta na base da seção */
+  overflow-x: clip;
+  isolation: isolate;
+}
+
+.hero__inner {
+  flex: 1;
+  max-width: var(--container-lg);
+  grid-template-rows: auto 1fr;
+  row-gap: var(--space-8);
+  padding-top: var(--space-10);
+}
+
+/* ---- Conteúdo ------------------------------------------------------ */
+.hero__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.hero__eyebrow {
+  margin-bottom: var(--space-6);
+}
+
+.hero__title {
+  font-size: var(--fs-5xl);
+  font-weight: var(--fw-light);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.025em;
+}
+
+.hero__title-line {
+  display: block;
+}
+
+.hero__title-accent {
+  font-style: italic;
+  color: var(--gold-solid);
+}
+
+.hero__lead {
+  max-width: 34ch;
+  margin-top: var(--space-6);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-light);
+  line-height: var(--lh-relaxed);
+  color: var(--color-text-on-dark-muted);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-4);
+  margin-top: var(--space-10);
+}
+
+/* ---- Foto ------------------------------------------------------------
+   Mobile (< 768px): ABAIXO do texto, no fluxo, encostada na base da
+   seção (a última linha da grade se estica e alinha a foto embaixo).   */
+.hero__media {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-self: end;
+  justify-content: flex-end;
+  margin-right: calc(var(--space-gutter) * -1);
+  pointer-events: none;
+}
+
+.hero__image {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 62vh;
+  max-height: 62svh;
+  object-fit: contain; /* nunca cover */
+  object-position: bottom right;
+}
+
+/* ---- Indicador de rolagem -------------------------------------------- */
+.hero__scroll {
+  position: absolute;
+  bottom: var(--space-8);
+  left: calc(max(0px, (100% - var(--container-lg)) / 2) + var(--space-gutter));
+  z-index: 2;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  color: var(--color-text-on-dark-subtle);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.hero__scroll:hover {
+  color: var(--gold-solid);
+}
+
+.hero__scroll-label {
+  font-size: var(--fs-2xs);
+  letter-spacing: var(--ls-widest);
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+}
+
+.hero__scroll-line {
+  position: relative;
+  display: block;
+  width: var(--border-hairline);
+  height: var(--space-16);
+  overflow: hidden;
+  background-color: rgb(246 244 240 / 0.15);
+}
+
+.hero__scroll-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateY(-100%);
+  animation: hero-scroll-line 2.4s var(--ease-in-out) infinite;
+}
+
+@keyframes hero-scroll-line {
+  0%   { transform: translateY(-100%); }
+  50%  { transform: translateY(0); }
+  100% { transform: translateY(100%); }
+}
+
+/* ---- Tablet e desktop (≥ 768px): foto ancorada no canto inferior direito */
+@media (min-width: 48em) {
+  .hero {
+    justify-content: center;
+  }
+
+  .hero__inner {
+    flex: none;
+    grid-template-rows: auto;
+    padding-block: var(--space-16);
+  }
+
+  .hero__content {
+    grid-column: 1 / span 5;
+  }
+
+  /* A caixa da foto ocupa a seção (abaixo do header) e a imagem encosta
+     no canto inferior direito, na altura toda, inteira. */
+  .hero__media {
+    position: absolute;
+    inset: var(--header-height) 0 0 0;
+    margin: 0;
+    z-index: 0; /* abaixo do degradê (z 1) e do texto (z 2) */
+    /* em posição absoluta, align-self:end (do mobile) encolheria a caixa
+       até o conteúdo (zero); stretch faz ela ocupar de top a bottom */
+    align-self: stretch;
+    justify-self: stretch;
+  }
+
+  .hero__image {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: auto;
+    max-width: 62%;
+    max-height: none;
+  }
+
+  /* Degradê de legibilidade: escuro atrás do texto, transparente antes
+     de chegar à modelo. */
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      to right,
+      rgb(10 10 10 / 0.95) 0%,
+      rgb(10 10 10 / 0.85) 30%,
+      rgb(10 10 10 / 0) 50%
+    );
+    pointer-events: none;
+  }
+}
+
+/* Desktop: a foto vai do INÍCIO AO FIM do banner (altura toda da seção,
+   abaixo do header) — sem teto de largura; continua inteira (contain) e
+   ancorada no canto inferior direito. O texto passa por cima da parte
+   esquerda da foto, protegido pelo degradê. */
+@media (min-width: 64em) {
+  .hero__content {
+    grid-column: 1 / span 6;
+  }
+
+  .hero__image {
+    max-width: 100%;
+  }
+
+  .hero::before {
+    background: linear-gradient(
+      to right,
+      rgb(10 10 10 / 0.95) 0%,
+      rgb(10 10 10 / 0.88) 34%,
+      rgb(10 10 10 / 0.35) 48%,
+      rgb(10 10 10 / 0) 60%
+    );
+  }
+}
+
+/* Indicador: só no desktop e quando há altura sobrando (em telas baixas
+   ele encostaria nos botões) */
+@media (min-width: 64em) and (min-height: 52em) {
+  .hero__scroll {
+    display: flex;
+  }
+}
+
+/* ---- Animação de entrada ----------------------------------------------
+   Lenta (1.4s), fade + leve translate, em cascata. Anulada pelo
+   prefers-reduced-motion global em base.css.                            */
+.hero [data-reveal] {
+  animation: hero-reveal var(--duration-entrance) var(--ease-luxe) both;
+  animation-delay: calc(var(--reveal-step, 0) * 140ms + 200ms);
+}
+
+.hero [data-reveal="1"] { --reveal-step: 0; }
+.hero [data-reveal="2"] { --reveal-step: 1; }
+.hero [data-reveal="3"] { --reveal-step: 2; }
+.hero [data-reveal="4"] { --reveal-step: 3; }
+.hero [data-reveal="5"] { --reveal-step: 5; }
+
+@keyframes hero-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* O indicador usa translateX no desktop: anima só a opacidade */
+.hero__scroll[data-reveal] {
+  animation-name: hero-fade;
+}
+
+@keyframes hero-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

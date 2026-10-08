@@ -1,0 +1,416 @@
+/* ==========================================================================
+   Formulários — linha inferior de 1px, label flutuante, foco dourado
+   O tema segue a seção: escuro por padrão, claro dentro de .section--light.
+   Todas as cores passam por variáveis --field-*.
+   ========================================================================== */
+
+.form,
+.form-success {
+  --field-text: var(--color-text-on-dark);
+  --field-muted: var(--color-text-on-dark-muted);
+  --field-subtle: var(--color-text-on-dark-subtle);
+  --field-line: var(--color-input-line-on-dark);
+  --field-focus: var(--gold-solid);
+  --field-error: var(--color-error-on-dark);
+  --field-bg: var(--color-ink);
+}
+
+.section--light .form,
+.section--light .form-success {
+  --field-text: var(--color-text-on-light);
+  --field-muted: var(--color-text-on-light-muted);
+  --field-subtle: var(--color-text-on-light-subtle);
+  --field-line: var(--color-input-line-on-light);
+  --field-focus: var(--gold-deep);
+  --field-error: var(--color-error-on-light);
+  --field-bg: var(--color-paper);
+}
+
+/* Painel genérico que envolve um formulário */
+.form-panel {
+  padding: var(--space-8) var(--space-5);
+  border: var(--border-hairline) solid var(--section-border);
+  background-color: var(--color-ink);
+}
+
+.section--light .form-panel {
+  background-color: var(--color-paper);
+}
+
+@media (min-width: 48em) {
+  .form-panel {
+    padding: var(--space-12) var(--space-10);
+  }
+}
+
+.form__grid {
+  display: grid;
+  gap: var(--space-8) var(--space-6);
+}
+
+@media (min-width: 48em) {
+  .form__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .form__full {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---- Campo de texto com label flutuante ------------------------------ */
+.field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.field__control {
+  order: 2; /* label vem depois no DOM (para o seletor +) mas aparece acima */
+  width: 100%;
+  min-height: 3.25rem;
+  padding: var(--space-5) 0 var(--space-2);
+  border: 0;
+  border-bottom: var(--border-hairline) solid var(--field-line);
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--field-text);
+  font-size: var(--fs-base); /* ≥16px: evita zoom automático no iOS */
+  line-height: var(--lh-normal);
+  transition: border-color var(--duration-base) var(--ease-standard);
+  appearance: none;
+}
+
+.field__control:focus {
+  outline: none;
+  border-bottom-color: var(--field-focus);
+  box-shadow: 0 1px 0 0 var(--field-focus); /* linha "engrossa" para 2px no foco */
+}
+
+.field__control--textarea {
+  min-height: 7rem;
+  resize: vertical;
+}
+
+.field__label {
+  position: absolute;
+  top: var(--space-5);
+  left: 0;
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--field-muted);
+  font-size: var(--fs-base);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  transform-origin: left top;
+  transition:
+    transform var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-standard);
+}
+
+/* Flutua quando focado ou preenchido (placeholder=" " no input) */
+.field__control:focus + .field__label,
+.field__control:not(:placeholder-shown) + .field__label,
+.field--select .field__label,
+.field--floated .field__label {
+  transform: translateY(-1.35rem) scale(0.8);
+  letter-spacing: var(--ls-wide);
+}
+
+.field__control:focus + .field__label {
+  color: var(--field-focus);
+}
+
+.field__optional {
+  color: var(--field-subtle);
+}
+
+/* Autofill do Chrome sem fundo amarelo/branco */
+.field__control:-webkit-autofill,
+.field__control:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--field-text);
+  box-shadow: 0 0 0 100px var(--field-bg) inset;
+  caret-color: var(--field-text);
+}
+
+/* ---- Select -------------------------------------------------------- */
+.field--select .field__control {
+  padding-right: var(--space-8);
+  cursor: pointer;
+}
+
+.field--select .field__control:invalid {
+  color: var(--field-muted); /* "Selecione" ainda escolhido */
+}
+
+.field--select option {
+  background-color: var(--field-bg);
+  color: var(--field-text);
+}
+
+.field__chevron {
+  position: absolute;
+  top: 1.5rem;
+  right: 0;
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: var(--field-muted);
+  stroke-width: 1.25;
+  pointer-events: none;
+}
+
+/* ---- Dicas, contador e erros ---------------------------------------- */
+.field__meta {
+  order: 3;
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.field__hint,
+.field__counter {
+  order: 3;
+  margin-top: var(--space-2);
+  font-size: var(--fs-xs);
+  color: var(--field-subtle);
+}
+
+.field__counter {
+  font-variant-numeric: tabular-nums;
+}
+
+.field__counter.is-near-limit {
+  color: var(--gold-solid);
+}
+
+.field__error {
+  order: 4;
+  font-size: var(--fs-xs);
+  color: var(--field-error);
+}
+
+.field__error:not(:empty) {
+  margin-top: var(--space-2);
+}
+
+.field__error:not(:empty)::before {
+  content: "— ";
+}
+
+.field.is-invalid .field__control {
+  border-bottom-color: var(--field-error);
+}
+
+.field.is-invalid .field__control:focus {
+  box-shadow: 0 1px 0 0 var(--field-error);
+}
+
+.field.is-invalid .field__label {
+  color: var(--field-error);
+}
+
+/* ---- Radios e checkbox ------------------------------------------------ */
+.field--choices {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+}
+
+.field__legend {
+  margin-bottom: var(--space-4);
+  padding: 0;
+  font-size: var(--fs-sm);
+  color: var(--field-muted);
+}
+
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.choice {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  cursor: pointer;
+}
+
+/* Radios como "pílulas" com linha fina */
+.field--choices .choice {
+  flex: 1 1 10rem;
+  align-items: center;
+  min-height: 3rem;
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-hairline) solid var(--field-line);
+  transition: border-color var(--duration-base) var(--ease-standard);
+}
+
+.field--choices .choice:hover,
+.field--choices .choice:has(:checked) {
+  border-color: var(--field-focus);
+}
+
+.field--choices.is-invalid .choice {
+  border-color: var(--field-error);
+}
+
+.choice__input {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin: 0.15em 0 0;
+  border: var(--border-hairline) solid var(--field-focus);
+  background-color: transparent;
+  cursor: pointer;
+  appearance: none;
+}
+
+.choice__input[type="radio"] {
+  margin-top: 0;
+  border-radius: var(--radius-full);
+}
+
+.choice__input::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: var(--field-focus);
+  transform: scale(0);
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.choice__input[type="radio"]::before {
+  border-radius: var(--radius-full);
+}
+
+.choice__input:checked::before {
+  transform: scale(1);
+}
+
+.choice__input:focus-visible {
+  outline: var(--border-hairline) solid var(--field-focus);
+  outline-offset: 3px;
+}
+
+.choice__input[aria-invalid="true"] {
+  border-color: var(--field-error);
+}
+
+.choice__label {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--field-text);
+}
+
+.field--checkbox .choice__label {
+  color: var(--field-muted);
+}
+
+/* ---- Honeypot: fora da tela, sem display:none (bots ignoram campos ocultos) */
+.form__hp {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* ---- Envio e status ------------------------------------------------- */
+.form__status:not(:empty) {
+  margin-top: var(--space-8);
+  padding: var(--space-3) var(--space-4);
+  border-left: var(--border-hairline) solid var(--field-error);
+  font-size: var(--fs-sm);
+  color: var(--field-text);
+}
+
+.form__submit {
+  width: 100%;
+  margin-top: var(--space-8);
+  white-space: normal;
+  text-align: center;
+}
+
+.form__note {
+  margin-top: var(--space-4);
+  font-size: var(--fs-xs);
+  color: var(--field-subtle);
+}
+
+/* ---- Sucesso ------------------------------------------------------- */
+.form-success {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-5);
+  animation: form-success-in var(--duration-slower) var(--ease-out);
+}
+
+.form-success:focus {
+  outline: none;
+}
+
+.form-success__icon {
+  width: 3rem;
+  height: 3rem;
+  fill: none;
+  stroke: var(--field-focus);
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.form-success__icon path {
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+  animation: form-success-check 900ms var(--ease-out) 300ms forwards;
+}
+
+.form-success__title {
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-light);
+  line-height: var(--lh-tight);
+}
+
+.form-success__text {
+  color: var(--field-muted);
+  line-height: var(--lh-relaxed);
+}
+
+.form-success__text strong {
+  color: var(--field-focus);
+  font-weight: var(--fw-medium);
+}
+
+.form-success__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+@keyframes form-success-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-3));
+  }
+}
+
+@keyframes form-success-check {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Movimento reduzido: o check precisa aparecer desenhado mesmo sem animação */
+@media (prefers-reduced-motion: reduce) {
+  .form-success__icon path {
+    stroke-dashoffset: 0;
+  }
+}

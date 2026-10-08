@@ -1,0 +1,273 @@
+{
+  "_schema": {
+    "id": "string — identificador único estável (ex.: '303-001')",
+    "slug": "string — kebab-case, único, usado em URLs/âncoras",
+    "nome": "string",
+    "categoria": "string — um dos slugs em 'categorias' (as 6 linhas de produto)",
+    "genero": "'feminino' | 'masculino' | 'unissex'",
+    "descricao_curta": "string — até ~90 caracteres, usada no card",
+    "descricao": "string — texto completo",
+    "notas": "{ topo: string[], coracao: string[], fundo: string[] }",
+    "familia_olfativa": "string",
+    "volume_ml": "number",
+    "preco": "number (BRL) | null — null oculta o preço e mostra CTA de consulta",
+    "imagem": "string — caminho em src/assets/img/produtos/ (WebP 4:5, 800×1000)",
+    "imagem_alt": "string — descrição da imagem para leitores de tela",
+    "destaque": "boolean — aparece em destaque na Coleção"
+  },
+  "categorias": [
+    {
+      "slug": "masculino",
+      "nome": "Masculino"
+    },
+    {
+      "slug": "feminino",
+      "nome": "Feminino"
+    },
+    {
+      "slug": "nicho",
+      "nome": "Nicho"
+    },
+    {
+      "slug": "arabe",
+      "nome": "Árabe"
+    },
+    {
+      "slug": "capilar",
+      "nome": "Capilar"
+    },
+    {
+      "slug": "oleo-corporal",
+      "nome": "Óleo Corporal"
+    }
+  ],
+  "produtos": [
+    {
+      "id": "303-001",
+      "slug": "ambar-noturno",
+      "nome": "Âmbar Noturno [CONFIRMAR]",
+      "categoria": "nicho",
+      "genero": "unissex",
+      "descricao_curta": "[CONFIRMAR] Âmbar quente e baunilha sobre um fundo amadeirado.",
+      "descricao": "[CONFIRMAR] Descrição completa do perfume: inspiração, ocasião de uso, fixação e projeção.",
+      "notas": {
+        "topo": [
+          "Bergamota [CONFIRMAR]",
+          "Pimenta-rosa [CONFIRMAR]"
+        ],
+        "coracao": [
+          "Âmbar [CONFIRMAR]",
+          "Íris [CONFIRMAR]"
+        ],
+        "fundo": [
+          "Baunilha [CONFIRMAR]",
+          "Sândalo [CONFIRMAR]"
+        ]
+      },
+      "familia_olfativa": "Ambarada [CONFIRMAR]",
+      "volume_ml": 100,
+      "preco": null,
+      "imagem": "/src/assets/img/produtos/ambar-noturno.webp",
+      "imagem_alt": "Frasco do perfume Âmbar Noturno com tampa dourada",
+      "destaque": true
+    },
+    {
+      "id": "303-002",
+      "slug": "rosa-de-veludo",
+      "nome": "Rosa de Veludo [CONFIRMAR]",
+      "categoria": "feminino",
+      "genero": "feminino",
+      "descricao_curta": "[CONFIRMAR] Rosa aveludada com toques frutados e almiscarados.",
+      "descricao": "[CONFIRMAR] Descrição completa do perfume: inspiração, ocasião de uso, fixação e projeção.",
+      "notas": {
+        "topo": [
+          "Lichia [CONFIRMAR]",
+          "Framboesa [CONFIRMAR]"
+        ],
+        "coracao": [
+          "Rosa turca [CONFIRMAR]",
+          "Peônia [CONFIRMAR]"
+        ],
+        "fundo": [
+          "Almíscar [CONFIRMAR]",
+          "Patchouli [CONFIRMAR]"
+        ]
+      },
+      "familia_olfativa": "Floral frutada [CONFIRMAR]",
+      "volume_ml": 100,
+      "preco": null,
+      "imagem": "/src/assets/img/produtos/rosa-de-veludo.webp",
+      "imagem_alt": "Frasco do perfume Rosa de Veludo com líquido rosado",
+      "destaque": true
+    },
+    {
+      "id": "303-003",
+      "slug": "vetiver-cinza",
+      "nome": "Vetiver Cinza [CONFIRMAR]",
+      "categoria": "masculino",
+      "genero": "masculino",
+      "descricao_curta": "[CONFIRMAR] Frescor cítrico e vetiver seco, elegante para o dia a dia.",
+      "descricao": "[CONFIRMAR] Descrição completa do perfume: inspiração, ocasião de uso, fixação e projeção.",
+      "notas": {
+        "topo": [
+          "Grapefruit [CONFIRMAR]",
+          "Cardamomo [CONFIRMAR]"
+        ],
+        "coracao": [
+          "Lavanda [CONFIRMAR]",
+          "Gerânio [CONFIRMAR]"
+        ],
+        "fundo": [
+          "Vetiver [CONFIRMAR]",
+          "Cedro [CONFIRMAR]"
+        ]
+      },
+      "familia_olfativa": "Amadeirada aromática [CONFIRMAR]",
+      "volume_ml": 100,
+      "preco": null,
+      "imagem": "/src/assets/img/produtos/vetiver-cinza.webp",
+      "imagem_alt": "Frasco do perfume Vetiver Cinza com líquido esverdeado",
+      "destaque": true
+    },
+    {
+      "id": "303-004",
+      "slug": "oud-dourado",
+      "nome": "Oud Dourado [CONFIRMAR]",
+      "categoria": "arabe",
+      "genero": "unissex",
+      "descricao_curta": "[CONFIRMAR] Oud intenso com açafrão e resinas, de alta fixação.",
+      "descricao": "[CONFIRMAR] Descrição completa do perfume: inspiração, ocasião de uso, fixação e projeção.",
+      "notas": {
+        "topo": [
+          "Açafrão [CONFIRMAR]",
+          "Cravo [CONFIRMAR]"
+        ],
+        "coracao": [
+          "Oud [CONFIRMAR]",
+          "Rosa [CONFIRMAR]"
+        ],
+        "fundo": [
+          "Olíbano [CONFIRMAR]",
+          "Âmbar cinza [CONFIRMAR]"
+        ]
+      },
+      "familia_olfativa": "Oriental amadeirada [CONFIRMAR]",
+      "volume_ml": 100,
+      "preco": null,
+      "imagem": "/src/assets/img/produtos/oud-dourado.webp",
+      "imagem_alt": "Frasco do perfume Oud Dourado com líquido âmbar claro",
+      "destaque": true
+    },
+    {
+      "id": "303-005",
+      "slug": "bruma-capilar-flor-de-algodao",
+      "nome": "Bruma Capilar Flor de Algodão [CONFIRMAR]",
+      "categoria": "capilar",
+      "genero": "unissex",
+      "descricao_curta": "[CONFIRMAR] Bruma leve que perfuma os fios com algodão e flores brancas.",
+      "descricao": "[CONFIRMAR] Descrição completa: modo de uso, textura e duração nos cabelos.",
+      "notas": {
+        "topo": [
+          "Bergamota [CONFIRMAR]"
+        ],
+        "coracao": [
+          "Flor de algodão [CONFIRMAR]",
+          "Jasmim [CONFIRMAR]"
+        ],
+        "fundo": [
+          "Almíscar branco [CONFIRMAR]"
+        ]
+      },
+      "familia_olfativa": "Floral limpa [CONFIRMAR]",
+      "volume_ml": 50,
+      "preco": null,
+      "imagem": "/src/assets/img/produtos/bruma-capilar-flor-de-algodao.webp",
+      "imagem_alt": "Frasco cilíndrico alto da bruma capilar Flor de Algodão",
+      "destaque": false
+    },
+    {
+      "id": "303-006",
+      "slug": "oleo-corporal-flor-de-cacau",
+      "nome": "Óleo Corporal Flor de Cacau [CONFIRMAR]",
+      "categoria": "oleo-corporal",
+      "genero": "feminino",
+      "descricao_curta": "[CONFIRMAR] Óleo seco perfumado com cacau e flores brancas.",
+      "descricao": "[CONFIRMAR] Descrição completa: textura, absorção e modo de uso.",
+      "notas": {
+        "topo": [
+          "Pera [CONFIRMAR]"
+        ],
+        "coracao": [
+          "Jasmim [CONFIRMAR]",
+          "Cacau [CONFIRMAR]"
+        ],
+        "fundo": [
+          "Fava tonka [CONFIRMAR]"
+        ]
+      },
+      "familia_olfativa": "Floral gourmand [CONFIRMAR]",
+      "volume_ml": 100,
+      "preco": null,
+      "imagem": "/src/assets/img/produtos/oleo-corporal-flor-de-cacau.webp",
+      "imagem_alt": "Frasco com conta-gotas do óleo corporal Flor de Cacau",
+      "destaque": false
+    },
+    {
+      "id": "303-007",
+      "slug": "cedro-imperial",
+      "nome": "Cedro Imperial [CONFIRMAR]",
+      "categoria": "masculino",
+      "genero": "masculino",
+      "descricao_curta": "[CONFIRMAR] Cedro e couro suave com abertura de especiarias.",
+      "descricao": "[CONFIRMAR] Descrição completa do perfume: inspiração, ocasião de uso, fixação e projeção.",
+      "notas": {
+        "topo": [
+          "Cardamomo [CONFIRMAR]",
+          "Noz-moscada [CONFIRMAR]"
+        ],
+        "coracao": [
+          "Couro [CONFIRMAR]",
+          "Violeta [CONFIRMAR]"
+        ],
+        "fundo": [
+          "Cedro [CONFIRMAR]",
+          "Âmbar [CONFIRMAR]"
+        ]
+      },
+      "familia_olfativa": "Amadeirada especiada [CONFIRMAR]",
+      "volume_ml": 100,
+      "preco": null,
+      "imagem": "/src/assets/img/produtos/cedro-imperial.webp",
+      "imagem_alt": "Frasco do perfume Cedro Imperial com líquido âmbar escuro",
+      "destaque": false
+    },
+    {
+      "id": "303-008",
+      "slug": "jasmim-solar",
+      "nome": "Jasmim Solar [CONFIRMAR]",
+      "categoria": "feminino",
+      "genero": "feminino",
+      "descricao_curta": "[CONFIRMAR] Jasmim luminoso com flor de laranjeira e baunilha.",
+      "descricao": "[CONFIRMAR] Descrição completa do perfume: inspiração, ocasião de uso, fixação e projeção.",
+      "notas": {
+        "topo": [
+          "Mandarina [CONFIRMAR]"
+        ],
+        "coracao": [
+          "Jasmim sambac [CONFIRMAR]",
+          "Flor de laranjeira [CONFIRMAR]"
+        ],
+        "fundo": [
+          "Baunilha [CONFIRMAR]",
+          "Almíscar [CONFIRMAR]"
+        ]
+      },
+      "familia_olfativa": "Floral solar [CONFIRMAR]",
+      "volume_ml": 100,
+      "preco": null,
+      "imagem": "/src/assets/img/produtos/jasmim-solar.webp",
+      "imagem_alt": "Frasco do perfume Jasmim Solar com líquido dourado claro",
+      "destaque": false
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+<!-- Informações de contato (região "contato" do index.html). Dados: config/site.mjs -->
+            <dl class="contact__info">
+              <div class="contact__item">
+                <dt>Endereços</dt>
+                <dd>
+                  <span class="contact__city">Recife</span> {{site.places.recife.address}}<br />
+                  <span class="contact__city">Garanhuns</span> {{site.places.garanhuns.address}}
+                </dd>
+              </div>
+              <div class="contact__item">
+                <dt>WhatsApp</dt>
+                <dd>
+                  <a class="contact__link link-underline" href="https://wa.me/{{site.whatsapp.number}}" data-whatsapp target="_blank" rel="noopener noreferrer">{{site.whatsapp.display}}<span class="sr-only"> (abre o WhatsApp em nova aba)</span></a>
+                </dd>
+              </div>
+              <div class="contact__item">
+                <dt>E-mail</dt>
+                <dd>
+                  <a class="contact__link link-underline" href="mailto:{{site.email}}">{{site.email}}</a>
+                </dd>
+              </div>
+              <div class="contact__item">
+                <dt>Horário</dt>
+                <dd>{{site.hours}}</dd>
+              </div>
+              <div class="contact__item">
+                <dt>Regiões atendidas</dt>
+                <dd>Recife e Garanhuns, Pernambuco</dd>
+              </div>
+              <div class="contact__item">
+                <dt>Instagram</dt>
+                <dd>
+                  <a class="contact__link link-underline" href="{{site.instagram.url}}" target="_blank" rel="noopener noreferrer">{{site.instagram.handle}}<span class="sr-only"> (abre em nova aba)</span></a>
+                </dd>
+              </div>
+            </dl>

@@ -1,0 +1,210 @@
+/* ==========================================================================
+   DOURADO — aplicação do gradiente metálico (tokens em tokens.css)
+
+   Cada elemento já tem `color: var(--gold-solid)` (ou --gold-deep) no seu
+   próprio CSS: é o fallback. Onde o navegador suporta background-clip:text,
+   o texto vira gradiente. Escolha da variante por CONTRASTE:
+     texto GRANDE no escuro  → --gold-gradient
+     texto PEQUENO no escuro → --gold-gradient-text
+     texto GRANDE no claro   → --gold-gradient-deep
+     texto pequeno no claro  → preto (definido nos componentes)
+   ========================================================================== */
+
+/* ---- 1. Texto em gradiente -------------------------------------------- */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  /* Grande, fundo escuro */
+  .hero__title-accent,
+  .wordmark__number,
+  .lines__header h2 em,
+  .resell em,
+  .site-footer__tagline em,
+  .not-found__title em,
+  .marquee__sep {
+    --gold-text: var(--gold-gradient);
+  }
+
+  /* Pequeno, fundo escuro */
+  .section--dark .eyebrow,
+  .site-footer__heading,
+  .line-card__cta,
+  .step__number,
+  .product-card__notes-title,
+  .product-card__notes-row dt,
+  .catalog__filter[aria-pressed="true"] .catalog__filter-count {
+    --gold-text: var(--gold-gradient-text);
+  }
+
+  /* Grande, fundo claro */
+  .manifesto__title em,
+  .pillar__number,
+  .contact h2 em,
+  .faq__title em,
+  .catalog__empty-title em {
+    --gold-text: var(--gold-gradient-deep);
+  }
+
+  /* Pinta: o próprio elemento (mesma especificidade da regra original,
+     que vem antes no CSS → aqui vence). */
+  .hero__title-accent,
+  .wordmark__number,
+  .lines__header h2 em,
+  .resell em,
+  .site-footer__tagline em,
+  .not-found__title em,
+  .marquee__sep,
+  .section--dark .eyebrow,
+  .site-footer__heading,
+  .line-card__cta,
+  .step__number,
+  .product-card__notes-title,
+  .product-card__notes-row dt,
+  .catalog__filter[aria-pressed="true"] .catalog__filter-count,
+  .manifesto__title em,
+  .pillar__number,
+  .contact h2 em,
+  .faq__title em,
+  .catalog__empty-title em {
+    background-image: var(--gold-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Títulos divididos por palavra (motion.js): cada palavra recebe o
+     gradiente e o pai fica sem fundo — senão o texto "vazaria" antes da
+     animação da máscara. */
+  .lines__header h2 em .split-word__inner,
+  .resell em .split-word__inner,
+  .manifesto__title em .split-word__inner,
+  .contact h2 em .split-word__inner,
+  .faq__title em .split-word__inner {
+    background-image: var(--gold-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Sem :has() (caro de reavaliar enquanto motion.js insere as palavras):
+     títulos só são divididos quando .has-motion está no <html>. */
+  .has-motion .lines__header h2 em,
+  .has-motion .resell em,
+  .has-motion .manifesto__title em,
+  .has-motion .contact h2 em,
+  .has-motion .faq__title em {
+    background-image: none;
+  }
+
+  .lines__header h2 em .split-word__inner,
+  .resell em .split-word__inner { --gold-text: var(--gold-gradient); }
+  .manifesto__title em .split-word__inner,
+  .contact h2 em .split-word__inner,
+  .faq__title em .split-word__inner { --gold-text: var(--gold-gradient-deep); }
+}
+
+/* Brilho sutil: o gradiente desliza ao passar o mouse sobre o título.
+   Só com movimento permitido e ponteiro de verdade. */
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+  .hero__title-accent,
+  :where(h2, .site-footer__tagline) em,
+  :where(h2) em .split-word__inner {
+    background-size: 200% 100% !important;
+    background-position: 0% 50%;
+    transition: background-position 1400ms var(--ease-luxe);
+  }
+
+  :is(h1, h2):hover :is(.hero__title-accent, em, em .split-word__inner),
+  .site-footer__tagline:hover em {
+    background-position: 100% 50%;
+  }
+}
+
+/* ---- 2. Linhas finas e divisores (1px de gradiente) ------------------- */
+.eyebrow--rule::before,
+.manifesto__signature::before,
+.line-card__title::after,
+.wordmark__rule,
+.hero__scroll-line::after {
+  background: var(--gold-gradient);
+}
+
+.divider--accent {
+  height: var(--border-hairline);
+  border: 0;
+  background: var(--gold-gradient);
+}
+
+/* Linha dos passos: horizontal no desktop, vertical no mobile */
+.steps::before {
+  background: linear-gradient(180deg, #8c6b2e 0%, #c9a13b 22%, #f3e2a4 48%, #d4af37 70%, transparent 100%);
+}
+
+@media (min-width: 64em) {
+  .steps::before {
+    background: linear-gradient(90deg, #8c6b2e 0%, #c9a13b 22%, #f3e2a4 48%, #d4af37 70%, transparent 100%);
+  }
+}
+
+.site-footer::before {
+  background: var(--gold-gradient);
+}
+
+/* ---- 3. Bordas em gradiente ------------------------------------------ */
+/* Círculos (passos, WhatsApp): anel por pseudo-elemento + máscara */
+.step__number,
+.whatsapp-float {
+  position: relative;
+  border-color: transparent;
+}
+
+.step__number::before,
+.whatsapp-float::before {
+  content: "";
+  position: absolute;
+  inset: calc(var(--border-hairline) * -1);
+  border-radius: inherit;
+  padding: var(--border-hairline);
+  background: var(--gold-gradient);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  pointer-events: none;
+}
+
+/* Retângulos (botões outline no escuro): border-image */
+.btn--outline:not(.btn--on-light) {
+  border-image: var(--gold-gradient) 1;
+}
+
+/* ---- 4. Botões: hover com preenchimento dourado e texto preto -------- */
+.btn--primary {
+  --btn-fill: var(--gold-gradient);
+  --btn-fg-hover: var(--color-black);
+}
+
+.btn--outline:not(.btn--on-light):hover {
+  background-image: var(--gold-gradient);
+  color: var(--color-black);
+}
+
+/* Toque/sem hover real: preenchimento direto, sem animação */
+@media not ((hover: hover) and (pointer: fine)) {
+  .btn--primary:hover {
+    background-image: var(--gold-gradient);
+  }
+}
+
+/* ---- 5. Foco visível ---------------------------------------------------
+   Dourado sólido no escuro; no claro, o tom profundo (o sólido dá só
+   2,4:1 sobre branco — abaixo dos 3:1 exigidos para indicadores). */
+.section--light,
+.section--white,
+.product-modal,
+.legal {
+  --color-focus: var(--gold-deep);
+}

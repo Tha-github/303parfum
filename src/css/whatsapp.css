@@ -1,0 +1,100 @@
+/* ==========================================================================
+   Botão flutuante de WhatsApp
+   ========================================================================== */
+
+.whatsapp-float {
+  position: fixed;
+  right: max(var(--space-4), env(safe-area-inset-right, 0px));
+  bottom: max(var(--space-4), env(safe-area-inset-bottom, 0px));
+  z-index: var(--z-floating);
+  display: grid;
+  place-items: center;
+  width: 3.5rem;   /* 56px */
+  height: 3.5rem;
+  border: var(--border-hairline) solid var(--gold-solid);
+  border-radius: var(--radius-full);
+  background-color: var(--color-black);
+  color: var(--color-white);
+  box-shadow: 0 10px 30px -10px rgb(0 0 0 / 0.6);
+  text-decoration: none;
+  transition:
+    background-color var(--duration-base) var(--ease-standard),
+    border-color var(--duration-base) var(--ease-standard),
+    transform var(--duration-base) var(--ease-out);
+  animation: whatsapp-in var(--duration-slower) var(--ease-out) 1.6s backwards;
+}
+
+.whatsapp-float:hover {
+  border-color: var(--gold-light);
+  background-color: var(--color-ink);
+  transform: translateY(-2px);
+}
+
+.whatsapp-float:focus-visible {
+  outline-offset: 4px;
+}
+
+.whatsapp-float__icon {
+  width: 1.625rem;
+  height: 1.625rem;
+}
+
+/* ---- Tooltip (apenas dispositivos com hover real) ------------------- */
+.whatsapp-float__tooltip {
+  position: absolute;
+  right: calc(100% + var(--space-3));
+  top: 50%;
+  padding: var(--space-2) var(--space-4);
+  border: var(--border-hairline) solid var(--color-smoke);
+  background-color: var(--color-black);
+  color: var(--color-ivory);
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(var(--space-2), -50%);
+  transition:
+    opacity var(--duration-base) var(--ease-standard),
+    transform var(--duration-base) var(--ease-out),
+    visibility 0s linear var(--duration-base);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .whatsapp-float:hover .whatsapp-float__tooltip,
+  .whatsapp-float:focus-visible .whatsapp-float__tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(0, -50%);
+    transition-delay: 0s;
+  }
+}
+
+@media (min-width: 64em) {
+  .whatsapp-float {
+    right: var(--space-8);
+    bottom: var(--space-8);
+    width: 3.75rem;
+    height: 3.75rem;
+  }
+}
+
+/* Some quando o menu mobile está aberto (o menu é inert por baixo) */
+html.is-scroll-locked .whatsapp-float {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@keyframes whatsapp-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-4));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

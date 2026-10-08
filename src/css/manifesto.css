@@ -1,0 +1,206 @@
+/* ==========================================================================
+   Sobre / Manifesto — fundo claro, "303" gigante em contorno ao fundo
+   ========================================================================== */
+
+.manifesto {
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* ---- Numeral decorativo --------------------------------------------- */
+.manifesto__numeral {
+  position: absolute;
+  top: calc(var(--space-section) * 0.35);
+  right: -0.08em;
+  z-index: var(--z-below);
+  font-family: var(--font-display);
+  font-size: clamp(13rem, 6rem + 32vw, 40rem);
+  font-weight: var(--fw-light);
+  font-variant-numeric: lining-nums;
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: var(--border-hairline) rgb(var(--gold-rgb) / 0.5);
+  pointer-events: none;
+  user-select: none;
+}
+
+@supports not (-webkit-text-stroke: 1px black) {
+  .manifesto__numeral {
+    color: rgb(154 128 72 / 0.08);
+  }
+}
+
+/* ---- Texto ------------------------------------------------------------ */
+.manifesto__inner {
+  display: grid;
+  gap: var(--space-12);
+}
+
+.manifesto__intro {
+  display: grid;
+  gap: var(--space-6);
+  align-content: start;
+}
+
+.manifesto__title {
+  font-size: var(--fs-4xl);
+  line-height: var(--lh-tight);
+}
+
+.manifesto__title em {
+  color: var(--gold-deep);
+}
+
+.manifesto__text > * + * {
+  margin-top: var(--space-6);
+}
+
+.manifesto__text p {
+  color: var(--section-muted);
+  line-height: var(--lh-relaxed);
+}
+
+.manifesto__text strong {
+  color: var(--color-text-on-light);
+  font-weight: var(--fw-semibold);
+}
+
+.manifesto__text .manifesto__lead {
+  margin-bottom: var(--space-10);
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-light);
+  font-style: italic;
+  line-height: var(--lh-snug);
+  color: var(--color-text-on-light);
+}
+
+.manifesto__text .manifesto__signature {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-10);
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-widest);
+  text-transform: uppercase;
+  color: var(--section-accent);
+}
+
+.manifesto__signature::before {
+  content: "";
+  width: var(--space-8);
+  height: var(--border-hairline);
+  background-color: currentColor;
+}
+
+/* ---- Pilares ---------------------------------------------------------- */
+.pillars {
+  display: grid;
+  margin-top: var(--space-block);
+  border-top: var(--border-hairline) solid var(--section-border);
+}
+
+.pillar {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: var(--space-6);
+  row-gap: var(--space-3);
+  padding-block: var(--space-8);
+  border-bottom: var(--border-hairline) solid var(--section-border);
+}
+
+.pillar__number {
+  grid-row: span 2;
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-light);
+  font-style: italic;
+  font-variant-numeric: lining-nums;
+  line-height: 1;
+  color: var(--gold-deep);
+}
+
+.pillar__title {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-regular);
+}
+
+.pillar__text {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-relaxed);
+  color: var(--section-muted);
+}
+
+/* ---- Tablet ----------------------------------------------------------- */
+@media (min-width: 48em) {
+  .manifesto__title {
+    max-width: 14ch;
+  }
+
+  .pillars {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-bottom: var(--border-hairline) solid var(--section-border);
+  }
+
+  .pillar {
+    grid-template-columns: 1fr;
+    align-content: start;
+    padding: var(--space-10) var(--space-6) var(--space-12);
+    border-bottom: 0;
+  }
+
+  .pillar + .pillar {
+    border-left: var(--border-hairline) solid var(--section-border);
+  }
+
+  .pillar:first-child {
+    padding-left: 0;
+  }
+
+  .pillar:last-child {
+    padding-right: 0;
+  }
+
+  .pillar__number {
+    grid-row: auto;
+    margin-bottom: var(--space-8);
+    font-size: var(--fs-3xl);
+  }
+}
+
+/* ---- Desktop: texto à direita, título à esquerda --------------------- */
+@media (min-width: 64em) {
+  /* no vão entre o título e os pilares */
+  .manifesto__numeral {
+    top: calc(var(--space-section) + 13rem);
+    right: auto;
+    left: -0.06em;
+    font-size: min(30vw, 28rem);
+  }
+
+  .manifesto__inner {
+    grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+  }
+
+  .manifesto__intro {
+    grid-column: 1 / span 5;
+    position: sticky;
+    top: calc(var(--header-height-compact) + var(--space-12));
+  }
+
+  .manifesto__text {
+    grid-column: 7 / -1;
+    padding-top: var(--space-16);
+  }
+
+  .pillars {
+    margin-top: calc(var(--space-block) * 1.5);
+  }
+
+  .pillar {
+    padding-inline: var(--space-10);
+  }
+}

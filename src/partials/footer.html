@@ -1,0 +1,66 @@
+    <!-- ===================================================== FOOTER (src/partials/footer.html) -->
+    <!-- Links absolutos ("/#…") para funcionar também na política e no 404 -->
+    <footer class="site-footer">
+      <div class="container site-footer__inner">
+        <div class="site-footer__top">
+          <div class="site-footer__brand">
+            <a class="wordmark wordmark--lg" href="/#inicio" aria-label="303 Parfum — início">
+              <span class="wordmark__number" aria-hidden="true">303</span>
+              <span class="wordmark__rule" aria-hidden="true"></span>
+              <span class="wordmark__name" aria-hidden="true">Parfum</span>
+            </a>
+            <p class="site-footer__tagline">Alta perfumaria. <em>Preço justo.</em></p>
+          </div>
+
+          <nav class="site-footer__nav" aria-label="Rodapé">
+            <div class="site-footer__col">
+              <h2 class="site-footer__heading">Navegação</h2>
+              <ul class="site-footer__list" role="list">
+                <li><a class="site-footer__link" href="/#colecao">Coleção</a></li>
+                <li><a class="site-footer__link" href="/#sobre">Sobre</a></li>
+                <li><a class="site-footer__link" href="/#revenda">Revenda</a></li>
+                <li><a class="site-footer__link" href="/#faq">FAQ</a></li>
+                <li><a class="site-footer__link" href="/#contato">Contato</a></li>
+              </ul>
+            </div>
+
+            <div class="site-footer__col">
+              <h2 class="site-footer__heading">Linhas de produto</h2>
+              <ul class="site-footer__list" role="list">
+                <li><a class="site-footer__link" href="/?linha=masculino#colecao" data-category="masculino">Masculino</a></li>
+                <li><a class="site-footer__link" href="/?linha=feminino#colecao" data-category="feminino">Feminino</a></li>
+                <li><a class="site-footer__link" href="/?linha=nicho#colecao" data-category="nicho">Nicho</a></li>
+                <li><a class="site-footer__link" href="/?linha=arabe#colecao" data-category="arabe">Árabe</a></li>
+                <li><a class="site-footer__link" href="/?linha=capilar#colecao" data-category="capilar">Capilar</a></li>
+                <li><a class="site-footer__link" href="/?linha=oleo-corporal#colecao" data-category="oleo-corporal">Óleo Corporal</a></li>
+              </ul>
+            </div>
+
+            <div class="site-footer__col">
+              <h2 class="site-footer__heading">Contato</h2>
+              <ul class="site-footer__list" role="list">
+                <li><a class="site-footer__link" href="https://wa.me/{{site.whatsapp.number}}" data-whatsapp target="_blank" rel="noopener noreferrer">WhatsApp {{site.whatsapp.display}}<span class="sr-only"> (abre em nova aba)</span></a></li>
+                <li><a class="site-footer__link" href="mailto:{{site.email}}">{{site.email}}</a></li>
+                <li class="site-footer__text"><span class="site-footer__label">Recife</span> {{site.places.recife.address}}</li>
+                <li class="site-footer__text"><span class="site-footer__label">Garanhuns</span> {{site.places.garanhuns.address}}</li>
+                <li class="site-footer__text"><span class="site-footer__label">Horário</span> {{site.hours}}</li>
+                <li class="site-footer__text">Atendimento em Recife e Garanhuns · Pernambuco</li>
+              </ul>
+            </div>
+
+            <div class="site-footer__col">
+              <h2 class="site-footer__heading">Instagram</h2>
+              <ul class="site-footer__list" role="list">
+                <li><a class="site-footer__link" href="{{site.instagram.url}}" target="_blank" rel="noopener noreferrer">{{site.instagram.handle}}<span class="sr-only"> no Instagram (abre em nova aba)</span></a></li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+
+        <div class="site-footer__bottom">
+          <p>© <span data-year>2026</span> 303 PARFUM</p>
+          <p class="site-footer__legal">{{site.legal.companyName}} · CNPJ {{site.legal.cnpj}}</p>
+          <a class="site-footer__link" href="/politica-de-privacidade.html">Política de Privacidade</a>
+        </div>
+      </div>
+    </footer>

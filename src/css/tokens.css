@@ -1,0 +1,156 @@
+/* ==========================================================================
+   303 PARFUM — Design tokens
+   Fonte única de valores. Nenhum outro arquivo deve conter cores, tamanhos
+   ou durações "soltos": sempre referenciar estas variáveis.
+   Fontes (Cormorant Garamond + Manrope) são carregadas no <head> do HTML
+   com preconnect + display=swap, não via @import (evita requisição em cascata).
+   ========================================================================== */
+
+:root {
+  /* ---- Cores: base ---------------------------------------------------- */
+  --color-black: #0a0a0a;        /* fundo principal escuro */
+  --color-ink: #141414;          /* superfícies sobre o preto */
+  --color-graphite: #1e1e1e;
+  --color-smoke: #2a2a2a;        /* bordas em fundo escuro */
+  --color-ivory: #f6f4f0;        /* fundo principal claro */
+  --color-sand: #eae3d6;         /* superfícies sobre o marfim */
+  --color-stone: #d9d1c3;        /* bordas em fundo claro */
+  --color-white: #ffffff;
+  --color-text-soft: #2a2a2a;    /* respostas do FAQ sobre branco (14,4:1) */
+  --color-paper: #fbfaf7;        /* painéis de formulário sobre marfim */
+
+  /* ---- Cores: acento DOURADO ----------------------------------------
+     Gradiente metálico = identidade. Variantes existem por CONTRASTE:
+     - --gold-gradient       linhas, bordas, botões, ícones e texto GRANDE no escuro
+     - --gold-gradient-text  texto PEQUENO no escuro (pontas ≥ 5,7:1 sobre #141414)
+     - --gold-gradient-deep  texto GRANDE/ícones sobre claro (≥ 3,8:1 sobre marfim)
+     Texto pequeno sobre fundo claro: preto (nunca dourado).               */
+  --gold-solid: #c9a13b;   /* fallback, ícones e bordas simples (8,2:1 no preto) */
+  --gold-light: #f3e2a4;
+  --gold-deep: #7a5c1e;    /* dourado legível sobre claro (6,2:1 no branco) */
+  --gold-rgb: 201 161 59;  /* para transparências: rgb(var(--gold-rgb) / 0.3) */
+  --gold-gradient: linear-gradient(135deg, #8c6b2e 0%, #c9a13b 22%, #f3e2a4 48%, #d4af37 70%, #8c6b2e 100%);
+  --gold-gradient-text: linear-gradient(135deg, #b08a3a 0%, #c9a13b 22%, #f3e2a4 48%, #d4af37 70%, #b08a3a 100%);
+  --gold-gradient-deep: linear-gradient(135deg, #5e4719 0%, #7a5c1e 30%, #9a7628 55%, #7a5c1e 80%, #5e4719 100%);
+
+  /* ---- Cores: texto -------------------------------------------------- */
+  --color-text-on-dark: var(--color-ivory);          /* 17.6:1 */
+  --color-text-on-dark-muted: #a8a29a;               /* 7.8:1 */
+  --color-text-on-dark-subtle: #8a8378;              /* 5.3:1 — mínimo AA */
+  --color-text-on-light: var(--color-black);         /* 17.6:1 */
+  --color-text-on-light-muted: #5c5650;              /* 6.6:1 */
+  --color-text-on-light-subtle: #6b655e;             /* 5.2:1 */
+
+  /* ---- Cores: funcionais --------------------------------------------- */
+  --color-focus: var(--gold-solid);       /* sobre claro: --gold-deep (gold.css) */
+  --color-selection-bg: var(--gold-solid);
+  --color-selection-text: var(--color-black);
+  --color-whatsapp: #25d366; /* reservado; o botão usa a paleta da marca */
+  --color-error-on-dark: #f0a59c;   /* 9.3:1 sobre ink */
+  --color-input-line-on-dark: #6b655e; /* 3.2:1 — mínimo para bordas de controle */
+  --color-error-on-light: #a3362a;  /* 6.1:1 sobre marfim */
+  --color-input-line-on-light: #8a8378; /* 3.4:1 sobre marfim */
+
+  /* ---- Tipografia: famílias ----------------------------------------- */
+  --font-display: "Cormorant Garamond", "Cormorant", Garamond, "Times New Roman", serif;
+  --font-body: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* ---- Tipografia: pesos -------------------------------------------- */
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+
+  /* ---- Tipografia: escala fluida ------------------------------------
+     Interpolação linear entre 360px (min) e 1440px (max) de viewport.
+     Fórmula: clamp(min, min + (max-min) * (100vw - 360px) / 1080, max)
+     expressa como rem + vw.                                             */
+  --fs-2xs: clamp(0.6875rem, 0.6563rem + 0.139vw, 0.75rem);   /* 11 → 12 */
+  --fs-xs:  clamp(0.75rem, 0.7188rem + 0.139vw, 0.8125rem);    /* 12 → 13 */
+  --fs-sm:  clamp(0.875rem, 0.8438rem + 0.139vw, 0.9375rem);   /* 14 → 15 */
+  --fs-base: clamp(1rem, 0.9583rem + 0.185vw, 1.0625rem);      /* 16 → 17 */
+  --fs-md:  clamp(1.125rem, 1.0417rem + 0.37vw, 1.25rem);      /* 18 → 20 */
+  --fs-lg:  clamp(1.25rem, 1.0833rem + 0.741vw, 1.5rem);       /* 20 → 24 */
+  --fs-xl:  clamp(1.5rem, 1.1667rem + 1.481vw, 2rem);          /* 24 → 32 */
+  --fs-2xl: clamp(1.875rem, 1.25rem + 2.778vw, 2.8125rem);     /* 30 → 45 */
+  --fs-3xl: clamp(2.25rem, 1.25rem + 4.444vw, 3.75rem);        /* 36 → 60 */
+  --fs-4xl: clamp(2.75rem, 1.4167rem + 5.926vw, 4.75rem);      /* 44 → 76 */
+  --fs-5xl: clamp(3.125rem, 1.375rem + 7.778vw, 5.75rem);      /* 50 → 92 */
+
+  --lh-tight: 1.02;
+  --lh-snug: 1.15;
+  --lh-normal: 1.5;
+  --lh-relaxed: 1.7;
+
+  --ls-tight: -0.02em;
+  --ls-normal: 0;
+  --ls-wide: 0.08em;
+  --ls-wider: 0.18em;
+  --ls-widest: 0.32em;
+
+  --measure: 62ch; /* largura máxima de parágrafo */
+
+  /* ---- Espaçamento: escala de 4px ----------------------------------- */
+  --space-0: 0;
+  --space-1: 0.25rem;  /* 4 */
+  --space-2: 0.5rem;   /* 8 */
+  --space-3: 0.75rem;  /* 12 */
+  --space-4: 1rem;     /* 16 */
+  --space-5: 1.25rem;  /* 20 */
+  --space-6: 1.5rem;   /* 24 */
+  --space-8: 2rem;     /* 32 */
+  --space-10: 2.5rem;  /* 40 */
+  --space-12: 3rem;    /* 48 */
+  --space-16: 4rem;    /* 64 */
+  --space-20: 5rem;    /* 80 */
+  --space-24: 6rem;    /* 96 */
+  --space-32: 8rem;    /* 128 */
+  --space-40: 10rem;   /* 160 */
+
+  /* Espaçamentos fluidos de seção (mobile → desktop) */
+  /* Ritmo vertical. 360px → 1440px, interpolação linear real. */
+  --space-section: clamp(6rem, 4.667rem + 5.926vw, 10rem); /* 96 → 160 entre seções */
+  --space-block: clamp(4rem, 3.333rem + 2.963vw, 6rem);    /* 64 → 96 entre blocos de uma seção */
+  --space-gutter: clamp(var(--space-4), 0.75rem + 1.111vw, var(--space-8));     /* 16 → 32 */
+
+  /* ---- Layout -------------------------------------------------------- */
+  --container-sm: 45rem;   /* 720  — texto corrido */
+  --container-md: 64rem;   /* 1024 */
+  --container-lg: 80rem;   /* 1280 — padrão */
+  --container-xl: 90rem;   /* 1440 — full editorial */
+  --grid-columns: 12;
+  --grid-gap: clamp(var(--space-4), 0.5rem + 1.481vw, var(--space-6)); /* 16 → 24 */
+
+  --header-height: 5.5rem;          /* 88 */
+  --header-height-compact: 4rem;    /* 64 */
+
+  --border-hairline: 1px;
+  --radius-none: 0;
+  --radius-full: 999px;
+
+  /* ---- Movimento ------------------------------------------------------ */
+  --duration-instant: 100ms;
+  --duration-fast: 200ms;
+  --duration-base: 350ms;
+  --duration-slow: 600ms;
+  --duration-slower: 1000ms;
+  --duration-entrance: 1400ms;
+
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);       /* expo-out: entradas */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-luxe: cubic-bezier(0.22, 0.61, 0.36, 1);  /* lento e suave */
+  --ease-reveal: cubic-bezier(0.22, 1, 0.36, 1);   /* revelações ao rolar */
+  --duration-reveal: 800ms;
+  --reveal-distance: 24px;
+  --reveal-stagger: 90ms;
+
+  /* ---- Camadas (z-index) -------------------------------------------- */
+  --z-below: -1;
+  --z-base: 1;
+  --z-raised: 10;
+  --z-floating: 80;     /* botão WhatsApp */
+  --z-header: 100;
+  --z-menu: 110;        /* menu mobile aberto */
+  --z-skip-link: 1000;
+}

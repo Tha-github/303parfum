@@ -1,0 +1,189 @@
+/* ==========================================================================
+   Componentes compartilhados: botões, eyebrow, link animado
+   ========================================================================== */
+
+/* ---- Botões -----------------------------------------------------------
+   Variante de cor por contexto:
+     .btn--on-dark  (padrão; para fundo preto)
+     .btn--on-light (para fundo marfim)
+   Variante de estilo: .btn--primary | .btn--outline | .btn--ghost        */
+.btn {
+  --btn-fg: var(--color-black);
+  --btn-bg: var(--gold-solid);
+  --btn-border: var(--gold-solid);
+  --btn-fg-hover: var(--color-black);
+  --btn-bg-hover: var(--gold-light);
+  --btn-border-hover: var(--gold-light);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  min-height: 3rem; /* 48px — alvo de toque confortável */
+  padding: var(--space-3) var(--space-8);
+  border: var(--border-hairline) solid var(--btn-border);
+  border-radius: var(--radius-none);
+  background-color: var(--btn-bg);
+  color: var(--btn-fg);
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-wider);
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-base) var(--ease-standard),
+    border-color var(--duration-base) var(--ease-standard),
+    color var(--duration-base) var(--ease-standard);
+}
+
+.btn:hover {
+  background-color: var(--btn-bg-hover);
+  border-color: var(--btn-border-hover);
+  color: var(--btn-fg-hover);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn__icon {
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.btn:hover .btn__icon {
+  transform: translateX(3px);
+}
+
+/* Fundo escuro (padrão) */
+.btn--outline,
+.btn--outline.btn--on-dark {
+  --btn-fg: var(--color-ivory);
+  --btn-bg: transparent;
+  --btn-border: var(--gold-solid);
+  --btn-fg-hover: var(--color-black);
+  --btn-bg-hover: var(--gold-solid);
+  --btn-border-hover: var(--gold-solid);
+}
+
+.btn--ghost,
+.btn--ghost.btn--on-dark {
+  --btn-fg: var(--color-ivory);
+  --btn-bg: transparent;
+  --btn-border: transparent;
+  --btn-fg-hover: var(--gold-solid);
+  --btn-bg-hover: transparent;
+  --btn-border-hover: transparent;
+  padding-inline: var(--space-2);
+}
+
+/* Fundo claro */
+.btn--primary.btn--on-light {
+  --btn-fg: var(--color-ivory);
+  --btn-bg: var(--color-black);
+  --btn-border: var(--color-black);
+  --btn-fg-hover: var(--color-black);
+  --btn-bg-hover: var(--gold-solid);
+  --btn-border-hover: var(--gold-solid);
+}
+
+.btn--outline.btn--on-light {
+  --btn-fg: var(--color-black);
+  --btn-bg: transparent;
+  --btn-border: var(--color-black);
+  --btn-fg-hover: var(--color-ivory);
+  --btn-bg-hover: var(--color-black);
+  --btn-border-hover: var(--color-black);
+}
+
+.btn--ghost.btn--on-light {
+  --btn-fg: var(--color-black);
+  --btn-fg-hover: var(--color-text-on-light);
+}
+
+.btn--sm {
+  min-height: 2.75rem; /* 44px: alvo de toque mínimo */
+  padding: var(--space-2) var(--space-5);
+}
+
+/* ---- Eyebrow / rótulo -------------------------------------------------- */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-widest);
+  line-height: var(--lh-snug);
+  text-transform: uppercase;
+  color: var(--section-accent, var(--gold-solid));
+}
+
+/* Traço fino à esquerda, opcional */
+.eyebrow--rule::before {
+  content: "";
+  display: block;
+  width: var(--space-8);
+  height: var(--border-hairline);
+  background-color: currentColor;
+}
+
+/* ---- Link com sublinhado animado ------------------------------------- */
+.link-underline {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 0.15em;
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-size: 0% var(--border-hairline);
+  transition:
+    background-size var(--duration-slow) var(--ease-out),
+    color var(--duration-fast) var(--ease-standard);
+}
+
+.link-underline:hover,
+.link-underline:focus-visible,
+.link-underline[aria-current="true"] {
+  background-position: left bottom;
+  background-size: 100% var(--border-hairline);
+}
+
+/* Variante: sublinhado visível por padrão, que "recolhe" no hover */
+.link-underline--persistent {
+  background-size: 100% var(--border-hairline);
+  background-position: left bottom;
+}
+
+.link-underline--persistent:hover {
+  color: var(--section-accent, var(--gold-solid));
+}
+
+/* ---- Áreas de toque ≥ 44px (WCAG 2.5.5 / diretriz Apple) -------------
+   Só em telas de toque: no desktop o layout fica como desenhado. Links
+   dentro de frases (parágrafos) seguem a exceção "inline" da WCAG.     */
+@media (pointer: coarse) {
+  .wordmark,
+  .contact__link,
+  .map__external,
+  .site-footer__link,
+  .legal-header__back {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    min-width: 2.75rem;
+  }
+
+  .field--checkbox .choice {
+    min-height: 2.75rem;
+    padding-block: var(--space-2);
+  }
+}

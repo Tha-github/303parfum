@@ -1,0 +1,375 @@
+/* ==========================================================================
+   Seções finais: FAQ, Contato + mapa
+   ========================================================================== */
+
+/* ---- Layout "aside + principal" (reutilizado nas três seções) -------- */
+.split {
+  display: grid;
+  gap: var(--space-12);
+}
+
+.split__aside {
+  display: grid;
+  gap: var(--space-5);
+  align-content: start;
+}
+
+.split__title {
+  font-size: var(--fs-4xl);
+  line-height: var(--lh-tight);
+}
+
+.split__subtitle {
+  font-size: var(--fs-2xl);
+}
+
+.split__title em,
+.split__subtitle em,
+.contact h2 em {
+  color: var(--section-accent);
+}
+
+.section--light .split__title em,
+.section--light .split__subtitle em,
+.contact h2 em {
+  color: var(--gold-deep); /* texto grande: 3.4:1 sobre marfim */
+}
+
+.split__text {
+  color: var(--section-muted);
+  line-height: var(--lh-relaxed);
+}
+
+@media (min-width: 64em) {
+  .split {
+    grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+  }
+
+  .split__aside {
+    grid-column: 1 / span 4;
+    position: sticky;
+    top: calc(var(--header-height-compact) + var(--space-12));
+    align-self: start;
+  }
+
+  .split__main {
+    grid-column: 6 / -1;
+  }
+}
+
+/* ---- FAQ — fundo branco, coluna única (~820px) -----------------------
+   Perguntas: preto, Cormorant, grandes. Respostas: #2A2A2A, Manrope.
+   Dourado: filete do eyebrow, "frequentes", ícone +/− e divisores.
+   O eyebrow em si é preto (texto pequeno sobre branco).                 */
+.faq__inner {
+  max-width: calc(51.25rem + 2 * var(--space-gutter)); /* 820px de conteúdo */
+}
+
+.faq__header {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-12);
+  text-align: center;
+}
+
+.faq__title {
+  font-size: var(--fs-4xl);
+  line-height: var(--lh-tight);
+  color: var(--color-black);
+}
+
+.faq__title em {
+  color: var(--gold-deep); /* fallback do gradiente (gold.css) */
+}
+
+.faq__intro {
+  color: var(--color-text-soft);
+  line-height: var(--lh-relaxed);
+}
+
+.faq__list {
+  position: relative;
+  interpolate-size: allow-keywords; /* permite animar até height:auto onde há suporte */
+}
+
+/* Divisores de 1px em gradiente. Nos itens, é um FUNDO na base do
+   <details> (um ::after poderia ficar dentro da área recolhida). */
+.faq__list::before {
+  content: "";
+  display: block;
+  height: var(--border-hairline);
+  background: var(--gold-gradient);
+}
+
+.faq__item {
+  position: relative;
+  background: var(--gold-gradient) left bottom / 100% var(--border-hairline) no-repeat;
+}
+
+/* A linha inteira é clicável (summary ocupa toda a largura) */
+.faq__question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  padding-block: var(--space-8);
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-snug);
+  color: var(--color-black);
+  list-style: none;
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.faq__question::-webkit-details-marker {
+  display: none;
+}
+
+.faq__question:hover {
+  color: var(--gold-deep);
+}
+
+.faq__question:focus-visible {
+  outline-offset: var(--space-1);
+}
+
+/* Ícone "+" que gira e vira "−" ao abrir */
+.faq__icon {
+  position: relative;
+  flex-shrink: 0;
+  width: 1.375rem;
+  height: 1.375rem;
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+.faq__icon::before,
+.faq__icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: var(--border-hairline);
+  background: var(--gold-gradient-deep); /* ≥ 3:1 sobre branco: ícone legível */
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+.faq__icon::after {
+  transform: rotate(90deg);
+}
+
+.faq__item[open] .faq__icon {
+  transform: rotate(180deg);
+}
+
+.faq__item[open] .faq__icon::after {
+  transform: rotate(0deg);
+}
+
+.faq__answer {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 68ch;
+  padding-bottom: var(--space-8);
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  line-height: var(--lh-relaxed);
+  color: var(--color-text-soft);
+}
+
+/* Abertura suave (Chrome 131+); nos demais abre instantâneo */
+@supports selector(::details-content) {
+  .faq__item::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition:
+      block-size var(--duration-slow) var(--ease-out),
+      content-visibility var(--duration-slow) allow-discrete;
+  }
+
+  .faq__item[open]::details-content {
+    block-size: auto;
+  }
+}
+
+/* ---- Contato ---------------------------------------------------------- */
+.contact__grid {
+  display: grid;
+  gap: var(--space-12);
+}
+
+.contact__info {
+  display: grid;
+  align-content: start;
+  border-top: var(--border-hairline) solid var(--section-border);
+}
+
+.contact__item {
+  display: grid;
+  gap: var(--space-2);
+  padding-block: var(--space-5);
+  border-bottom: var(--border-hairline) solid var(--section-border);
+}
+
+.contact__item dt {
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--section-accent);
+}
+
+.contact__item dd {
+  line-height: var(--lh-relaxed);
+  color: var(--section-muted);
+}
+
+.contact__city {
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-on-light);
+}
+
+.contact__link {
+  font-family: var(--font-display);
+  font-variant-numeric: lining-nums; /* telefone legível */
+  font-size: var(--fs-lg);
+  color: var(--color-text-on-light);
+}
+
+.contact__form {
+  margin-top: var(--space-block);
+}
+
+@media (min-width: 48em) {
+  .contact__info {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-8);
+  }
+}
+
+@media (min-width: 64em) {
+  .contact__grid {
+    grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+  }
+
+  .contact__info {
+    grid-column: 1 / span 5;
+    grid-template-columns: 1fr;
+  }
+
+  .map {
+    grid-column: 7 / -1;
+  }
+}
+
+/* ---- Mapa sob demanda ------------------------------------------------- */
+.map {
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+}
+
+.map__tabs {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.map__tab {
+  min-height: 2.75rem;
+  padding-inline: var(--space-5);
+  border: var(--border-hairline) solid var(--color-stone);
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  transition:
+    background-color var(--duration-base) var(--ease-standard),
+    color var(--duration-base) var(--ease-standard);
+}
+
+.map__tab:hover {
+  border-color: var(--color-black);
+}
+
+.map__tab[aria-pressed="true"] {
+  border-color: var(--color-black);
+  background-color: var(--color-black);
+  color: var(--color-ivory);
+}
+
+.map__frame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background-color: var(--color-graphite);
+}
+
+.map__placeholder,
+.map__image,
+.map__iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.map__placeholder {
+  position: relative;
+}
+
+.map__image {
+  object-fit: cover;
+  filter: grayscale(1);
+}
+
+.map__overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  background: radial-gradient(circle at center, rgb(10 10 10 / 0.25), rgb(10 10 10 / 0.75));
+  color: var(--color-ivory);
+  text-align: center;
+}
+
+.map__pin {
+  width: 2.5rem;
+  height: 2.5rem;
+  fill: none;
+  stroke: var(--color-ivory);
+  stroke-width: 1;
+}
+
+.map__label {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+}
+
+.map__notice {
+  max-width: 30ch;
+  font-size: var(--fs-xs);
+  color: var(--color-text-on-dark-muted);
+}
+
+.map__iframe {
+  display: block;
+  border: 0;
+  filter: grayscale(0.85) contrast(1.05);
+  transition: filter var(--duration-slow) var(--ease-standard);
+}
+
+.map__iframe:hover,
+.map__iframe:focus {
+  filter: none;
+}
+
+.map__external {
+  justify-self: start;
+  font-size: var(--fs-sm);
+}

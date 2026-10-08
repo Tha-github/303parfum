@@ -1,0 +1,26 @@
+{
+  "name": "303-parfum",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "start": "vite --open",
+    "dev": "vite",
+    "sync": "node scripts/sync-html.mjs",
+    "static": "node scripts/generate-static.mjs",
+    "predev": "node scripts/optimize-images.mjs --banner && node scripts/sync-html.mjs",
+    "prestart": "node scripts/optimize-images.mjs --banner && node scripts/sync-html.mjs",
+    "prebuild": "node scripts/generate-static.mjs && node scripts/optimize-images.mjs --banner && node scripts/sync-html.mjs",
+    "build": "vite build",
+    "preview": "vite preview",
+    "images": "node scripts/optimize-images.mjs && node scripts/sync-html.mjs",
+    "placeholders": "node scripts/generate-placeholders.mjs"
+  },
+  "devDependencies": {
+    "sharp": "0.35.5",
+    "vite": "8.3.4"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  }
+}

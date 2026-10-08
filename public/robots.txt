@@ -1,0 +1,6 @@
+# Arquivo GERADO por scripts/generate-static.mjs — edite config/security-headers.mjs ou config/site.mjs
+User-agent: *
+Allow: /
+Disallow: /styleguide.html
+
+Sitemap: https://www.303parfum.com.br/sitemap.xml

@@ -1,0 +1,266 @@
+/* ==========================================================================
+   Movimento e textura (pareado com src/js/motion.js)
+
+   Regras:
+   - Estados iniciais escondidos SÓ existem sob html.has-motion, classe que o
+     JS adiciona apenas sem prefers-reduced-motion. Sem JS: tudo visível.
+   - Revelações usam animation (não transition) com fill-mode "backwards":
+     não sobrescrevem as transições próprias de cada componente e, ao
+     terminar, devolvem o elemento aos estilos normais.
+   - Deslocamentos usam a propriedade `translate`, independente de
+     `transform`: não briga com transforms já existentes (ex.: card do meio
+     deslocado nas Linhas).
+   ========================================================================== */
+
+/* ---- 1. Revelação ao rolar ------------------------------------------- */
+.has-motion [data-motion="reveal"]:not(.is-revealed) {
+  opacity: 0;
+}
+
+.has-motion [data-motion="reveal"].is-revealed:not(.is-instant) {
+  animation: motion-reveal var(--duration-reveal) var(--ease-reveal) backwards;
+  animation-delay: calc(var(--reveal-i, 0) * var(--reveal-stagger));
+}
+
+@keyframes motion-reveal {
+  from {
+    opacity: 0;
+    translate: 0 var(--reveal-distance);
+  }
+}
+
+/* ---- 2. Títulos linha a linha ----------------------------------------- */
+.split-word {
+  display: inline-block;
+  overflow: hidden;
+  /* folga para descendentes (g, p, ç) e o caimento do itálico não serem
+     cortados pela máscara; a margem negativa devolve o espaço */
+  padding: 0 0.08em 0.18em;
+  margin: 0 -0.08em -0.18em;
+  vertical-align: bottom;
+}
+
+.split-word__inner {
+  display: inline-block;
+}
+
+.has-motion [data-motion="split"]:not(.is-revealed) .split-word__inner {
+  translate: 0 110%;
+}
+
+.has-motion [data-motion="split"].is-revealed:not(.is-instant) .split-word__inner {
+  animation: motion-line-up 1100ms var(--ease-reveal) backwards;
+  animation-delay: calc(var(--line, 0) * 120ms);
+}
+
+@keyframes motion-line-up {
+  from {
+    translate: 0 110%;
+  }
+}
+
+/* ---- 3. Linhas douradas que desenham -------------------------------- */
+.eyebrow--rule::before,
+.manifesto__signature::before {
+  transform-origin: left center;
+  transition: transform 1100ms var(--ease-reveal) 200ms;
+}
+
+.has-motion [data-draw]:not(.is-drawn).eyebrow--rule::before,
+.has-motion [data-draw]:not(.is-drawn).manifesto__signature::before {
+  transform: scaleX(0);
+}
+
+/* Linha que conecta os passos: vertical no mobile, horizontal no desktop */
+.steps::before {
+  transform-origin: top center;
+  transition: transform 1600ms var(--ease-reveal) 150ms;
+}
+
+.has-motion .steps[data-draw]:not(.is-drawn)::before {
+  transform: scaleY(0);
+}
+
+@media (min-width: 64em) {
+  .steps::before {
+    transform-origin: left center;
+  }
+
+  .has-motion .steps[data-draw]:not(.is-drawn)::before {
+    transform: scaleX(0);
+  }
+}
+
+/* Filete superior do rodapé (definido em footer.css) */
+.has-motion .site-footer[data-draw]:not(.is-drawn)::before {
+  transform: scaleX(0);
+}
+
+/* ---- 5. Botão primário: preenchimento que desliza da esquerda ------- */
+@media (hover: hover) and (pointer: fine) {
+  .btn--primary {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .btn--primary::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--btn-fill, var(--btn-bg-hover));
+    background-size: 200% 100%;
+    background-position: 0% 50%;
+    transform: scaleX(0);
+    transform-origin: right center; /* sai pela direita */
+    transition:
+      transform 550ms var(--ease-reveal),
+      background-position 1600ms var(--ease-luxe);
+  }
+
+  .btn--primary:hover {
+    background-color: var(--btn-bg); /* a cor nova vem do preenchimento */
+  }
+
+  .btn--primary:hover::before {
+    transform: scaleX(1);
+    transform-origin: left center; /* entra pela esquerda */
+    background-position: 100% 50%; /* brilho: o gradiente desliza */
+  }
+}
+
+/* ---- 6. Transição entre filtros do catálogo -------------------------- */
+.catalog__grid {
+  transition:
+    opacity 180ms var(--ease-standard),
+    translate 180ms var(--ease-standard);
+}
+
+.catalog__grid.is-leaving {
+  opacity: 0;
+  translate: 0 8px;
+}
+
+/* ---- 7. Faixa (marquee) com as linhas -------------------------------- */
+.marquee {
+  position: relative;
+  overflow: hidden;
+  padding-block: var(--space-8);
+  background-color: var(--color-black);
+  color: var(--color-text-on-dark-subtle);
+  border-block: var(--border-hairline) solid var(--color-smoke);
+  /* bordas laterais esfumadas */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 60s linear infinite;
+}
+
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+.marquee__group {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.marquee__item {
+  padding-inline: var(--space-6);
+  font-family: var(--font-display);
+  font-size: var(--fs-3xl);
+  font-style: italic;
+  font-weight: var(--fw-light);
+  line-height: 1;
+  white-space: nowrap;
+  transition: color var(--duration-base) var(--ease-standard);
+}
+
+.marquee:hover .marquee__item {
+  color: var(--color-text-on-dark-muted);
+}
+
+.marquee__sep {
+  color: var(--gold-solid);
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+}
+
+/* Duas cópias idênticas: andar 50% fecha o ciclo sem emenda */
+@keyframes marquee-scroll {
+  to {
+    translate: -50% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track {
+    animation: none;
+  }
+}
+
+/* ---- 8. Grão de filme nas seções escuras -----------------------------
+   WebP estático de 128px em mosaico (ruído pré-renderizado: nada de
+   filtro SVG calculado na pintura). Custo de pintura desprezível.        */
+.section--dark,
+.site-footer,
+.marquee {
+  isolation: isolate;
+}
+
+.section--dark::after,
+.site-footer::after,
+.marquee::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: url("../assets/img/grain.webp");
+  background-size: 128px 128px;
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+.section--dark {
+  position: relative;
+}
+
+/* ---- Impressão: nada fica escondido esperando revelação ---------------- */
+@media print {
+  .has-motion [data-motion],
+  .has-motion .split-word__inner {
+    opacity: 1 !important;
+    translate: none !important;
+    animation: none !important;
+  }
+
+  .section--dark::after,
+  .site-footer::after,
+  .marquee {
+    display: none;
+  }
+}
+
+/* ---- 9. Renderização sob demanda -----------------------------------------
+   Seções abaixo da dobra não fazem layout nem pintura até chegarem perto
+   da tela. O conteúdo continua no DOM (leitores de tela, Ctrl+F, SEO).
+   "auto" faz o navegador lembrar o tamanho real depois da 1ª exibição,
+   mantendo âncoras e barra de rolagem estáveis.                          */
+main > section:not(.hero),
+.site-footer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1200px;
+}
+
+/* Chegada por link com #seção: renderiza tudo uma vez para o navegador
+   achar a posição real (ver initHashLanding em site-links.js). */
+html.is-hash-landing main > section,
+html.is-hash-landing .site-footer {
+  content-visibility: visible;
+}

@@ -1,0 +1,187 @@
+/* ==========================================================================
+   Linhas de produto — fundo escuro
+   Mobile: carrossel com scroll-snap · Tablet: 2 colunas · Desktop: 3 colunas
+   ========================================================================== */
+
+.lines__header {
+  max-width: 40rem;
+}
+
+.lines__header h2 em {
+  color: var(--gold-solid);
+}
+
+.lines__intro {
+  color: var(--section-muted);
+  font-weight: var(--fw-light);
+  line-height: var(--lh-relaxed);
+}
+
+/* ---- Carrossel (mobile) ----------------------------------------------- */
+/* [role=list] eleva a especificidade acima do reset ul[role=list] { padding: 0 } */
+.lines__grid[role="list"] {
+  display: flex;
+  gap: var(--space-4);
+  /* sangra até as bordas da tela, mantendo o alinhamento do container */
+  margin-inline: calc(var(--space-gutter) * -1);
+  padding-inline: var(--space-gutter);
+  padding-bottom: var(--space-4);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--space-gutter);
+  scrollbar-width: none;
+  list-style: none;
+}
+
+.lines__grid::-webkit-scrollbar {
+  display: none;
+}
+
+.line-card {
+  position: relative;
+  flex: 0 0 78%;
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start;
+}
+
+/* ---- Card -------------------------------------------------------------- */
+.line-card__media {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background-color: var(--color-ink);
+}
+
+.line-card__media picture,
+.line-card__image {
+  width: 100%;
+  height: 100%;
+}
+
+.line-card__image {
+  object-fit: cover;
+  transition: transform 900ms var(--ease-luxe);
+}
+
+.line-card__body {
+  display: grid;
+  gap: var(--space-3);
+  padding-top: var(--space-6);
+}
+
+.line-card__title {
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-light);
+  line-height: var(--lh-snug);
+}
+
+/* Linha dourada sob o título: curta em repouso, cresce no hover/foco */
+.line-card__title::after {
+  content: "";
+  display: block;
+  height: var(--border-hairline);
+  margin-top: var(--space-3);
+  background-color: var(--gold-solid);
+  transform: scaleX(0.12);
+  transform-origin: left center;
+  transition: transform 900ms var(--ease-luxe);
+}
+
+.line-card__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Link "esticado": o card inteiro é clicável com um único link acessível */
+.line-card__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-base);
+}
+
+.line-card__link:focus-visible {
+  outline: none;
+}
+
+.line-card:has(.line-card__link:focus-visible) {
+  outline: var(--border-hairline) solid var(--color-focus);
+  outline-offset: var(--space-2);
+}
+
+.line-card__desc {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-relaxed);
+  color: var(--section-muted);
+}
+
+.line-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--gold-solid);
+}
+
+.line-card__arrow {
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+/* ---- Interação ------------------------------------------------------- */
+.line-card:focus-within .line-card__image {
+  transform: scale(1.05);
+}
+
+.line-card:focus-within .line-card__title::after {
+  transform: scaleX(1);
+}
+
+.line-card:focus-within .line-card__arrow {
+  transform: translateX(4px);
+}
+
+/* hover só em dispositivos com ponteiro real (evita hover "grudado" no toque) */
+@media (hover: hover) and (pointer: fine) {
+  .line-card:hover .line-card__image {
+    transform: scale(1.05);
+  }
+
+  .line-card:hover .line-card__title::after {
+    transform: scaleX(1);
+  }
+
+  .line-card:hover .line-card__arrow {
+    transform: translateX(4px);
+  }
+}
+
+/* ---- Tablet: grade de 2 colunas -------------------------------------- */
+@media (min-width: 48em) {
+  .lines__grid[role="list"] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-16);
+    margin-inline: 0;
+    padding: 0;
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+}
+
+/* ---- Desktop: 3 colunas, coluna do meio deslocada (ritmo editorial) -- */
+@media (min-width: 64em) {
+  .lines__grid[role="list"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding-bottom: var(--space-16);
+  }
+
+  .line-card:nth-child(3n + 2) {
+    transform: translateY(var(--space-16));
+  }
+}

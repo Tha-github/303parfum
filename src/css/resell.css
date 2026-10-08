@@ -1,0 +1,274 @@
+/* ==========================================================================
+   Seja Revendedor (#revenda) — fundo escuro
+   ========================================================================== */
+
+.resell em {
+  color: var(--gold-solid);
+}
+
+/* ---- 1. Abertura ------------------------------------------------------ */
+.resell__intro {
+  display: grid;
+  gap: var(--space-10);
+}
+
+.resell__intro-heading {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.resell__title {
+  font-size: var(--fs-5xl);
+  line-height: var(--lh-tight);
+  max-width: 12ch;
+}
+
+.resell__intro-text {
+  display: grid;
+  gap: var(--space-5);
+  justify-items: start;
+  align-content: end;
+}
+
+.resell__intro-text p {
+  color: var(--section-muted);
+  line-height: var(--lh-relaxed);
+}
+
+.resell__intro-text .resell__lead {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-light);
+  font-style: italic;
+  line-height: var(--lh-snug);
+  color: var(--color-text-on-dark);
+}
+
+.resell__intro-cta {
+  margin-top: var(--space-4);
+}
+
+@media (min-width: 64em) {
+  .resell__intro {
+    grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+  }
+
+  .resell__intro-heading {
+    grid-column: 1 / span 7;
+  }
+
+  .resell__intro-text {
+    grid-column: 8 / -1;
+  }
+}
+
+/* ---- Blocos ------------------------------------------------------------ */
+.resell__block {
+  margin-top: var(--space-block);
+}
+
+.resell__block-title {
+  margin-bottom: var(--space-12);
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-light);
+}
+
+/* ---- 3. Como funciona ------------------------------------------------- */
+.steps {
+  position: relative;
+  display: grid;
+  gap: var(--space-10);
+}
+
+/* Linha vertical (mobile) que liga os números */
+.steps::before {
+  content: "";
+  position: absolute;
+  top: var(--space-6);
+  bottom: var(--space-6);
+  left: 1.5rem;
+  width: var(--border-hairline);
+  background-color: rgb(var(--gold-rgb) / 0.4);
+}
+
+.step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  column-gap: var(--space-5);
+  row-gap: var(--space-2);
+}
+
+.step__number {
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: var(--border-hairline) solid var(--gold-solid);
+  border-radius: var(--radius-full);
+  background-color: var(--color-black); /* recobre a linha */
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-style: italic;
+  font-variant-numeric: lining-nums;
+  color: var(--gold-solid);
+}
+
+.step__title {
+  align-self: end;
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-regular);
+}
+
+.step__text {
+  color: var(--section-muted);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-relaxed);
+}
+
+@media (min-width: 64em) {
+  .steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--grid-gap);
+  }
+
+  /* Linha horizontal atravessando o centro dos círculos */
+  .steps::before {
+    top: 2rem;
+    bottom: auto;
+    left: 2rem;
+    right: 0;
+    width: auto;
+    height: var(--border-hairline);
+    background: linear-gradient(to right, rgb(var(--gold-rgb) / 0.5), rgb(var(--gold-rgb) / 0.5) 70%, transparent);
+  }
+
+  .step {
+    grid-template-columns: 1fr;
+    padding-right: var(--space-10);
+  }
+
+  .step__number {
+    grid-row: auto;
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: var(--space-6);
+    font-size: var(--fs-lg);
+  }
+}
+
+/* ---- 4. Benefícios ----------------------------------------------------- */
+.benefits {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13.5rem), 1fr));
+  border-top: var(--border-hairline) solid var(--section-border);
+}
+
+.benefit {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  padding: var(--space-8) var(--space-6) var(--space-8) 0;
+  border-bottom: var(--border-hairline) solid var(--section-border);
+}
+
+.benefit__icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-bottom: var(--space-3);
+  fill: none;
+  stroke: var(--gold-solid);
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.benefit__title {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-regular);
+}
+
+.benefit__text {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-relaxed);
+  color: var(--section-muted);
+}
+
+@media (min-width: 80em) {
+  .benefits {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .benefit {
+    padding-inline: var(--space-6);
+    border-bottom: 0;
+  }
+
+  .benefit:first-child {
+    padding-left: 0;
+  }
+
+  .benefit + .benefit {
+    border-left: var(--border-hairline) solid var(--section-border);
+  }
+}
+
+/* ---- 5. Cadastro ------------------------------------------------------ */
+.signup {
+  display: grid;
+  gap: var(--space-12);
+  scroll-margin-top: var(--space-8);
+}
+
+.signup__aside {
+  display: grid;
+  gap: var(--space-5);
+  align-content: start;
+}
+
+.signup__title {
+  font-size: var(--fs-4xl);
+  line-height: var(--lh-tight);
+}
+
+.signup__text,
+.signup__privacy {
+  color: var(--section-muted);
+  line-height: var(--lh-relaxed);
+}
+
+.signup__privacy {
+  font-size: var(--fs-sm);
+}
+
+.signup__panel {
+  padding: var(--space-8) var(--space-5);
+  border: var(--border-hairline) solid var(--section-border);
+  background-color: var(--color-ink);
+}
+
+@media (min-width: 48em) {
+  .signup__panel {
+    padding: var(--space-12) var(--space-10);
+  }
+}
+
+@media (min-width: 64em) {
+  .signup {
+    grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+  }
+
+  .signup__aside {
+    grid-column: 1 / span 4;
+    position: sticky;
+    top: calc(var(--header-height-compact) + var(--space-12));
+    align-self: start;
+  }
+
+  .signup__panel {
+    grid-column: 6 / -1;
+  }
+}
