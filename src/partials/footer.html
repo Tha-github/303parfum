@@ -1,38 +1,50 @@
     <!-- ===================================================== FOOTER (src/partials/footer.html) -->
     <!-- Links absolutos ("/#…") para funcionar também na política e no 404 -->
+    <!-- Gradiente dourado reutilizável dos ícones SVG: fill/stroke="url(#gold)" (gold.css) -->
+    <svg class="svg-defs" width="0" height="0" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#8c6b2e" />
+          <stop offset="0.22" stop-color="#c9a13b" />
+          <stop offset="0.48" stop-color="#f3e2a4" />
+          <stop offset="0.7" stop-color="#d4af37" />
+          <stop offset="1" stop-color="#8c6b2e" />
+        </linearGradient>
+      </defs>
+    </svg>
     <footer class="site-footer">
       <div class="container site-footer__inner">
         <div class="site-footer__top">
           <div class="site-footer__brand">
-            <a class="wordmark wordmark--lg" href="/#inicio" aria-label="303 Parfum — início">
-              <span class="wordmark__number" aria-hidden="true">303</span>
-              <span class="wordmark__rule" aria-hidden="true"></span>
-              <span class="wordmark__name" aria-hidden="true">Parfum</span>
+            <a class="site-footer__logo" href="/#inicio">
+              <picture>
+                <source type="image/webp" srcset="./src/assets/img/brand/logo-1x.webp 1x, ./src/assets/img/brand/logo-2x.webp 2x" />
+                <img class="brand-logo" src="./src/assets/img/brand/logo-1x.png" srcset="./src/assets/img/brand/logo-1x.png 1x, ./src/assets/img/brand/logo-2x.png 2x" width="234" height="48" alt="303 Parfum" loading="lazy" decoding="async" />
+              </picture>
             </a>
             <p class="site-footer__tagline">Alta perfumaria. <em>Preço justo.</em></p>
           </div>
 
           <nav class="site-footer__nav" aria-label="Rodapé">
             <div class="site-footer__col">
-              <h2 class="site-footer__heading">Navegação</h2>
+              <h2 class="site-footer__heading">Coleção</h2>
               <ul class="site-footer__list" role="list">
-                <li><a class="site-footer__link" href="/#colecao">Coleção</a></li>
-                <li><a class="site-footer__link" href="/#sobre">Sobre</a></li>
-                <li><a class="site-footer__link" href="/#revenda">Revenda</a></li>
-                <li><a class="site-footer__link" href="/#faq">FAQ</a></li>
-                <li><a class="site-footer__link" href="/#contato">Contato</a></li>
+                <li><a class="site-footer__link" href="/?linha=feminino#colecao" data-tab-link="feminino">Perfumes Femininos</a></li>
+                <li><a class="site-footer__link" href="/?linha=masculino#colecao" data-tab-link="masculino">Perfumes Masculinos</a></li>
+                <li><a class="site-footer__link" href="/?linha=arabe#colecao" data-tab-link="arabe">Perfumes Árabes</a></li>
+                <li><a class="site-footer__link" href="/?linha=nicho#colecao" data-tab-link="nicho">Perfumes de Nicho</a></li>
+                <li><a class="site-footer__link" href="https://wa.me/{{site.whatsapp.number}}" data-whatsapp data-whatsapp-message="Olá! Quero conhecer os perfumes capilares da 303 Parfum." target="_blank" rel="noopener noreferrer">Perfumes Capilares<span class="sr-only"> (WhatsApp, abre em nova aba)</span></a></li>
+                <li><a class="site-footer__link" href="https://wa.me/{{site.whatsapp.number}}" data-whatsapp data-whatsapp-message="Olá! Quero conhecer os óleos corporais da 303 Parfum." target="_blank" rel="noopener noreferrer">Óleos Corporais<span class="sr-only"> (WhatsApp, abre em nova aba)</span></a></li>
               </ul>
             </div>
 
             <div class="site-footer__col">
-              <h2 class="site-footer__heading">Linhas de produto</h2>
+              <h2 class="site-footer__heading">Navegação</h2>
               <ul class="site-footer__list" role="list">
-                <li><a class="site-footer__link" href="/?linha=masculino#colecao" data-category="masculino">Masculino</a></li>
-                <li><a class="site-footer__link" href="/?linha=feminino#colecao" data-category="feminino">Feminino</a></li>
-                <li><a class="site-footer__link" href="/?linha=nicho#colecao" data-category="nicho">Nicho</a></li>
-                <li><a class="site-footer__link" href="/?linha=arabe#colecao" data-category="arabe">Árabe</a></li>
-                <li><a class="site-footer__link" href="/?linha=capilar#colecao" data-category="capilar">Capilar</a></li>
-                <li><a class="site-footer__link" href="/?linha=oleo-corporal#colecao" data-category="oleo-corporal">Óleo Corporal</a></li>
+                <li><a class="site-footer__link" href="/#colecao">Coleção</a></li>
+                <li><a class="site-footer__link" href="/#revenda">Seja Revendedor</a></li>
+                <li><a class="site-footer__link" href="/#faq">FAQ</a></li>
+                <li><a class="site-footer__link" href="/#contato">Contato</a></li>
               </ul>
             </div>
 
@@ -58,9 +70,12 @@
         </div>
 
         <div class="site-footer__bottom">
-          <p>© <span data-year>2026</span> 303 PARFUM</p>
-          <p class="site-footer__legal">{{site.legal.companyName}} · CNPJ {{site.legal.cnpj}}</p>
           <a class="site-footer__link" href="/politica-de-privacidade.html">Política de Privacidade</a>
+          <p class="site-footer__copy">
+            © <span data-year>2026</span> 303 PARFUM TODOS OS DIREITOS RESERVADOS
+            <span class="site-footer__sep" aria-hidden="true">|</span>
+            <span class="site-footer__by">SITE CRIADO POR <a class="site-footer__credit" href="https://topsitebr.com.br" target="_blank" rel="noopener noreferrer">TOP SITE<span class="sr-only"> (abre em nova aba)</span></a></span>
+          </p>
         </div>
       </div>
     </footer>

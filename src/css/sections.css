@@ -2,20 +2,23 @@
    Seções finais: FAQ, Contato + mapa
    ========================================================================== */
 
-/* ---- Layout "aside + principal" (reutilizado nas três seções) -------- */
+/* ---- "Título + formulário" (Contato): coluna única centralizada --- */
 .split {
   display: grid;
-  gap: var(--space-12);
+  gap: var(--space-8);
+  max-width: 35rem; /* 560px */
+  margin-inline: auto;
 }
 
 .split__aside {
   display: grid;
-  gap: var(--space-5);
-  align-content: start;
+  justify-items: center;
+  gap: var(--space-4);
+  text-align: center;
 }
 
 .split__title {
-  font-size: var(--fs-4xl);
+  font-size: var(--fs-2xl);
   line-height: var(--lh-tight);
 }
 
@@ -23,39 +26,14 @@
   font-size: var(--fs-2xl);
 }
 
-.split__title em,
-.split__subtitle em,
-.contact h2 em {
-  color: var(--section-accent);
-}
-
-.section--light .split__title em,
-.section--light .split__subtitle em,
-.contact h2 em {
-  color: var(--gold-deep); /* texto grande: 3.4:1 sobre marfim */
-}
-
 .split__text {
+  margin-inline: auto;
   color: var(--section-muted);
-  line-height: var(--lh-relaxed);
+  line-height: var(--lh-normal);
 }
 
-@media (min-width: 64em) {
-  .split {
-    grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
-    column-gap: var(--grid-gap);
-  }
-
-  .split__aside {
-    grid-column: 1 / span 4;
-    position: sticky;
-    top: calc(var(--header-height-compact) + var(--space-12));
-    align-self: start;
-  }
-
-  .split__main {
-    grid-column: 6 / -1;
-  }
+.split .form__grid {
+  grid-template-columns: minmax(0, 1fr);
 }
 
 /* ---- FAQ — fundo branco, coluna única (~820px) -----------------------
@@ -75,13 +53,9 @@
 }
 
 .faq__title {
-  font-size: var(--fs-4xl);
+  font-size: var(--fs-2xl);
   line-height: var(--lh-tight);
   color: var(--color-black);
-}
-
-.faq__title em {
-  color: var(--gold-deep); /* fallback do gradiente (gold.css) */
 }
 
 .faq__intro {
@@ -114,11 +88,12 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-6);
-  padding-block: var(--space-8);
+  padding-block: var(--space-6);
   font-family: var(--font-display);
-  font-size: var(--fs-2xl);
-  font-weight: var(--fw-regular);
+  font-size: var(--fs-faq);       /* clamp(1.15rem, 2vw, 1.5rem) */
+  font-weight: var(--fw-regular); /* Cormorant 400 */
   line-height: var(--lh-snug);
+  text-align: left;               /* leitura confortável dentro da coluna */
   color: var(--color-black);
   list-style: none;
   cursor: pointer;
@@ -129,10 +104,6 @@
   display: none;
 }
 
-.faq__question:hover {
-  color: var(--gold-deep);
-}
-
 .faq__question:focus-visible {
   outline-offset: var(--space-1);
 }
@@ -141,8 +112,8 @@
 .faq__icon {
   position: relative;
   flex-shrink: 0;
-  width: 1.375rem;
-  height: 1.375rem;
+  width: 1.125rem;
+  height: 1.125rem;
   transition: transform var(--duration-slow) var(--ease-out);
 }
 
@@ -196,40 +167,45 @@
   }
 }
 
-/* ---- Contato ---------------------------------------------------------- */
+/* ---- Contato: título, blocos de informação e mapa — tudo ao centro ---- */
 .contact__grid {
   display: grid;
+  justify-items: center;
   gap: var(--space-12);
 }
 
 .contact__info {
   display: grid;
-  align-content: start;
-  border-top: var(--border-hairline) solid var(--section-border);
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  max-width: 60rem; /* 960px */
+  gap: var(--space-4);
+  text-align: center;
 }
 
 .contact__item {
   display: grid;
+  justify-items: center;
+  align-content: start;
   gap: var(--space-2);
-  padding-block: var(--space-5);
-  border-bottom: var(--border-hairline) solid var(--section-border);
+  padding: var(--space-6) var(--space-5);
+  border: var(--border-hairline) solid var(--section-border);
 }
 
 .contact__item dt {
   font-size: var(--fs-2xs);
-  font-weight: var(--fw-semibold);
-  letter-spacing: var(--ls-wider);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-widest);
   text-transform: uppercase;
-  color: var(--section-accent);
 }
 
 .contact__item dd {
-  line-height: var(--lh-relaxed);
+  line-height: var(--lh-normal);
   color: var(--section-muted);
 }
 
 .contact__city {
-  font-weight: var(--fw-semibold);
+  font-weight: var(--fw-medium);
   color: var(--color-text-on-light);
 }
 
@@ -247,23 +223,24 @@
 @media (min-width: 48em) {
   .contact__info {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: var(--space-8);
   }
 }
 
 @media (min-width: 64em) {
-  .contact__grid {
-    grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
-    column-gap: var(--grid-gap);
-  }
-
   .contact__info {
-    grid-column: 1 / span 5;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+}
 
-  .map {
-    grid-column: 7 / -1;
+/* Mapa abaixo das informações, centralizado, até 960px */
+.contact__grid .map {
+  width: 100%;
+  max-width: 60rem;
+}
+
+@media (min-width: 48em) {
+  .map__frame {
+    aspect-ratio: 16 / 9;
   }
 }
 
@@ -276,6 +253,7 @@
 
 .map__tabs {
   display: flex;
+  justify-content: center;
   gap: var(--space-2);
 }
 
@@ -284,7 +262,7 @@
   padding-inline: var(--space-5);
   border: var(--border-hairline) solid var(--color-stone);
   font-size: var(--fs-2xs);
-  font-weight: var(--fw-semibold);
+  font-weight: var(--fw-medium);
   letter-spacing: var(--ls-wider);
   text-transform: uppercase;
   transition:
@@ -369,7 +347,19 @@
   filter: none;
 }
 
+/* "Abrir no Google Maps": texto em gradiente; sublinhado próprio (::after),
+   porque o fundo do link já é usado pelo gradiente do texto (gold.css) */
 .map__external {
-  justify-self: start;
+  position: relative;
+  justify-self: center;
   font-size: var(--fs-sm);
+}
+
+.map__external::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--border-hairline);
 }

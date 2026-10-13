@@ -45,9 +45,9 @@ O `build` roda antes o `npm run static`, que regenera headers, `robots.txt`,
 | `npm run build` | Build de produção em `dist/` |
 | `npm run preview` | Testa o `dist/` localmente (com CSP e headers) |
 | `npm run images` | Otimiza as fotos reais (ver seção 5) |
-| `npm run sync` | Atualiza os HTML da raiz (rodapé, FAQ, contato, SEO, dados, hero) |
+| `npm run sync` | Atualiza os HTML da raiz (rodapé, FAQ, contato, SEO, catálogo, promoção, hero) |
 | `npm run static` | Regenera headers/robots/sitemap/security.txt |
-| `npm run placeholders` | Recria as imagens provisórias |
+| `npm run brand` | Gera logo do header/rodapé, favicon, ícone do iOS e og-image a partir do `logo.png` |
 
 ## 3. Onde trocar domínio e dados da empresa
 
@@ -56,11 +56,11 @@ O `build` roda antes o `npm run static`, que regenera headers, `robots.txt`,
 | Campo | Exemplo |
 |---|---|
 | `url` — **[DOMINIO]** | `https://www.303parfum.com.br` (sem barra no final) |
-| `whatsapp.number` / `display` | `5587992120334` / `(87) 99212-0334` |
-| `email`, `instagram` | e-mail e perfil oficiais |
-| `hours` | horário de atendimento |
-| `places.recife` / `places.garanhuns` | endereço exibido + busca do mapa (`mapsQuery`) |
-| `legal.companyName` / `legal.cnpj` | razão social e CNPJ (rodapé e política) |
+| `description` | meta description (cita a promoção e as cidades) |
+| `whatsapp.number` / `display` / `e164` | `5587992120334` / `(87) 99212-0334` / `+55 87 99212-0334` |
+| `email`, `instagram` | `larissa.ifpe4@gmail.com`, `@303parfum` |
+| `hours` / `openingHours` | horário exibido / formato schema.org (`Mo-Fr 09:00-18:00`) |
+| `places.recife` / `places.garanhuns` | endereço exibido, partes do endereço (JSON-LD) e busca do mapa (`mapsQuery`) |
 
 Rode `npm run sync` (ou `npm start`/`npm run build`, que já fazem isso):
 HTML, rodapé, links de WhatsApp, mapa, SEO, sitemap, headers e redirecionamento
@@ -68,45 +68,49 @@ www são atualizados juntos.
 
 Os HTML da raiz já trazem o conteúdo real (abrem completos até com duplo
 clique). O `sync` só reescreve: as regiões entre `<!-- @region nome -->` e
-`<!-- @endregion nome -->` (rodapé, FAQ, contato e SEO — editados em
-`src/partials/` e `src/data/faq.js`) e os elementos marcados com
-`data-site="email"` / `data-site-href="mailto:{email}"`. **Não edite à mão o que
+`<!-- @endregion nome -->` (rodapé, FAQ, contato, SEO, **catalogo** e
+**promocao** — editados em `src/partials/` e `src/data/`), os elementos marcados
+com `data-site="email"` / `data-site-href="mailto:{email}"` e o `href` dos links
+com `data-whatsapp-message` (mensagem já codificada). **Não edite à mão o que
 estiver dentro dessas regiões** — edite a origem e rode `npm run sync`.
 
 Ao trocar o domínio, revise também o redirecionamento em `public/.htaccess`
 (gerado automaticamente a partir da `url`).
 
-## 4. Produtos
+## 4. Produtos, abas e promoção
 
-Os produtos ficam em [`src/data/products.json`](src/data/products.json). Para
-adicionar um, copie um item existente e ajuste:
+Os produtos ficam em [`src/data/products.json`](src/data/products.json) (um
+array). Para adicionar um, copie um item existente e ajuste:
 
 ```jsonc
 {
-  "id": "303-009",                    // único
-  "slug": "nome-do-perfume",          // minúsculas, sem acento, com hífens
+  "id": 26,                                  // número único
+  "slug": "nome-do-perfume",                 // minúsculas, sem acento, com hífens
   "nome": "Nome do Perfume",
-  "categoria": "feminino",            // masculino | feminino | nicho | arabe | capilar | oleo-corporal
-  "genero": "feminino",               // feminino | masculino | unissex
-  "descricao_curta": "Uma linha para o card.",
-  "descricao": "Texto completo exibido em Detalhes.",
-  "notas": { "topo": ["Bergamota"], "coracao": ["Rosa"], "fundo": ["Âmbar"] },
-  "familia_olfativa": "Floral ambarada",
-  "volume_ml": 100,
-  "preco": null,                      // número (ex.: 149.9) ou null para ocultar
-  "imagem": "/src/assets/img/produtos/nome-do-perfume.webp",
-  "imagem_alt": "Frasco do perfume Nome do Perfume com tampa dourada",
-  "destaque": false                   // true = selo "Destaque"
+  "referencia": "Marca de referência",       // aparece como "Ref.: …"
+  "categorias": ["feminino", "nicho"],       // feminino | masculino | nicho | arabe (uma ou mais abas)
+  "familia": "Floral Amadeirada",
+  "descricao": "Texto do card (2 linhas) e do modal.",
+  "notas": { "topo": ["Bergamota"], "corpo": ["Rosa"], "fundo": ["Âmbar"] },
+  "imagem": "nome-do-perfume",               // slug da foto (seção 5)
+  "foco": "inteiro",                         // opcional: topo | base | esquerda | direita | inteiro
+  "confirmar": "dúvida para a cliente"       // opcional, interno: nunca aparece no site
 }
 ```
 
-- Campos inválidos não quebram o site: há valores de reserva (imagem neutra,
-  nome genérico) e o item continua aparecendo em "Todos".
-- O catálogo, os filtros, os links `?linha=` e as mensagens de WhatsApp se
-  atualizam sozinhos.
-- **Preço:** quando **todos** os produtos tiverem `preco`, o site passa a
-  publicar automaticamente os dados estruturados de produto (Google). Sem
-  preço, isso fica desligado de propósito (o Google acusaria erro).
+- Produto com `slug`, `nome` ou `categorias` inválidos é descartado (no build e
+  no navegador — `src/js/product-schema.js`). Sem foto, o card mostra o nome em
+  dourado sobre o preto.
+- `foco` ajusta o enquadramento no card 4:5 quando o frasco ficaria cortado
+  (`inteiro` mostra a foto toda).
+- Os cards, as abas, os contadores, o JSON-LD e as mensagens de WhatsApp se
+  atualizam sozinhos no próximo `npm run sync`/`build`.
+- **Abas** (ordem, rótulos, frases e lista branca do `?linha=`):
+  [`src/data/tabs.js`](src/data/tabs.js).
+- **Promoção:** [`src/data/config.json`](src/data/config.json)
+  (`ativa`, `preco_de`, `preco_por`, `texto`). Vale para todos os perfumes: cards,
+  modal, bloco do hero, mensagens de WhatsApp e `offers` do JSON-LD. Com
+  `"ativa": false`, o bloco do hero some e os preços saem dos cards.
 
 Perguntas frequentes ficam em [`src/data/faq.js`](src/data/faq.js) (o mesmo
 arquivo gera o acordeão e o schema FAQPage; respostas com `[CONFIRMAR]` não vão
@@ -116,34 +120,31 @@ para o Google).
 
 ### Foto do topo (hero)
 
-Substitua **`src/assets/img/banner.png`** — PNG com **fundo transparente**
-(o site nunca corta a imagem), idealmente com **1600 px ou mais** de largura
-(a atual tem 550 px). No próximo `npm start`/`npm run build` (ou
-`npm run images`) ela é convertida sozinha para **AVIF + WebP + PNG**, **sem
-recorte**, nas larguras 480/800/1200/1600 que a foto comportar (nunca amplia);
-`srcset`, preload e largura/altura do `<img>` se ajustam sozinhos.
-Teto de peso: **≤ 200 KB por arquivo** (a qualidade é reduzida se preciso).
+Substitua **`src/assets/img/banneroficial.png`** (de preferência com 1600 px ou
+mais de largura). No próximo `npm start`/`npm run build` (ou `npm run images`)
+ela é convertida sozinha para **AVIF + WebP + JPG**, **sem recorte**, nas
+larguras 480/800/1200/1600 que a foto comportar (nunca amplia); `srcset`,
+preload e largura/altura do `<img>` se ajustam sozinhos. O site nunca corta a
+imagem (`object-fit: contain`). Teto: **≤ 200 KB por arquivo**.
 
-### Linhas e produtos
+### Produtos
 
-Coloque as **fotos originais** (JPG/PNG/WebP/TIFF, quanto maior melhor) em:
+Coloque as **fotos originais** (JPG/PNG/WebP, quanto maior melhor) em:
 
 ```
-images-src/linhas/<slug>.jpg           → masculino, feminino, nicho, arabe, capilar, oleo-corporal
-images-src/produtos/<slug>.jpg         → mesmo slug do products.json
+images-src/produtos/<slug>.jpg         → mesmo valor do campo "imagem" do products.json
 ```
 
-e rode **`npm run images`**. O script recorta em **4:5** (com foco automático no
-frasco), gera **AVIF + WebP** em **480/800/1200 px**, remove metadados (GPS,
-câmera) e confere o peso. Se uma foto passar do limite, a qualidade é reduzida
-automaticamente e o script avisa.
+e rode **`npm run images`**. Produtos: **AVIF + WebP + JPG** em **400/800/1200 px**
+(só até a largura real), ≤ 150 KB no 800 px; fotos mais estreitas que 4:5
+ganham margem lateral da cor do fundo. Metadados (GPS, câmera) são removidos.
 
-Dicas: fundo limpo, frasco centralizado, luz suave; evite texto na foto.
-Depois, revise os textos alternativos (`alt`) no `index.html` e no
-`products.json`.
+### Logotipo, favicon e compartilhamento
 
-A imagem de compartilhamento (`public/og-image.jpg`, 1200×630) e o ícone do iOS
-(`public/apple-touch-icon.png`) são provisórios — troque pelos definitivos.
+O logo oficial é **`src/assets/img/logo.png`**. Depois de trocá-lo, rode
+**`npm run brand`**: gera `src/assets/img/brand/logo-1x|2x.{webp,png}` (header e
+rodapé), `public/favicon-32.png`, `public/apple-touch-icon.png` (180 px) e
+`public/og-image.jpg` (1200×630).
 
 ## 6. Publicação
 
@@ -228,8 +229,11 @@ o navegador bloqueia (e mostra o motivo no console).
 ## 9. SEO
 
 - Meta description, canonical, Open Graph e Twitter Card (`index.html`).
-- JSON-LD gerado no build (`scripts/lib/jsonld.mjs`): Organization, WebSite e
-  FAQPage; produtos entram quando houver preços. Valide em
+- Abas e cards do catálogo gerados no build: o conteúdo é indexável sem JS.
+- JSON-LD gerado no build (`scripts/lib/jsonld.mjs`): Organization, WebSite,
+  2 × Store (Recife e Garanhuns, com endereço, telefone, e-mail e horário),
+  FAQPage e ItemList com todos os produtos (com `offers` enquanto a promoção
+  estiver ativa). Valide em
   <https://search.google.com/test/rich-results>.
 - `robots.txt` e `sitemap.xml` gerados a partir do domínio em `config/site.mjs`.
   Após publicar, envie o sitemap no Google Search Console.
@@ -242,11 +246,14 @@ Tokens em `src/css/tokens.css`, aplicação em `src/css/gold.css`:
 |---|---|
 | `--gold-gradient` | linhas, bordas, botões, ícones e texto grande sobre fundo escuro |
 | `--gold-gradient-text` | texto pequeno sobre fundo escuro (contraste ≥ 5,7:1) |
-| `--gold-gradient-deep` | texto grande e ícones sobre fundo claro (≥ 3,8:1) |
-| `--gold-solid` | fallback, foco no escuro, ícones/bordas simples |
+| `--gold-gradient-deep` | texto grande sobre fundo claro (≥ 3,8:1) |
+| `--gold-gradient-ink` | texto pequeno sobre fundo claro (≥ 4,8:1) |
+| `--gold-solid` | **só** fallback em `@supports not (background-clip: text)` |
 
-Texto **pequeno** sobre fundo **claro/branco** é sempre **preto** (dourado não
-atinge o contraste mínimo ali).
+Todo dourado visível é gradiente — texto, linhas, bordas, botões e ícones SVG
+(`url(#gold)`, definido em `src/partials/footer.html`). Os componentes não
+declaram cor dourada; só o `gold.css` pinta. Foco e seleção são neutros
+(não aceitam gradiente).
 
 ## 11. Estrutura
 
@@ -257,11 +264,11 @@ INICIAR-SITE.bat           abre o site com duplo clique (Windows)
 config/
   site.mjs                 domínio e dados da empresa (fonte única)
   security-headers.mjs     CSP, headers e cache (fonte única)
-scripts/                   build: imagens, headers/SEO, JSON-LD
+scripts/                   build: imagens, marca, catálogo/promoção no HTML, headers/SEO, JSON-LD
 src/
   css/                     tokens, base, layout, componentes, seções, movimento
   js/                      módulos (catálogo, formulários, mapa, movimento…)
-  data/                    products.json e faq.js
+  data/                    products.json, config.json (promoção), tabs.js e faq.js
   partials/footer.html     rodapé compartilhado pelas 3 páginas
   assets/fonts, assets/img fontes (subset latino) e imagens otimizadas
 public/                    copiado como está para o dist/ (headers, robots…)

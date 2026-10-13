@@ -14,7 +14,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "images": "node scripts/optimize-images.mjs && node scripts/sync-html.mjs",
-    "placeholders": "node scripts/generate-placeholders.mjs"
+    "brand": "node scripts/generate-brand.mjs"
   },
   "devDependencies": {
     "sharp": "0.35.5",

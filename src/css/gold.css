@@ -1,106 +1,221 @@
 /* ==========================================================================
-   DOURADO — aplicação do gradiente metálico (tokens em tokens.css)
+   DOURADO — fonte única. TODO dourado visível é GRADIENTE.
 
-   Cada elemento já tem `color: var(--gold-solid)` (ou --gold-deep) no seu
-   próprio CSS: é o fallback. Onde o navegador suporta background-clip:text,
-   o texto vira gradiente. Escolha da variante por CONTRASTE:
-     texto GRANDE no escuro  → --gold-gradient
-     texto PEQUENO no escuro → --gold-gradient-text
-     texto GRANDE no claro   → --gold-gradient-deep
-     texto pequeno no claro  → preto (definido nos componentes)
+   Os componentes não declaram cor dourada: só este arquivo pinta.
+   --gold-solid / --gold-deep aparecem apenas como fallback dentro de
+   @supports not (background-clip: text).
+
+   A variante do gradiente segue o fundo (contraste WCAG):
+     fundo escuro  → texto pequeno: --gold-gradient-text · grande: --gold-gradient
+     fundo claro   → texto pequeno: --gold-gradient-ink  · grande: --gold-gradient-deep
+   Linhas, bordas, botões e ícones usam --gold-gradient.
    ========================================================================== */
 
-/* ---- 1. Texto em gradiente -------------------------------------------- */
+/* ---- 0. Contexto: qual gradiente vale em cada fundo --------------------- */
+:root {
+  --gold-text-sm: var(--gold-gradient-text);
+  --gold-text-lg: var(--gold-gradient);
+  --gold-fallback-sm: var(--gold-solid);
+  --gold-fallback-lg: var(--gold-solid);
+}
+
+.section--light,
+.section--white,
+.legal {
+  --gold-text-sm: var(--gold-gradient-ink);
+  --gold-text-lg: var(--gold-gradient-deep);
+  --gold-fallback-sm: var(--gold-deep);
+  --gold-fallback-lg: var(--gold-deep);
+  --color-focus: var(--color-black);
+}
+
+/* Cards e modal são escuros, mesmo dentro da seção clara */
+.product-card,
+.product-modal {
+  --gold-text-sm: var(--gold-gradient-text);
+  --gold-text-lg: var(--gold-gradient);
+  --gold-fallback-sm: var(--gold-solid);
+  --gold-fallback-lg: var(--gold-solid);
+  --color-focus: var(--color-ivory);
+}
+
+/* ---- 1. Texto em gradiente --------------------------------------------- */
+/* Pequeno (eyebrows, rótulos, preços dos cards, contadores, links) */
+.eyebrow,
+.site-footer__heading,
+.site-nav__group-label,
+.product-card__family,
+.product-card__placeholder span,
+.price__to,
+.pyramid__title,
+.pyramid__tier dt,
+.contact__item dt,
+.catalog__count [data-count-visual],
+.map__external,
+.step__digits,
+.field__counter.is-near-limit,
+.form-success__text strong,
+.field__control:focus + .field__label,
+.not-found__numeral {
+  --gold-paint: var(--gold-text-sm);
+  --gold-fallback: var(--gold-fallback-sm);
+}
+
+/* Grande (palavras em itálico de destaque, preço principal) */
+.hero__title-accent,
+.hero__promo-to,
+.product-modal__price .price__to,
+:is(h1, h2, h3) em,
+.site-footer__tagline em {
+  --gold-paint: var(--gold-text-lg);
+  --gold-fallback: var(--gold-fallback-lg);
+}
+
+/* Estados de hover que viram dourado */
+.site-footer__link:hover,
+.site-footer__link:focus-visible,
+.site-nav__sublink:hover,
+.site-nav__sublink:focus-visible,
+.faq__question:hover > span:first-child,
+.legal-header__back:hover {
+  --gold-paint: var(--gold-text-sm);
+  --gold-fallback: var(--gold-fallback-sm);
+}
+
 @supports ((-webkit-background-clip: text) or (background-clip: text)) {
-  /* Grande, fundo escuro */
-  .hero__title-accent,
-  .wordmark__number,
-  .lines__header h2 em,
-  .resell em,
-  .site-footer__tagline em,
-  .not-found__title em,
-  .marquee__sep {
-    --gold-text: var(--gold-gradient);
-  }
-
-  /* Pequeno, fundo escuro */
-  .section--dark .eyebrow,
+  .eyebrow,
   .site-footer__heading,
-  .line-card__cta,
-  .step__number,
-  .product-card__notes-title,
-  .product-card__notes-row dt,
-  .catalog__filter[aria-pressed="true"] .catalog__filter-count {
-    --gold-text: var(--gold-gradient-text);
-  }
-
-  /* Grande, fundo claro */
-  .manifesto__title em,
-  .pillar__number,
-  .contact h2 em,
-  .faq__title em,
-  .catalog__empty-title em {
-    --gold-text: var(--gold-gradient-deep);
-  }
-
-  /* Pinta: o próprio elemento (mesma especificidade da regra original,
-     que vem antes no CSS → aqui vence). */
+  .site-nav__group-label,
+  .product-card__family,
+  .product-card__placeholder span,
+  .price__to,
+  .pyramid__title,
+  .pyramid__tier dt,
+  .contact__item dt,
+  .catalog__count [data-count-visual],
+  .map__external,
+  .step__digits,
+  .field__counter.is-near-limit,
+  .form-success__text strong,
+  .field__control:focus + .field__label,
+  .not-found__numeral,
   .hero__title-accent,
-  .wordmark__number,
-  .lines__header h2 em,
-  .resell em,
+  .hero__promo-to,
+  .product-modal__price .price__to,
+  :is(h1, h2, h3) em,
   .site-footer__tagline em,
-  .not-found__title em,
-  .marquee__sep,
-  .section--dark .eyebrow,
-  .site-footer__heading,
-  .line-card__cta,
-  .step__number,
-  .product-card__notes-title,
-  .product-card__notes-row dt,
-  .catalog__filter[aria-pressed="true"] .catalog__filter-count,
-  .manifesto__title em,
-  .pillar__number,
-  .contact h2 em,
-  .faq__title em,
-  .catalog__empty-title em {
-    background-image: var(--gold-text);
+  .site-footer__link:hover,
+  .site-footer__link:focus-visible,
+  .site-nav__sublink:hover,
+  .site-nav__sublink:focus-visible,
+  .faq__question:hover > span:first-child,
+  .legal-header__back:hover {
+    background-image: var(--gold-paint);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
   }
 
-  /* Títulos divididos por palavra (motion.js): cada palavra recebe o
-     gradiente e o pai fica sem fundo — senão o texto "vazaria" antes da
-     animação da máscara. */
-  .lines__header h2 em .split-word__inner,
-  .resell em .split-word__inner,
-  .manifesto__title em .split-word__inner,
-  .contact h2 em .split-word__inner,
-  .faq__title em .split-word__inner {
-    background-image: var(--gold-text);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
+  /* Letras inteiras: background-clip:text só pinta dentro da caixa do
+     elemento, e itálicos, descendentes (ç, p, g, j) e acentos (Â, É)
+     passam dela. A folga aumenta a caixa; a margem negativa devolve o
+     espaço à direita sem deslocar o layout. */
+  .eyebrow,
+  .site-footer__heading,
+  .site-nav__group-label,
+  .product-card__family,
+  .product-card__placeholder span,
+  .price__to,
+  .pyramid__title,
+  .pyramid__tier dt,
+  .contact__item dt,
+  .catalog__count [data-count-visual],
+  .form-success__text strong,
+  .step__digits,
+  .hero__title-accent,
+  .hero__promo-to,
+  :is(h1, h2, h3) em,
+  .site-footer__tagline em,
+  .faq__question > span:first-child {
+    padding: 0.06em 0.12em 0.14em 0;
+    margin-right: -0.12em;
   }
 
-  /* Sem :has() (caro de reavaliar enquanto motion.js insere as palavras):
-     títulos só são divididos quando .has-motion está no <html>. */
-  .has-motion .lines__header h2 em,
-  .has-motion .resell em,
-  .has-motion .manifesto__title em,
-  .has-motion .contact h2 em,
-  .has-motion .faq__title em {
+  /* Elementos em linha viram inline-block para a folga valer */
+  .product-card__placeholder span,
+  .price__to,
+  .hero__promo-to,
+  :is(h1, h2, h3) em,
+  .site-footer__tagline em,
+  .catalog__count [data-count-visual],
+  .form-success__text strong,
+  .step__digits,
+  .faq__question > span:first-child {
+    display: inline-block;
+  }
+
+  /* Versaletes pequenas (eyebrows, títulos do rodapé): til e cedilha de
+     PROMOÇÃO/COLEÇÃO passam da altura da linha — mais folga no topo */
+  .eyebrow,
+  .site-footer__heading,
+  .site-nav__group-label,
+  .product-card__family,
+  .pyramid__title,
+  .pyramid__tier dt,
+  .contact__item dt {
+    padding-top: 0.3em;
+    padding-bottom: 0.2em;
+    line-height: 1.4;
+  }
+
+  /* Títulos divididos por palavra (motion.js): o gradiente vai em cada
+     palavra, com a mesma folga; o pai fica sem fundo. */
+  .has-motion :is(h1, h2, h3) em {
     background-image: none;
+    padding: 0;
+    margin-right: 0;
   }
 
-  .lines__header h2 em .split-word__inner,
-  .resell em .split-word__inner { --gold-text: var(--gold-gradient); }
-  .manifesto__title em .split-word__inner,
-  .contact h2 em .split-word__inner,
-  .faq__title em .split-word__inner { --gold-text: var(--gold-gradient-deep); }
+  :is(h1, h2, h3) em .split-word__inner {
+    background-image: var(--gold-text-lg);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    padding: 0.06em 0.12em 0.14em 0;
+    margin-right: -0.12em;
+  }
+}
+
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .eyebrow,
+  .site-footer__heading,
+  .site-nav__group-label,
+  .product-card__family,
+  .product-card__placeholder span,
+  .price__to,
+  .pyramid__title,
+  .pyramid__tier dt,
+  .contact__item dt,
+  .catalog__count [data-count-visual],
+  .map__external,
+  .step__digits,
+  .field__counter.is-near-limit,
+  .form-success__text strong,
+  .field__control:focus + .field__label,
+  .not-found__numeral,
+  .hero__title-accent,
+  .hero__promo-to,
+  .product-modal__price .price__to,
+  :is(h1, h2, h3) em,
+  .site-footer__tagline em,
+  .site-footer__link:hover,
+  .site-nav__sublink:hover,
+  .faq__question:hover > span:first-child,
+  .legal-header__back:hover {
+    color: var(--gold-fallback);
+  }
 }
 
 /* Brilho sutil: o gradiente desliza ao passar o mouse sobre o título.
@@ -109,7 +224,7 @@
   .hero__title-accent,
   :where(h2, .site-footer__tagline) em,
   :where(h2) em .split-word__inner {
-    background-size: 200% 100% !important;
+    background-size: 200% 100%;
     background-position: 0% 50%;
     transition: background-position 1400ms var(--ease-luxe);
   }
@@ -120,22 +235,24 @@
   }
 }
 
-/* ---- 2. Linhas finas e divisores (1px de gradiente) ------------------- */
+/* ---- 2. Linhas e divisores de 1 px ------------------------------------- */
 .eyebrow--rule::before,
-.manifesto__signature::before,
-.line-card__title::after,
-.wordmark__rule,
-.hero__scroll-line::after {
+.hero__scroll-line::after,
+.catalog__tab::after,
+.pyramid__tier::before,
+.site-footer::before,
+.site-header::after,
+.map__external::after,
+.divider--accent {
   background: var(--gold-gradient);
 }
 
 .divider--accent {
   height: var(--border-hairline);
   border: 0;
-  background: var(--gold-gradient);
 }
 
-/* Linha dos passos: horizontal no desktop, vertical no mobile */
+/* Linha dos passos: vertical no mobile, horizontal no desktop (some no fim) */
 .steps::before {
   background: linear-gradient(180deg, #8c6b2e 0%, #c9a13b 22%, #f3e2a4 48%, #d4af37 70%, transparent 100%);
 }
@@ -146,20 +263,33 @@
   }
 }
 
-.site-footer::before {
-  background: var(--gold-gradient);
+/* Sublinhados animados (header, links de texto) */
+.link-underline,
+.site-nav__trigger {
+  background-image: var(--gold-gradient);
 }
 
-/* ---- 3. Bordas em gradiente ------------------------------------------ */
-/* Círculos (passos, WhatsApp): anel por pseudo-elemento + máscara */
-.step__number,
-.whatsapp-float {
+/* ---- 3. Bordas em gradiente ------------------------------------------- */
+/* Retângulos: border-image */
+.btn--outline:not(.btn--on-light),
+.hero__promo,
+.site-nav__cta .site-nav__link,
+.site-nav__submenu,
+.product-modal,
+.field__control:focus,
+.field--choices .choice:hover,
+.field--choices .choice:has(:checked) {
+  border-image: var(--gold-gradient) 1;
+}
+
+/* Número dos passos: o texto já é gradiente (background-clip: text), então
+   o anel vem de um pseudo-elemento com máscara (mask-composite: exclude). */
+.step__number {
   position: relative;
   border-color: transparent;
 }
 
-.step__number::before,
-.whatsapp-float::before {
+.step__number::before {
   content: "";
   position: absolute;
   inset: calc(var(--border-hairline) * -1);
@@ -176,35 +306,57 @@
   pointer-events: none;
 }
 
-/* Retângulos (botões outline no escuro): border-image */
-.btn--outline:not(.btn--on-light) {
-  border-image: var(--gold-gradient) 1;
+/* Círculos (radio, WhatsApp): borda transparente + fundo em duas camadas —
+   o gradiente aparece só na faixa da borda e respeita o raio. */
+.whatsapp-float,
+.choice__input {
+  border-color: transparent;
+  background:
+    linear-gradient(var(--ring-fill, var(--color-black)), var(--ring-fill, var(--color-black))) padding-box,
+    var(--gold-gradient) border-box;
 }
 
-/* ---- 4. Botões: hover com preenchimento dourado e texto preto -------- */
-.btn--primary {
-  --btn-fill: var(--gold-gradient);
-  --btn-fg-hover: var(--color-black);
+.choice__input {
+  --ring-fill: var(--field-bg);
 }
 
-.btn--outline:not(.btn--on-light):hover {
+.choice__input::before {
+  background: var(--gold-gradient);
+}
+
+/* Cards no hover: anel em gradiente por máscara (catalog.css) */
+.product-card__inner::after {
+  background: var(--gold-gradient);
+}
+
+/* ---- 4. Botões preenchidos: gradiente + brilho deslizante --------------- */
+.btn--primary:not(.btn--on-light),
+.btn--primary.btn--on-light:hover,
+.btn--outline:not(.btn--on-light):hover,
+.product-card__badge,
+.skip-link {
   background-image: var(--gold-gradient);
+  background-size: 200% 100%;
+  background-position: 0% 50%;
   color: var(--color-black);
 }
 
-/* Toque/sem hover real: preenchimento direto, sem animação */
-@media not ((hover: hover) and (pointer: fine)) {
-  .btn--primary:hover {
-    background-image: var(--gold-gradient);
-  }
+.btn--primary:not(.btn--on-light):hover {
+  background-position: 100% 50%; /* o brilho atravessa o botão */
 }
 
-/* ---- 5. Foco visível ---------------------------------------------------
-   Dourado sólido no escuro; no claro, o tom profundo (o sólido dá só
-   2,4:1 sobre branco — abaixo dos 3:1 exigidos para indicadores). */
-.section--light,
-.section--white,
-.product-modal,
-.legal {
-  --color-focus: var(--gold-deep);
+/* ---- 5. Ícones SVG: <linearGradient id="gold"> (src/partials/footer.html) */
+.benefit__icon,
+.form-success__icon {
+  stroke: url(#gold);
+}
+
+.whatsapp-float__icon {
+  fill: url(#gold);
+}
+
+/* Fechar do modal: as duas linhas do X ficam douradas no hover */
+.product-modal__close:hover .product-modal__close-icon::before,
+.product-modal__close:hover .product-modal__close-icon::after {
+  background: var(--gold-gradient);
 }

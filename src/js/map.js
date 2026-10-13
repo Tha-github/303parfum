@@ -11,7 +11,7 @@ import { SITE } from '../../config/site.mjs';
 // Endereços e buscas do mapa: editar em config/site.mjs (SITE.places)
 export const PLACES = Object.freeze(
   Object.fromEntries(
-    Object.entries(SITE.places).map(([key, p]) => [key, { label: p.label, query: p.mapsQuery }]),
+    Object.entries(SITE.places).map(([key, p]) => [key, { label: p.label, city: p.city, address: p.address, query: p.mapsQuery }]),
   ),
 );
 
@@ -35,8 +35,8 @@ export function initMap(root = document.querySelector('[data-map]')) {
   function render() {
     const place = PLACES[current];
     tabs.forEach((tab) => tab.setAttribute('aria-pressed', String(tab.dataset.mapPlace === current)));
-    if (label) label.textContent = place.label;
-    if (loadSr) loadSr.textContent = `: ${place.label}`;
+    if (label) label.textContent = place.address;
+    if (loadSr) loadSr.textContent = `: ${place.city}`;
     if (external) external.href = externalUrl(place.query);
     if (iframe) {
       iframe.src = embedUrl(place.query);

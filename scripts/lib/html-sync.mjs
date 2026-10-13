@@ -6,27 +6,29 @@
  * reescreve só as partes que vêm de outra fonte:
  *
  *   <!-- @region nome --> … <!-- @endregion nome -->
- *       conteúdo gerado: footer, faq, contato, seo (de src/partials e src/data)
+ *       conteúdo gerado: footer, faq, contato, seo (de src/partials e src/data),
+ *       catalogo e promocao (products.json/config.json → render-sections.mjs)
  *   <span data-site="email">…</span>
  *       texto = SITE.email (config/site.mjs)
  *   <a href="…" data-site-href="mailto:{email}">
  *       atributo href = modelo com {caminho} trocado pelo valor do SITE
  *   <span data-year>2026</span>
  *       ano atual
- *   data-hero-set="avif|webp|png" e data-hero-preload
+ *   data-hero-set="avif|webp|jpg" e data-hero-preload
  *       srcset/tamanho da foto do hero = variantes que existem em disco
+ *   <a data-whatsapp data-whatsapp-message="…">
+ *       href = wa.me com a mensagem já codificada (funciona sem JS)
  *
  * Usado por scripts/sync-html.mjs (grava nos arquivos) e pelo vite.config.js
  * (aplica no build, em memória). Todo valor é escapado.
  */
 
-export const escapeHtml = (value) =>
-  String(value)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
+import { escapeHtml } from './render-sections.mjs';
+
+export { escapeHtml };
+
+const unescapeHtml = (value) =>
+  value.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 
 const lookup = (site, path) => {
   const value = path.split('.').reduce((obj, key) => obj?.[key], site);
@@ -86,10 +88,10 @@ function replaceHero(html, { widths, size }) {
   if (!widths?.length) return html;
   const set = (ext) => widths.map((w) => `./src/assets/img/hero/banner-${w}.${ext} ${w}w`).join(', ');
   const largest = widths.at(-1);
-  let out = html.replace(/<(source|img)\b[^>]*data-hero-set="(avif|webp|png)"[^>]*>/g, (tag, el, ext) => {
+  let out = html.replace(/<(source|img)\b[^>]*data-hero-set="(avif|webp|jpg)"[^>]*>/g, (tag, el, ext) => {
     let t = tag.replace(/\ssrcset="[^"]*"/, ` srcset="${set(ext)}"`);
     if (el === 'img') {
-      t = t.replace(/\ssrc="[^"]*"/, ` src="./src/assets/img/hero/banner-${largest}.png"`);
+      t = t.replace(/\ssrc="[^"]*"/, ` src="./src/assets/img/hero/banner-${largest}.jpg"`);
       if (size) t = t.replace(/\swidth="\d+"/, ` width="${size.width}"`).replace(/\sheight="\d+"/, ` height="${size.height}"`);
     }
     return t;
@@ -98,12 +100,22 @@ function replaceHero(html, { widths, size }) {
   return out;
 }
 
+/** Links de WhatsApp com mensagem: href final gravado no HTML. */
+function replaceWhatsApp(html, site) {
+  return html.replace(/<a\b[^>]*\sdata-whatsapp-message="([^"]*)"[^>]*>/g, (tag, message) => {
+    const text = unescapeHtml(message).trim();
+    const href = `https://wa.me/${site.whatsapp.number}?text=${encodeURIComponent(text)}`;
+    return tag.replace(/\shref="[^"]*"/, ` href="${escapeHtml(href)}"`);
+  });
+}
+
 /**
  * @param {string} html
- * @param {{ site: object, faqItems?: Array, partials: Record<string,string>, hero?: {widths:number[], size?:{width:number,height:number}} }} ctx
+ * @param {{ site: object, faqItems?: Array, partials: Record<string,string>, generated?: Record<string,string>, hero?: {widths:number[], size?:{width:number,height:number}} }} ctx
+ *   generated = regiões já renderizadas (catalogo, promocao)
  */
-export function syncHtml(html, { site, faqItems = [], partials = {}, hero }) {
-  const regions = {};
+export function syncHtml(html, { site, faqItems = [], partials = {}, generated = {}, hero }) {
+  const regions = { ...generated };
   for (const [name, tpl] of Object.entries(partials)) regions[name] = renderTokens(tpl, site);
   if (faqItems.length) regions.faq = renderFaq(faqItems);
 
@@ -113,5 +125,6 @@ export function syncHtml(html, { site, faqItems = [], partials = {}, hero }) {
   out = renderTokens(out, site); // marcadores avulsos que ainda existam
   out = out.replace(/(<span data-year>)\d{4}(<\/span>)/g, `$1${new Date().getFullYear()}$2`);
   out = replaceHero(out, hero ?? {});
+  out = replaceWhatsApp(out, site);
   return out;
 }

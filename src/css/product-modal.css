@@ -1,5 +1,7 @@
 /* ==========================================================================
-   Modal de detalhes do produto (<dialog>)
+   Modal de detalhes do produto (<dialog>) — escuro, como os cards
+   Desktop (≥48em): arte inteira à esquerda, conteúdo rolável à direita.
+   Celular: arte no topo e rolagem interna.
    ========================================================================== */
 
 .product-modal {
@@ -9,14 +11,14 @@
   max-height: calc(100svh - 2 * var(--space-gutter));
   margin: auto;
   padding: 0;
-  border: var(--border-hairline) solid var(--color-stone);
-  background-color: var(--color-ivory);
-  color: var(--color-text-on-light);
+  border: var(--border-hairline) solid; /* cor: border-image em gold.css */
+  background-color: var(--color-black);
+  color: var(--color-text-on-dark);
   overflow: hidden;
   overscroll-behavior: contain;
-  --section-muted: var(--color-text-on-light-muted);
-  --section-accent: var(--color-text-on-light);
-  --section-border: var(--color-stone);
+  --section-muted: var(--color-text-on-dark-muted);
+  --section-accent: var(--color-ivory);
+  --section-border: var(--color-smoke);
 }
 
 .product-modal::backdrop {
@@ -69,8 +71,8 @@
   width: 3rem;
   height: 3rem;
   margin: var(--space-2);
-  background-color: rgb(246 244 240 / 0.9);
-  color: var(--color-black);
+  background-color: rgb(10 10 10 / 0.85);
+  color: var(--color-ivory);
 }
 
 .product-modal__close-icon {
@@ -95,28 +97,36 @@
   transform: rotate(-45deg);
 }
 
-.product-modal__close:hover {
-  color: var(--color-text-on-light);
-}
+/* hover do fechar: as linhas do X viram gradiente (gold.css) */
 
-/* ---- Mídia ------------------------------------------------------------ */
+/* ---- Arte: SEMPRE inteira (contain), até 85vh -------------------------- */
 .product-modal__media {
   position: relative;
   grid-area: 1 / 1;
-  aspect-ratio: 4 / 5;
-  max-height: 60svh;
+  display: grid;
+  place-items: center;
   width: 100%;
-  background-color: var(--color-sand);
+  max-height: 60svh;
+  background-color: var(--color-white); /* as fotos têm fundo claro */
 }
 
-.product-modal__media picture,
+.product-modal__media picture {
+  display: contents;
+}
+
 .product-modal__image {
+  display: block;
   width: 100%;
   height: 100%;
+  max-height: 60svh;
+  object-fit: contain;
 }
 
-.product-modal__image {
-  object-fit: cover;
+/* Sem foto: o placeholder do card, maior */
+.product-modal__media .product-card__placeholder {
+  width: 100%;
+  min-height: 16rem;
+  font-size: var(--fs-2xl);
 }
 
 /* ---- Conteúdo --------------------------------------------------------- */
@@ -129,8 +139,24 @@
 }
 
 .product-modal__title {
+  padding-right: var(--space-12); /* espaço do botão fechar */
   font-size: var(--fs-2xl);
   line-height: var(--lh-tight);
+  color: var(--color-ivory);
+}
+
+.product-modal__ref {
+  margin-top: calc(var(--space-3) * -1);
+  font-size: var(--fs-xs);
+  color: var(--color-text-on-dark-subtle);
+}
+
+.product-modal__family {
+  margin: 0;
+}
+
+.product-modal__price .price__to {
+  font-size: var(--fs-2xl);
 }
 
 .product-modal__desc {
@@ -149,83 +175,53 @@
   margin-bottom: var(--space-5);
   font-family: var(--font-body);
   font-size: var(--fs-2xs);
-  font-weight: var(--fw-semibold);
+  font-weight: var(--fw-medium);
   letter-spacing: var(--ls-widest);
   text-transform: uppercase;
   color: var(--section-accent);
 }
 
-.pyramid__body {
-  display: grid;
-  grid-template-columns: 4.5rem 1fr;
-  gap: var(--space-5);
-}
-
-/* Triângulo de traço fino dividido em 3, alinhado às 3 faixas */
-.pyramid__shape {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-.pyramid__shape path,
-.pyramid__shape line {
-  fill: none;
-  stroke: var(--gold-deep);
-  stroke-width: 1;
-  vector-effect: non-scaling-stroke;
-}
-
+/* Topo / Corpo / Fundo, cada faixa aberta por uma linha em dourado
+   gradiente (fundo em gold.css) que cresce do topo à base */
 .pyramid__tiers {
   display: grid;
-  grid-auto-rows: 1fr;
-}
-
-.pyramid__tier {
-  display: grid;
-  align-content: center;
-  gap: var(--space-1);
-  min-height: 4.25rem;
-  padding-block: var(--space-3);
-}
-
-.pyramid__tier + .pyramid__tier {
-  border-top: var(--border-hairline) solid var(--section-border);
-}
-
-.pyramid__tier dt {
-  font-family: var(--font-display);
-  font-size: var(--fs-lg);
-  font-style: italic;
-  color: var(--color-text-on-light);
-}
-
-.pyramid__tier dd {
-  font-size: var(--fs-sm);
-  color: var(--color-text-on-light);
-}
-
-/* ---- Especificações e ações ------------------------------------------ */
-.product-modal__specs {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
   gap: var(--space-4);
 }
 
-.product-modal__specs dt {
-  font-size: var(--fs-2xs);
-  font-weight: var(--fw-semibold);
-  letter-spacing: var(--ls-wider);
-  text-transform: uppercase;
-  color: var(--section-muted);
+.pyramid__tier {
+  position: relative;
+  display: grid;
+  gap: var(--space-1);
+  padding-top: var(--space-4);
 }
 
-.product-modal__specs dd {
-  margin-top: var(--space-1);
+.pyramid__tier::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: var(--border-hairline);
+}
+
+.pyramid__tier[data-tier="topo"]::before { width: 40%; }
+.pyramid__tier[data-tier="corpo"]::before { width: 70%; }
+.pyramid__tier[data-tier="fundo"]::before { width: 100%; }
+
+.pyramid__tier dt {
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-widest);
+  text-transform: uppercase;
+}
+
+.pyramid__tier dd {
   font-family: var(--font-display);
   font-size: var(--fs-lg);
+  line-height: var(--lh-snug);
+  color: var(--color-ivory);
 }
 
+/* ---- Ações ----------------------------------------------------------- */
 .product-modal__actions {
   display: flex;
   flex-wrap: wrap;
@@ -256,9 +252,12 @@
 
   .product-modal__media {
     grid-area: auto;
-    max-height: none;
+    max-height: 85vh;
     height: 100%;
-    aspect-ratio: auto;
+  }
+
+  .product-modal__image {
+    max-height: 85vh;
   }
 
   .product-modal__content {

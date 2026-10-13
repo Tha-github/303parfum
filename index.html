@@ -6,12 +6,12 @@
     <title>303 Parfum — Alta perfumaria. Preço justo.</title>
     <!-- @region seo -->
 <!-- Meta tags de SEO e compartilhamento (região "seo" do index.html). Dados: config/site.mjs -->
-    <meta name="description" content="Alta perfumaria a preço justo: fragrâncias com rigor técnico, notas ricas e desempenho de padrão internacional. Recife e Garanhuns. Seja revendedor." />
+    <meta name="description" content="Promoção: todos os perfumes de alta perfumaria por R$ 199,90 na 303 Parfum, em Recife e Garanhuns (PE). Femininos, masculinos, nicho e árabes. Seja revendedor." />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="canonical" href="https://www.303parfum.com.br/" />
     <meta name="theme-color" content="#0a0a0a" />
     <meta name="format-detection" content="telephone=no" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <!-- Compartilhamento (WhatsApp, Instagram, Facebook, X) -->
@@ -19,7 +19,7 @@
     <meta property="og:locale" content="pt_BR" />
     <meta property="og:site_name" content="303 Parfum" />
     <meta property="og:title" content="303 Parfum — Alta perfumaria. Preço justo." />
-    <meta property="og:description" content="Alta perfumaria a preço justo: fragrâncias com rigor técnico, notas ricas e desempenho de padrão internacional. Recife e Garanhuns. Seja revendedor." />
+    <meta property="og:description" content="Promoção: todos os perfumes de alta perfumaria por R$ 199,90 na 303 Parfum, em Recife e Garanhuns (PE). Femininos, masculinos, nicho e árabes. Seja revendedor." />
     <meta property="og:url" content="https://www.303parfum.com.br/" />
     <meta property="og:image" content="https://www.303parfum.com.br/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
@@ -37,13 +37,13 @@
       as="image"
       data-hero-preload
       type="image/avif"
-      imagesrcset="./src/assets/img/hero/banner-480.avif 480w, ./src/assets/img/hero/banner-550.avif 550w"
-      imagesizes="(min-width: 48em) 45vw, 92vw"
+      imagesrcset="./src/assets/img/hero/banner-480.avif 480w, ./src/assets/img/hero/banner-800.avif 800w, ./src/assets/img/hero/banner-1122.avif 1122w"
+      imagesizes="(min-width: 48em) 48vh, 80vw"
       fetchpriority="high"
     />
     <!-- Fontes próprias: pré-carrega só as do título do hero -->
-    <link rel="preload" href="./src/assets/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="./src/assets/fonts/cormorant-garamond-italic-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./src/assets/fonts/cormorant-garamond-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./src/assets/fonts/cormorant-garamond-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="./src/css/main.css" />
     <script type="module" src="./src/js/main.js"></script>
   </head>
@@ -54,23 +54,32 @@
     <!-- ===================================================== HEADER -->
     <header class="site-header" data-header>
       <div class="container site-header__inner">
-        <a class="wordmark" href="#inicio" aria-label="303 Parfum — início">
-          <span class="wordmark__number" aria-hidden="true">303</span>
-          <span class="wordmark__rule" aria-hidden="true"></span>
-          <span class="wordmark__name" aria-hidden="true">Parfum</span>
+        <a class="site-header__logo" href="#inicio">
+          <picture>
+            <source type="image/webp" srcset="./src/assets/img/brand/logo-1x.webp 1x, ./src/assets/img/brand/logo-2x.webp 2x" />
+            <img class="brand-logo" src="./src/assets/img/brand/logo-1x.png" srcset="./src/assets/img/brand/logo-1x.png 1x, ./src/assets/img/brand/logo-2x.png 2x" width="234" height="48" alt="303 Parfum" decoding="async" />
+          </picture>
         </a>
 
         <nav class="site-nav" id="site-nav" aria-label="Principal" data-nav>
           <ul class="site-nav__list" role="list">
-            <li><a class="site-nav__link link-underline" href="#colecao">Coleção</a></li>
-            <li><a class="site-nav__link link-underline" href="#sobre">Sobre</a></li>
-            <li><a class="site-nav__link link-underline" href="#revenda">Revenda</a></li>
+            <!-- Coleção: grupo no menu mobile, dropdown no desktop (header.js) -->
+            <li class="site-nav__group" data-dropdown>
+              <span class="site-nav__group-label" id="nav-colecao-label">Coleção</span>
+              <button class="site-nav__link site-nav__trigger link-underline" type="button" aria-expanded="false" aria-controls="nav-colecao" data-dropdown-toggle>
+                Coleção<span class="site-nav__chevron" aria-hidden="true"></span>
+              </button>
+              <ul class="site-nav__submenu" id="nav-colecao" role="list" aria-labelledby="nav-colecao-label" data-dropdown-menu>
+                <li><a class="site-nav__sublink" href="?linha=feminino#colecao" data-tab-link="feminino">Perfumes Femininos</a></li>
+                <li><a class="site-nav__sublink" href="?linha=masculino#colecao" data-tab-link="masculino">Perfumes Masculinos</a></li>
+                <li><a class="site-nav__sublink" href="?linha=arabe#colecao" data-tab-link="arabe">Perfumes Árabes</a></li>
+                <li><a class="site-nav__sublink" href="?linha=nicho#colecao" data-tab-link="nicho">Perfumes de Nicho</a></li>
+              </ul>
+            </li>
+            <li class="site-nav__cta"><a class="site-nav__link link-underline" href="#revenda">Seja Revendedor</a></li>
+            <li><a class="site-nav__link link-underline" href="#faq">FAQ</a></li>
             <li><a class="site-nav__link link-underline" href="#contato">Contato</a></li>
           </ul>
-
-          <div class="site-nav__aside">
-            <a class="btn btn--outline btn--on-dark btn--sm" href="#revenda">Seja Revendedor</a>
-          </div>
 
           <p class="site-nav__footer">Recife &amp; Garanhuns · Pernambuco</p>
         </nav>
@@ -94,7 +103,7 @@
     <main id="conteudo" tabindex="-1">
       <!-- ===================================================== HERO -->
       <section class="hero section--dark" id="inicio" aria-labelledby="hero-title">
-        <div class="container grid hero__inner">
+        <div class="container hero__inner">
           <div class="hero__content">
             <p class="eyebrow eyebrow--rule hero__eyebrow" data-reveal="1">
               Alta perfumaria · Recife &amp; Garanhuns
@@ -110,18 +119,24 @@
               e entregues sem o custo de grife.
             </p>
 
-            <div class="hero__actions" data-reveal="4">
-              <a class="btn btn--primary btn--on-dark" href="#colecao">
-                Conheça a coleção
-                <svg class="btn__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true" focusable="false">
-                  <path d="M2 8h12M9.5 3.5 14 8l-4.5 4.5" />
-                </svg>
-              </a>
-              <a class="btn btn--outline btn--on-dark" href="#revenda">Quero revender</a>
+            <!-- Promoção: gerada de src/data/config.json (npm run sync) -->
+            <div class="hero__promo-slot" data-reveal="4">
+            <!-- @region promocao -->
+            <div class="hero__promo">
+              <p class="eyebrow hero__promo-eyebrow">Promoção</p>
+              <p class="hero__promo-price">
+                <span class="sr-only">Todos os perfumes de 250 reais por 199 reais e 90 centavos.</span>
+                <span class="hero__promo-from" aria-hidden="true">Todos os perfumes de <s>R$ 250,00</s></span>
+                <span class="hero__promo-to" aria-hidden="true">R$ 199,90</span>
+              </p>
+              <p class="hero__promo-note">Por tempo limitado. Consulte pelo WhatsApp.</p>
+              <a class="btn btn--primary hero__promo-cta" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Quero%20aproveitar%20a%20promo%C3%A7%C3%A3o%20dos%20perfumes%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Quero aproveitar a promoção dos perfumes por R$ 199,90." target="_blank" rel="noopener noreferrer">Aproveitar a promoção<span class="sr-only"> (abre o WhatsApp em nova aba)</span></a>
+            </div>
+            <!-- @endregion promocao -->
             </div>
           </div>
 
-          <!-- Foto do hero: src/assets/img/banner.png (convertida no build;
+          <!-- Foto do hero: src/assets/img/banneroficial.png (convertida no build;
                srcset/tamanho mantidos pelo npm run sync).
                Ancorada na base da seção e SEMPRE inteira (object-fit: contain). -->
           <!-- Sem animação de entrada: o LCP não conta imagens pintadas com opacidade 0 -->
@@ -130,24 +145,24 @@
               <source
                 type="image/avif"
                 data-hero-set="avif"
-                srcset="./src/assets/img/hero/banner-480.avif 480w, ./src/assets/img/hero/banner-550.avif 550w"
-                sizes="(min-width: 48em) 45vw, 92vw"
+                srcset="./src/assets/img/hero/banner-480.avif 480w, ./src/assets/img/hero/banner-800.avif 800w, ./src/assets/img/hero/banner-1122.avif 1122w"
+                sizes="(min-width: 48em) 48vh, 80vw"
               />
               <source
                 type="image/webp"
                 data-hero-set="webp"
-                srcset="./src/assets/img/hero/banner-480.webp 480w, ./src/assets/img/hero/banner-550.webp 550w"
-                sizes="(min-width: 48em) 45vw, 92vw"
+                srcset="./src/assets/img/hero/banner-480.webp 480w, ./src/assets/img/hero/banner-800.webp 800w, ./src/assets/img/hero/banner-1122.webp 1122w"
+                sizes="(min-width: 48em) 48vh, 80vw"
               />
               <img
                 class="hero__image"
-                data-hero-set="png"
-                src="./src/assets/img/hero/banner-550.png"
-                srcset="./src/assets/img/hero/banner-480.png 480w, ./src/assets/img/hero/banner-550.png 550w"
-                sizes="(min-width: 48em) 45vw, 92vw"
-                width="550"
-                height="454"
-                alt="Mulher elegante representando as fragrâncias 303 PARFUM"
+                data-hero-set="jpg"
+                src="./src/assets/img/hero/banner-1122.jpg"
+                srcset="./src/assets/img/hero/banner-480.jpg 480w, ./src/assets/img/hero/banner-800.jpg 800w, ./src/assets/img/hero/banner-1122.jpg 1122w"
+                sizes="(min-width: 48em) 48vh, 80vw"
+                width="1122"
+                height="1402"
+                alt="Mão segurando um frasco de perfume masculino sobre fundo escuro"
                 fetchpriority="high"
                 decoding="async"
               />
@@ -155,386 +170,991 @@
           </div>
         </div>
 
-        <a class="hero__scroll" href="#sobre" data-reveal="5">
+        <a class="hero__scroll" href="#colecao" data-reveal="6">
           <span class="hero__scroll-label" aria-hidden="true">Role</span>
           <span class="hero__scroll-line" aria-hidden="true"></span>
-          <span class="sr-only">Rolar até o manifesto</span>
+          <span class="sr-only">Rolar até a coleção</span>
         </a>
       </section>
 
-      <!-- ===================================================== SOBRE / MANIFESTO -->
-      <section class="section section--light manifesto" id="sobre" aria-labelledby="sobre-title">
-        <span class="manifesto__numeral" aria-hidden="true">303</span>
-
-        <div class="container manifesto__inner">
-          <div class="manifesto__intro">
-            <p class="eyebrow eyebrow--rule">Manifesto</p>
-            <h2 class="manifesto__title" id="sobre-title">
-              O luxo está no que <em>toca a pele</em>.
-            </h2>
-          </div>
-
-          <div class="manifesto__text">
-            <p class="manifesto__lead">
-              Um grande perfume se reconhece de olhos fechados: pela forma como
-              se abre, se transforma e permanece.
-            </p>
-            <p>
-              Cada fragrância 303 nasce de uma composição construída com rigor
-              técnico: matérias-primas selecionadas, notas que se revelam em
-              camadas e um desempenho à altura do padrão internacional.
-            </p>
-            <p>
-              O que deixamos de fora é tudo aquilo que não se sente na pele:
-              campanhas milionárias, frascos de vitrine, o peso de um nome na
-              etiqueta. Investimos no líquido, na fixação, na experiência.
-              O resultado é simples: <strong>alta perfumaria a preço justo.</strong>
-            </p>
-            <p class="manifesto__signature">303 Parfum · Recife &amp; Garanhuns</p>
-          </div>
-        </div>
-
-        <div class="container">
-          <ol class="pillars" role="list">
-            <li class="pillar">
-              <span class="pillar__number" aria-hidden="true">01</span>
-              <h3 class="pillar__title">Rigor técnico</h3>
-              <p class="pillar__text">
-                Composições equilibradas, concentração adequada e atenção a cada
-                detalhe da fórmula, do primeiro borrifo ao fundo.
-              </p>
-            </li>
-            <li class="pillar">
-              <span class="pillar__number" aria-hidden="true">02</span>
-              <h3 class="pillar__title">Notas ricas e duradouras</h3>
-              <p class="pillar__text">
-                Fragrâncias que evoluem na pele em saída, coração e fundo, com
-                fixação e projeção pensadas para acompanhar o seu dia.
-              </p>
-            </li>
-            <li class="pillar">
-              <span class="pillar__number" aria-hidden="true">03</span>
-              <h3 class="pillar__title">Preço justo</h3>
-              <p class="pillar__text">
-                Sem custo de grife, sem embalagem de vitrine. Você paga pelo
-                perfume, e só por ele.
-              </p>
-            </li>
-          </ol>
-        </div>
-      </section>
-
-      <!-- ===================================================== LINHAS DE PRODUTO -->
-      <!-- [CONFIRMAR] trocar as imagens provisórias e revisar os alts com as fotos reais -->
-      <section class="section section--dark lines" id="linhas" aria-labelledby="linhas-title">
-        <div class="container">
-          <header class="section__header lines__header">
-            <p class="eyebrow eyebrow--rule">Linhas de produto</p>
-            <h2 id="linhas-title">Seis linhas, <em>uma assinatura</em>.</h2>
-            <p class="lines__intro">
-              Do frescor do dia a dia à intensidade das noites: escolha a linha
-              e descubra as fragrâncias.
-            </p>
-          </header>
-
-          <ul class="lines__grid" role="list" data-lines>
-            <li class="line-card">
-              <div class="line-card__media">
-                <picture>
-                  <source
-                    type="image/avif"
-                    srcset="./src/assets/img/linhas/masculino-480.avif 480w, ./src/assets/img/linhas/masculino-800.avif 800w, ./src/assets/img/linhas/masculino-1200.avif 1200w"
-                    sizes="(min-width: 64em) 30vw, (min-width: 48em) 45vw, 78vw"
-                  />
-                  <img
-                    class="line-card__image"
-                    src="./src/assets/img/linhas/masculino-800.webp"
-                    srcset="./src/assets/img/linhas/masculino-480.webp 480w, ./src/assets/img/linhas/masculino-800.webp 800w, ./src/assets/img/linhas/masculino-1200.webp 1200w"
-                    sizes="(min-width: 64em) 30vw, (min-width: 48em) 45vw, 78vw"
-                    width="800"
-                    height="1000"
-                    alt="Frasco quadrado de vidro com perfume âmbar escuro e tampa dourada, sobre fundo preto"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </picture>
-              </div>
-              <div class="line-card__body">
-                <h3 class="line-card__title">
-                  <a class="line-card__link" href="#colecao" data-category="masculino">Masculino<span class="sr-only">: ver fragrâncias</span></a>
-                </h3>
-                <p class="line-card__desc">Amadeirados, aromáticos e especiados: presença com elegância.</p>
-                <span class="line-card__cta" aria-hidden="true">Ver fragrâncias <span class="line-card__arrow">→</span></span>
-              </div>
-            </li>
-
-            <li class="line-card">
-              <div class="line-card__media">
-                <picture>
-                  <source
-                    type="image/avif"
-                    srcset="./src/assets/img/linhas/feminino-480.avif 480w, ./src/assets/img/linhas/feminino-800.avif 800w, ./src/assets/img/linhas/feminino-1200.avif 1200w"
-                    sizes="(min-width: 64em) 30vw, (min-width: 48em) 45vw, 78vw"
-                  />
-                  <img
-                    class="line-card__image"
-                    src="./src/assets/img/linhas/feminino-800.webp"
-                    srcset="./src/assets/img/linhas/feminino-480.webp 480w, ./src/assets/img/linhas/feminino-800.webp 800w, ./src/assets/img/linhas/feminino-1200.webp 1200w"
-                    sizes="(min-width: 64em) 30vw, (min-width: 48em) 45vw, 78vw"
-                    width="800"
-                    height="1000"
-                    alt="Frasco de cantos suaves com perfume rosado e tampa dourada, sobre fundo preto"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </picture>
-              </div>
-              <div class="line-card__body">
-                <h3 class="line-card__title">
-                  <a class="line-card__link" href="#colecao" data-category="feminino">Feminino<span class="sr-only">: ver fragrâncias</span></a>
-                </h3>
-                <p class="line-card__desc">Florais, frutados e gourmands de assinatura delicada e marcante.</p>
-                <span class="line-card__cta" aria-hidden="true">Ver fragrâncias <span class="line-card__arrow">→</span></span>
-              </div>
-            </li>
-
-            <li class="line-card">
-              <div class="line-card__media">
-                <picture>
-                  <source
-                    type="image/avif"
-                    srcset="./src/assets/img/linhas/nicho-480.avif 480w, ./src/assets/img/linhas/nicho-800.avif 800w, ./src/assets/img/linhas/nicho-1200.avif 1200w"
-                    sizes="(min-width: 64em) 30vw, (min-width: 48em) 45vw, 78vw"
-                  />
-                  <img
-                    class="line-card__image"
-                    src="./src/assets/img/linhas/nicho-800.webp"
-                    srcset="./src/assets/img/linhas/nicho-480.webp 480w, ./src/assets/img/linhas/nicho-800.webp 800w, ./src/assets/img/linhas/nicho-1200.webp 1200w"
-                    sizes="(min-width: 64em) 30vw, (min-width: 48em) 45vw, 78vw"
-                    width="800"
-                    height="1000"
-                    alt="Frasco de vidro fumê quase negro com tampa dourada, sobre fundo preto"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </picture>
-              </div>
-              <div class="line-card__body">
-                <h3 class="line-card__title">
-                  <a class="line-card__link" href="#colecao" data-category="nicho">Nicho<span class="sr-only">: ver fragrâncias</span></a>
-                </h3>
-                <p class="line-card__desc">Composições autorais e inesperadas, para quem busca singularidade.</p>
-                <span class="line-card__cta" aria-hidden="true">Ver fragrâncias <span class="line-card__arrow">→</span></span>
-              </div>
-            </li>
-
-            <li class="line-card">
-              <div class="line-card__media">
-                <picture>
-                  <source
-                    type="image/avif"
-                    srcset="./src/assets/img/linhas/arabe-480.avif 480w, ./src/assets/img/linhas/arabe-800.avif 800w, ./src/assets/img/linhas/arabe-1200.avif 1200w"
-                    sizes="(min-width: 64em) 30vw, (min-width: 48em) 45vw, 78vw"
-                  />
-                  <img
-                    class="line-card__image"
-                    src="./src/assets/img/linhas/arabe-800.webp"
-                    srcset="./src/assets/img/linhas/arabe-480.webp 480w, ./src/assets/img/linhas/arabe-800.webp 800w, ./src/assets/img/linhas/arabe-1200.webp 1200w"
-                    sizes="(min-width: 64em) 30vw, (min-width: 48em) 45vw, 78vw"
-                    width="800"
-                    height="1000"
-                    alt="Frasco redondo dourado com tampa alta e esguia, sobre fundo preto"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </picture>
-              </div>
-              <div class="line-card__body">
-                <h3 class="line-card__title">
-                  <a class="line-card__link" href="#colecao" data-category="arabe">Árabe<span class="sr-only">: ver fragrâncias</span></a>
-                </h3>
-                <p class="line-card__desc">Oud, âmbar e resinas: intensidade e fixação de tradição oriental.</p>
-                <span class="line-card__cta" aria-hidden="true">Ver fragrâncias <span class="line-card__arrow">→</span></span>
-              </div>
-            </li>
-
-            <li class="line-card">
-              <div class="line-card__media">
-                <picture>
-                  <source
-                    type="image/avif"
-                    srcset="./src/assets/img/linhas/capilar-480.avif 480w, ./src/assets/img/linhas/capilar-800.avif 800w, ./src/assets/img/linhas/capilar-1200.avif 1200w"
-                    sizes="(min-width: 64em) 30vw, (min-width: 48em) 45vw, 78vw"
-                  />
-                  <img
-                    class="line-card__image"
-                    src="./src/assets/img/linhas/capilar-800.webp"
-                    srcset="./src/assets/img/linhas/capilar-480.webp 480w, ./src/assets/img/linhas/capilar-800.webp 800w, ./src/assets/img/linhas/capilar-1200.webp 1200w"
-                    sizes="(min-width: 64em) 30vw, (min-width: 48em) 45vw, 78vw"
-                    width="800"
-                    height="1000"
-                    alt="Frasco cilíndrico alto com válvula spray, sobre fundo preto"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </picture>
-              </div>
-              <div class="line-card__body">
-                <h3 class="line-card__title">
-                  <a class="line-card__link" href="#colecao" data-category="capilar">Capilar<span class="sr-only">: ver fragrâncias</span></a>
-                </h3>
-                <p class="line-card__desc">Brumas perfumadas que deixam um rastro suave a cada movimento.</p>
-                <span class="line-card__cta" aria-hidden="true">Ver fragrâncias <span class="line-card__arrow">→</span></span>
-              </div>
-            </li>
-
-            <li class="line-card">
-              <div class="line-card__media">
-                <picture>
-                  <source
-                    type="image/avif"
-                    srcset="./src/assets/img/linhas/oleo-corporal-480.avif 480w, ./src/assets/img/linhas/oleo-corporal-800.avif 800w, ./src/assets/img/linhas/oleo-corporal-1200.avif 1200w"
-                    sizes="(min-width: 64em) 30vw, (min-width: 48em) 45vw, 78vw"
-                  />
-                  <img
-                    class="line-card__image"
-                    src="./src/assets/img/linhas/oleo-corporal-800.webp"
-                    srcset="./src/assets/img/linhas/oleo-corporal-480.webp 480w, ./src/assets/img/linhas/oleo-corporal-800.webp 800w, ./src/assets/img/linhas/oleo-corporal-1200.webp 1200w"
-                    sizes="(min-width: 64em) 30vw, (min-width: 48em) 45vw, 78vw"
-                    width="800"
-                    height="1000"
-                    alt="Frasco de óleo com conta-gotas e líquido dourado, sobre fundo preto"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </picture>
-              </div>
-              <div class="line-card__body">
-                <h3 class="line-card__title">
-                  <a class="line-card__link" href="#colecao" data-category="oleo-corporal">Óleo Corporal<span class="sr-only">: ver fragrâncias</span></a>
-                </h3>
-                <p class="line-card__desc">Hidratação e perfume numa textura sedosa para a pele.</p>
-                <span class="line-card__cta" aria-hidden="true">Ver fragrâncias <span class="line-card__arrow">→</span></span>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-
-      <!-- ===================================================== FAIXA (decorativa) -->
-      <!-- Repete as linhas já presentes na página: oculta para leitores de tela.
-           Duas cópias idênticas permitem o loop sem emenda (motion.css). -->
-      <div class="marquee" aria-hidden="true">
-        <div class="marquee__track">
-          <div class="marquee__group">
-            <span class="marquee__item">Masculino</span><span class="marquee__sep">·</span>
-            <span class="marquee__item">Feminino</span><span class="marquee__sep">·</span>
-            <span class="marquee__item">Nicho</span><span class="marquee__sep">·</span>
-            <span class="marquee__item">Árabe</span><span class="marquee__sep">·</span>
-            <span class="marquee__item">Capilar</span><span class="marquee__sep">·</span>
-            <span class="marquee__item">Óleo Corporal</span><span class="marquee__sep">·</span>
-            <span class="marquee__item">Masculino</span><span class="marquee__sep">·</span>
-            <span class="marquee__item">Feminino</span><span class="marquee__sep">·</span>
-            <span class="marquee__item">Nicho</span><span class="marquee__sep">·</span>
-            <span class="marquee__item">Árabe</span><span class="marquee__sep">·</span>
-            <span class="marquee__item">Capilar</span><span class="marquee__sep">·</span>
-            <span class="marquee__item">Óleo Corporal</span><span class="marquee__sep">·</span>
-          </div>
-          <div class="marquee__group">
-            <span class="marquee__item">Masculino</span><span class="marquee__sep">·</span>
-            <span class="marquee__item">Feminino</span><span class="marquee__sep">·</span>
-            <span class="marquee__item">Nicho</span><span class="marquee__sep">·</span>
-            <span class="marquee__item">Árabe</span><span class="marquee__sep">·</span>
-            <span class="marquee__item">Capilar</span><span class="marquee__sep">·</span>
-            <span class="marquee__item">Óleo Corporal</span><span class="marquee__sep">·</span>
-            <span class="marquee__item">Masculino</span><span class="marquee__sep">·</span>
-            <span class="marquee__item">Feminino</span><span class="marquee__sep">·</span>
-            <span class="marquee__item">Nicho</span><span class="marquee__sep">·</span>
-            <span class="marquee__item">Árabe</span><span class="marquee__sep">·</span>
-            <span class="marquee__item">Capilar</span><span class="marquee__sep">·</span>
-            <span class="marquee__item">Óleo Corporal</span><span class="marquee__sep">·</span>
-          </div>
-        </div>
-      </div>
-
       <!-- ===================================================== COLEÇÃO (catálogo) -->
-      <!-- Renderizado por src/js/catalog.js a partir de src/data/products.json -->
+      <!-- Abas e cards gerados no build (scripts/lib/render-sections.mjs) a partir
+           de src/data/products.json; src/js/catalog.js só alterna as abas. -->
       <section class="section section--light catalog" id="colecao" aria-labelledby="colecao-title" data-catalog>
         <div class="container">
           <header class="catalog__header">
             <h2 class="eyebrow eyebrow--rule catalog__eyebrow" id="colecao-title">A Coleção</h2>
-            <p class="catalog__count">
-              <span aria-hidden="true" data-catalog-count-visual></span>
-              <span class="sr-only" aria-live="polite" data-catalog-count></span>
-            </p>
           </header>
 
-          <div class="catalog__filters" role="group" aria-label="Filtrar por linha" data-catalog-filters></div>
-
-          <ul class="catalog__grid" role="list" data-catalog-grid></ul>
-
-          <div class="catalog__empty" data-catalog-empty hidden>
-            <p class="eyebrow">Em breve</p>
-            <p class="catalog__empty-title">
-              Novas fragrâncias da linha <em data-empty-category></em> estão a caminho.
-            </p>
-            <p class="catalog__empty-text">
-              Fale com a gente e seja avisado(a) assim que chegarem, ou explore as
-              outras linhas da coleção.
-            </p>
-            <div class="catalog__empty-actions">
-              <button class="btn btn--outline btn--on-light" type="button" data-filter-reset>
-                Ver todas as fragrâncias
-              </button>
-              <a class="btn btn--primary btn--on-light" href="https://wa.me/5587992120334" data-site-href="https://wa.me/{whatsapp.number}" target="_blank" rel="noopener noreferrer" data-empty-whatsapp>
-                Avise-me pelo WhatsApp
-              </a>
-            </div>
+          <!-- @region catalogo -->
+          <div class="catalog__tabs" role="tablist" aria-label="Linhas da coleção" data-catalog-tabs hidden>
+            <button class="catalog__tab" type="button" role="tab" id="tab-feminino" aria-selected="true" aria-controls="painel-feminino" tabindex="0" data-tab="feminino">Feminino</button>
+            <button class="catalog__tab" type="button" role="tab" id="tab-masculino" aria-selected="false" aria-controls="painel-masculino" tabindex="-1" data-tab="masculino">Masculino</button>
+            <button class="catalog__tab" type="button" role="tab" id="tab-nicho" aria-selected="false" aria-controls="painel-nicho" tabindex="-1" data-tab="nicho">Perfumes de Nicho</button>
+            <button class="catalog__tab" type="button" role="tab" id="tab-arabe" aria-selected="false" aria-controls="painel-arabe" tabindex="-1" data-tab="arabe">Árabes</button>
           </div>
 
-          <noscript>
-            <p class="catalog__noscript">
-              Para ver a coleção, ative o JavaScript ou
-              <a href="https://wa.me/5587992120334" data-site-href="https://wa.me/{whatsapp.number}" target="_blank" rel="noopener noreferrer">fale conosco pelo WhatsApp</a>.
-            </p>
-          </noscript>
+          <section class="catalog__panel" id="painel-feminino" role="tabpanel" aria-labelledby="tab-feminino" tabindex="0" data-panel="feminino">
+            <header class="catalog__panel-head">
+              <h3 class="catalog__panel-title">Feminino</h3>
+              <p class="catalog__count"><span aria-hidden="true" data-count-visual="11">11 fragrâncias</span><span class="sr-only">11 fragrâncias</span></p>
+              <p class="catalog__phrase">Florais, gourmands e orientais para todas as ocasiões.</p>
+            </header>
+            <ul class="catalog__grid" role="list">
+              <li class="product-card" data-slug="good-girl">
+                <article class="product-card__inner" aria-labelledby="pc-feminino-good-girl">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/good-girl-240.avif 240w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/good-girl-240.webp 240w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/good-girl-240.jpg" srcset="./src/assets/img/produtos/good-girl-240.jpg 240w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="240" height="300" alt="Perfume Good Girl — família Oriental Floral — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Oriental Floral</p>
+                    <h4 class="product-card__name" id="pc-feminino-good-girl">Good Girl</h4>
+                    <p class="product-card__ref">Ref.: Carolina Herrera</p>
+                    <p class="product-card__desc">Contraste entre doçura e intensidade: amêndoa e cássis abrem para flores brancas sobre um fundo de cacau e fava tonka.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Good Girl</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Good%20Girl%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Good Girl por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Good Girl (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="212-vip-woman">
+                <article class="product-card__inner" aria-labelledby="pc-feminino-212-vip-woman">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/212-vip-woman-400.avif 400w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/212-vip-woman-400.webp 400w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/212-vip-woman-400.jpg" srcset="./src/assets/img/produtos/212-vip-woman-400.jpg 400w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="400" height="500" alt="Perfume 212 VIP Woman — família Oriental Gourmand — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Oriental Gourmand</p>
+                    <h4 class="product-card__name" id="pc-feminino-212-vip-woman">212 VIP Woman</h4>
+                    <p class="product-card__ref">Ref.: Carolina Herrera</p>
+                    <p class="product-card__desc">Gourmand festivo: maracujá e rum abrem para gardênia e jasmim, finalizando em baunilha e fava tonka.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de 212 VIP Woman</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20212%20VIP%20Woman%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume 212 VIP Woman por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: 212 VIP Woman (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="libre">
+                <article class="product-card__inner" aria-labelledby="pc-feminino-libre">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/libre-400.avif 400w, ./src/assets/img/produtos/libre-800.avif 800w, ./src/assets/img/produtos/libre-1200.avif 1200w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/libre-400.webp 400w, ./src/assets/img/produtos/libre-800.webp 800w, ./src/assets/img/produtos/libre-1200.webp 1200w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/libre-400.jpg" srcset="./src/assets/img/produtos/libre-400.jpg 400w, ./src/assets/img/produtos/libre-800.jpg 800w, ./src/assets/img/produtos/libre-1200.jpg 1200w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="1200" height="1391" alt="Perfume Libre — família Floral Aromática — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Floral Aromática</p>
+                    <h4 class="product-card__name" id="pc-feminino-libre">Libre</h4>
+                    <p class="product-card__ref">Ref.: Yves Saint Laurent</p>
+                    <p class="product-card__desc">Floral aromático moderno em que lavanda e flor de laranjeira se encontram sobre baunilha de Madagascar.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Libre</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Libre%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Libre por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Libre (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="212-sexy">
+                <article class="product-card__inner" aria-labelledby="pc-feminino-212-sexy">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/212-sexy-400.avif 400w, ./src/assets/img/produtos/212-sexy-447.avif 447w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/212-sexy-400.webp 400w, ./src/assets/img/produtos/212-sexy-447.webp 447w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/212-sexy-400.jpg" srcset="./src/assets/img/produtos/212-sexy-400.jpg 400w, ./src/assets/img/produtos/212-sexy-447.jpg 447w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="447" height="447" alt="Perfume 212 Sexy — família Oriental Floral — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Oriental Floral</p>
+                    <h4 class="product-card__name" id="pc-feminino-212-sexy">212 Sexy</h4>
+                    <p class="product-card__ref">Ref.: Carolina Herrera</p>
+                    <p class="product-card__desc">Oriental floral sensual: rosa e jasmim envoltos em sândalo, âmbar e baunilha.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de 212 Sexy</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20212%20Sexy%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume 212 Sexy por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: 212 Sexy (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="paradoxe">
+                <article class="product-card__inner" aria-labelledby="pc-feminino-paradoxe">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/paradoxe-400.avif 400w, ./src/assets/img/produtos/paradoxe-500.avif 500w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/paradoxe-400.webp 400w, ./src/assets/img/produtos/paradoxe-500.webp 500w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/paradoxe-400.jpg" srcset="./src/assets/img/produtos/paradoxe-400.jpg 400w, ./src/assets/img/produtos/paradoxe-500.jpg 500w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="500" height="500" alt="Perfume Paradoxe — família Oriental Floral — 303 Parfum" data-foco="inteiro" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Oriental Floral</p>
+                    <h4 class="product-card__name" id="pc-feminino-paradoxe">Paradoxe</h4>
+                    <p class="product-card__ref">Ref.: Prada</p>
+                    <p class="product-card__desc">Floral contemporâneo: pera e cassis, coração de jasmim sambac e flor de laranjeira, fundo de âmbar e baunilha.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Paradoxe</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Paradoxe%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Paradoxe por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Paradoxe (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="scandal">
+                <article class="product-card__inner" aria-labelledby="pc-feminino-scandal">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/scandal-400.avif 400w, ./src/assets/img/produtos/scandal-800.avif 800w, ./src/assets/img/produtos/scandal-1120.avif 1120w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/scandal-400.webp 400w, ./src/assets/img/produtos/scandal-800.webp 800w, ./src/assets/img/produtos/scandal-1120.webp 1120w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/scandal-400.jpg" srcset="./src/assets/img/produtos/scandal-400.jpg 400w, ./src/assets/img/produtos/scandal-800.jpg 800w, ./src/assets/img/produtos/scandal-1120.jpg 1120w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="1120" height="1400" alt="Perfume Scandal — família Chypre Floral — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Chypre Floral</p>
+                    <h4 class="product-card__name" id="pc-feminino-scandal">Scandal</h4>
+                    <p class="product-card__ref">Ref.: Jean Paul Gaultier</p>
+                    <p class="product-card__desc">Chypre floral envolvente, com mel e gardênia sobre um fundo macio de sândalo e cashmere.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Scandal</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Scandal%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Scandal por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Scandal (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="angel">
+                <article class="product-card__inner" aria-labelledby="pc-feminino-angel">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/angel-356.avif 356w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/angel-356.webp 356w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/angel-356.jpg" srcset="./src/assets/img/produtos/angel-356.jpg 356w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="356" height="445" alt="Perfume Angel — família Oriental Gourmand — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Oriental Gourmand</p>
+                    <h4 class="product-card__name" id="pc-feminino-angel">Angel</h4>
+                    <p class="product-card__ref">Ref.: Mugler</p>
+                    <p class="product-card__desc">Gourmand icônico: coco e frutas vermelhas sobre um fundo de caramelo, chocolate e patchouli.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Angel</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Angel%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Angel por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Angel (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="la-vie-est-belle">
+                <article class="product-card__inner" aria-labelledby="pc-feminino-la-vie-est-belle">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/la-vie-est-belle-400.avif 400w, ./src/assets/img/produtos/la-vie-est-belle-800.avif 800w, ./src/assets/img/produtos/la-vie-est-belle-1000.avif 1000w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/la-vie-est-belle-400.webp 400w, ./src/assets/img/produtos/la-vie-est-belle-800.webp 800w, ./src/assets/img/produtos/la-vie-est-belle-1000.webp 1000w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/la-vie-est-belle-400.jpg" srcset="./src/assets/img/produtos/la-vie-est-belle-400.jpg 400w, ./src/assets/img/produtos/la-vie-est-belle-800.jpg 800w, ./src/assets/img/produtos/la-vie-est-belle-1000.jpg 1000w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="1000" height="1000" alt="Perfume La Vie Est Belle — família Frutal Floral — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Frutal Floral</p>
+                    <h4 class="product-card__name" id="pc-feminino-la-vie-est-belle">La Vie Est Belle</h4>
+                    <p class="product-card__ref">Ref.: Lancôme</p>
+                    <p class="product-card__desc">Frutal floral adocicado: groselha e pera, coração de íris e um fundo aconchegante de baunilha e patchouli.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de La Vie Est Belle</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20La%20Vie%20Est%20Belle%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume La Vie Est Belle por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: La Vie Est Belle (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="valaya">
+                <article class="product-card__inner" aria-labelledby="pc-feminino-valaya">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/valaya-400.avif 400w, ./src/assets/img/produtos/valaya-520.avif 520w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/valaya-400.webp 400w, ./src/assets/img/produtos/valaya-520.webp 520w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/valaya-400.jpg" srcset="./src/assets/img/produtos/valaya-400.jpg 400w, ./src/assets/img/produtos/valaya-520.jpg 520w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="520" height="520" alt="Perfume Valaya — família Floral Amadeirada Musk — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Floral Amadeirada Musk</p>
+                    <h4 class="product-card__name" id="pc-feminino-valaya">Valaya</h4>
+                    <p class="product-card__ref">Ref.: Parfums de Marly</p>
+                    <p class="product-card__desc">Floral delicado e luminoso: pêssego branco e flor de laranjeira repousando sobre musk e sândalo.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Valaya</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Valaya%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Valaya por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Valaya (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="delina">
+                <article class="product-card__inner" aria-labelledby="pc-feminino-delina">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/delina-400.avif 400w, ./src/assets/img/produtos/delina-520.avif 520w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/delina-400.webp 400w, ./src/assets/img/produtos/delina-520.webp 520w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/delina-400.jpg" srcset="./src/assets/img/produtos/delina-400.jpg 400w, ./src/assets/img/produtos/delina-520.jpg 520w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="520" height="520" alt="Perfume Delina — família Floral Amadeirada Musk — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Floral Amadeirada Musk</p>
+                    <h4 class="product-card__name" id="pc-feminino-delina">Delina</h4>
+                    <p class="product-card__ref">Ref.: Parfums de Marly</p>
+                    <p class="product-card__desc">Floral romântico de nicho: lichia e ruibarbo abrem para peônia e rosa turca, com fundo de cashmere e baunilha.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Delina</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Delina%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Delina por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Delina (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="oriental-ambar">
+                <article class="product-card__inner" aria-labelledby="pc-feminino-oriental-ambar">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/oriental-ambar-400.avif 400w, ./src/assets/img/produtos/oriental-ambar-800.avif 800w, ./src/assets/img/produtos/oriental-ambar-1200.avif 1200w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/oriental-ambar-400.webp 400w, ./src/assets/img/produtos/oriental-ambar-800.webp 800w, ./src/assets/img/produtos/oriental-ambar-1200.webp 1200w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/oriental-ambar-400.jpg" srcset="./src/assets/img/produtos/oriental-ambar-400.jpg 400w, ./src/assets/img/produtos/oriental-ambar-800.jpg 800w, ./src/assets/img/produtos/oriental-ambar-1200.jpg 1200w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="1200" height="1200" alt="Perfume Oriental Âmbar — família Oriental Âmbar — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Oriental Âmbar</p>
+                    <h4 class="product-card__name" id="pc-feminino-oriental-ambar">Oriental Âmbar</h4>
+                    <p class="product-card__ref">Ref.: Orientica Royal Amber</p>
+                    <p class="product-card__desc">Oriental luminoso: melão e abacaxi adoçados sobre um fundo amadeirado de âmbar, almíscar e baunilha.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Oriental Âmbar</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Oriental%20%C3%82mbar%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Oriental Âmbar por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Oriental Âmbar (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+            </ul>
+          </section>
+
+          <section class="catalog__panel" id="painel-masculino" role="tabpanel" aria-labelledby="tab-masculino" tabindex="0" data-panel="masculino">
+            <header class="catalog__panel-head">
+              <h3 class="catalog__panel-title">Masculino</h3>
+              <p class="catalog__count"><span aria-hidden="true" data-count-visual="14">14 fragrâncias</span><span class="sr-only">14 fragrâncias</span></p>
+              <p class="catalog__phrase">Amadeirados, aromáticos e aquáticos de presença marcante.</p>
+            </header>
+            <ul class="catalog__grid" role="list">
+              <li class="product-card" data-slug="boss-bottled-beyond">
+                <article class="product-card__inner" aria-labelledby="pc-masculino-boss-bottled-beyond">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/boss-bottled-beyond-225.avif 225w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/boss-bottled-beyond-225.webp 225w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/boss-bottled-beyond-225.jpg" srcset="./src/assets/img/produtos/boss-bottled-beyond-225.jpg 225w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="225" height="225" alt="Perfume Boss Bottled Beyond — família Oriental Especiada — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Oriental Especiada</p>
+                    <h4 class="product-card__name" id="pc-masculino-boss-bottled-beyond">Boss Bottled Beyond</h4>
+                    <p class="product-card__ref">Ref.: Hugo Boss</p>
+                    <p class="product-card__desc">Especiado e confiante: gengibre e lavanda sobre um coração de couro e noz-moscada, com fundo ambarado.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Boss Bottled Beyond</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Boss%20Bottled%20Beyond%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Boss Bottled Beyond por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Boss Bottled Beyond (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="invictus">
+                <article class="product-card__inner" aria-labelledby="pc-masculino-invictus">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/invictus-400.avif 400w, ./src/assets/img/produtos/invictus-800.avif 800w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/invictus-400.webp 400w, ./src/assets/img/produtos/invictus-800.webp 800w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/invictus-400.jpg" srcset="./src/assets/img/produtos/invictus-400.jpg 400w, ./src/assets/img/produtos/invictus-800.jpg 800w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="800" height="800" alt="Perfume Invictus — família Amadeirado Aquático — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Amadeirado Aquático</p>
+                    <h4 class="product-card__name" id="pc-masculino-invictus">Invictus</h4>
+                    <p class="product-card__ref">Ref.: Paco Rabanne</p>
+                    <p class="product-card__desc">Amadeirado aquático vibrante: yuzu e toranja, brisa marinha e folha de violeta sobre madeiras e ambergris.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Invictus</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Invictus%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Invictus por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Invictus (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="invictus-elixir">
+                <article class="product-card__inner" aria-labelledby="pc-masculino-invictus-elixir">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/invictus-elixir-400.avif 400w, ./src/assets/img/produtos/invictus-elixir-800.avif 800w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/invictus-elixir-400.webp 400w, ./src/assets/img/produtos/invictus-elixir-800.webp 800w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/invictus-elixir-400.jpg" srcset="./src/assets/img/produtos/invictus-elixir-400.jpg 400w, ./src/assets/img/produtos/invictus-elixir-800.jpg 800w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="800" height="800" alt="Perfume Invictus Elixir — família Amadeirada Aromática — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Amadeirada Aromática</p>
+                    <h4 class="product-card__name" id="pc-masculino-invictus-elixir">Invictus Elixir</h4>
+                    <p class="product-card__ref">Ref.: Paco Rabanne</p>
+                    <p class="product-card__desc">Frescor cítrico de pomelo e bergamota com coração de lavanda e pinho, encerrando em baunilha e vetiver.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Invictus Elixir</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Invictus%20Elixir%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Invictus Elixir por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Invictus Elixir (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="aventus">
+                <article class="product-card__inner" aria-labelledby="pc-masculino-aventus">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/aventus-400.avif 400w, ./src/assets/img/produtos/aventus-650.avif 650w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/aventus-400.webp 400w, ./src/assets/img/produtos/aventus-650.webp 650w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/aventus-400.jpg" srcset="./src/assets/img/produtos/aventus-400.jpg 400w, ./src/assets/img/produtos/aventus-650.jpg 650w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="650" height="650" alt="Perfume Aventus — família Amadeirada Couro — 303 Parfum" data-foco="inteiro" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Amadeirada Couro</p>
+                    <h4 class="product-card__name" id="pc-masculino-aventus">Aventus</h4>
+                    <p class="product-card__ref">Ref.: Creed</p>
+                    <p class="product-card__desc">Frutado e amadeirado: abacaxi e maçã na saída, com fundo de couro, patchouli e musgo de carvalho.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Aventus</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Aventus%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Aventus por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Aventus (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="zaad">
+                <article class="product-card__inner" aria-labelledby="pc-masculino-zaad">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/zaad-400.avif 400w, ./src/assets/img/produtos/zaad-447.avif 447w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/zaad-400.webp 400w, ./src/assets/img/produtos/zaad-447.webp 447w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/zaad-400.jpg" srcset="./src/assets/img/produtos/zaad-400.jpg 400w, ./src/assets/img/produtos/zaad-447.jpg 447w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="447" height="447" alt="Perfume Zaad — família Amadeirada Aromática — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Amadeirada Aromática</p>
+                    <h4 class="product-card__name" id="pc-masculino-zaad">Zaad</h4>
+                    <p class="product-card__ref">Ref.: O Boticário</p>
+                    <p class="product-card__desc">Aromático e elegante: zimbro e coentro sobre cedro e orquídea, com fundo de âmbar e sândalo.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Zaad</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Zaad%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Zaad por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Zaad (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="scuderia-black">
+                <article class="product-card__inner" aria-labelledby="pc-masculino-scuderia-black">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/scuderia-black-400.avif 400w, ./src/assets/img/produtos/scuderia-black-585.avif 585w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/scuderia-black-400.webp 400w, ./src/assets/img/produtos/scuderia-black-585.webp 585w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/scuderia-black-400.jpg" srcset="./src/assets/img/produtos/scuderia-black-400.jpg 400w, ./src/assets/img/produtos/scuderia-black-585.jpg 585w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="585" height="450" alt="Perfume Scuderia Black — família Aromática Fougère — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Aromática Fougère</p>
+                    <h4 class="product-card__name" id="pc-masculino-scuderia-black">Scuderia Black</h4>
+                    <p class="product-card__ref">Ref.: Ferrari</p>
+                    <p class="product-card__desc">Fougère versátil: cítricos vibrantes, coração de canela e cardamomo e fundo de cedro e baunilha.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Scuderia Black</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Scuderia%20Black%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Scuderia Black por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Scuderia Black (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="one-million-elixir">
+                <article class="product-card__inner" aria-labelledby="pc-masculino-one-million-elixir">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/one-million-elixir-400.avif 400w, ./src/assets/img/produtos/one-million-elixir-597.avif 597w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/one-million-elixir-400.webp 400w, ./src/assets/img/produtos/one-million-elixir-597.webp 597w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/one-million-elixir-400.jpg" srcset="./src/assets/img/produtos/one-million-elixir-400.jpg 400w, ./src/assets/img/produtos/one-million-elixir-597.jpg 597w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="597" height="746" alt="Perfume 1 Million Elixir — família Oriental Amadeirada — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Oriental Amadeirada</p>
+                    <h4 class="product-card__name" id="pc-masculino-one-million-elixir">1 Million Elixir</h4>
+                    <p class="product-card__ref">Ref.: Paco Rabanne</p>
+                    <p class="product-card__desc">Oriental intenso: maçã e canela abrem para rosa damascena e osmanthus sobre sândalo e fava tonka.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de 1 Million Elixir</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%201%20Million%20Elixir%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume 1 Million Elixir por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: 1 Million Elixir (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="212-vip-men">
+                <article class="product-card__inner" aria-labelledby="pc-masculino-212-vip-men">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/212-vip-men-400.avif 400w, ./src/assets/img/produtos/212-vip-men-800.avif 800w, ./src/assets/img/produtos/212-vip-men-1000.avif 1000w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/212-vip-men-400.webp 400w, ./src/assets/img/produtos/212-vip-men-800.webp 800w, ./src/assets/img/produtos/212-vip-men-1000.webp 1000w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/212-vip-men-400.jpg" srcset="./src/assets/img/produtos/212-vip-men-400.jpg 400w, ./src/assets/img/produtos/212-vip-men-800.jpg 800w, ./src/assets/img/produtos/212-vip-men-1000.jpg 1000w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="1000" height="1000" alt="Perfume 212 VIP Men — família Oriental Amadeirada — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Oriental Amadeirada</p>
+                    <h4 class="product-card__name" id="pc-masculino-212-vip-men">212 VIP Men</h4>
+                    <p class="product-card__ref">Ref.: Carolina Herrera</p>
+                    <p class="product-card__desc">Urbano e marcante: limão e pimenta, menta no coração e fundo de vetiver e cashmere.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de 212 VIP Men</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20212%20VIP%20Men%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume 212 VIP Men por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: 212 VIP Men (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="212-vip-black">
+                <article class="product-card__inner" aria-labelledby="pc-masculino-212-vip-black">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/212-vip-black-400.avif 400w, ./src/assets/img/produtos/212-vip-black-800.avif 800w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/212-vip-black-400.webp 400w, ./src/assets/img/produtos/212-vip-black-800.webp 800w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/212-vip-black-400.jpg" srcset="./src/assets/img/produtos/212-vip-black-400.jpg 400w, ./src/assets/img/produtos/212-vip-black-800.jpg 800w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="800" height="800" alt="Perfume 212 VIP Black — família Aromática Amadeirada — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Aromática Amadeirada</p>
+                    <h4 class="product-card__name" id="pc-masculino-212-vip-black">212 VIP Black</h4>
+                    <p class="product-card__ref">Ref.: Carolina Herrera</p>
+                    <p class="product-card__desc">Noturno e aromático: lavanda e pinho sobre um fundo de baunilha, vetiver e fava tonka.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de 212 VIP Black</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20212%20VIP%20Black%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume 212 VIP Black por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: 212 VIP Black (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="bleu-de-chanel">
+                <article class="product-card__inner" aria-labelledby="pc-masculino-bleu-de-chanel">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/bleu-de-chanel-400.avif 400w, ./src/assets/img/produtos/bleu-de-chanel-800.avif 800w, ./src/assets/img/produtos/bleu-de-chanel-1200.avif 1200w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/bleu-de-chanel-400.webp 400w, ./src/assets/img/produtos/bleu-de-chanel-800.webp 800w, ./src/assets/img/produtos/bleu-de-chanel-1200.webp 1200w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/bleu-de-chanel-400.jpg" srcset="./src/assets/img/produtos/bleu-de-chanel-400.jpg 400w, ./src/assets/img/produtos/bleu-de-chanel-800.jpg 800w, ./src/assets/img/produtos/bleu-de-chanel-1200.jpg 1200w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="1200" height="1200" alt="Perfume Bleu de Chanel EDP — família Amadeirada Aromática — 303 Parfum" data-foco="inteiro" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Amadeirada Aromática</p>
+                    <h4 class="product-card__name" id="pc-masculino-bleu-de-chanel">Bleu de Chanel EDP</h4>
+                    <p class="product-card__ref">Ref.: Chanel</p>
+                    <p class="product-card__desc">Amadeirado elegante: laranja e gengibre na saída, coração de menta e vetiver e fundo de cedro, sândalo e ládano.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Bleu de Chanel EDP</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Bleu%20de%20Chanel%20EDP%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Bleu de Chanel EDP por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Bleu de Chanel EDP (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="leau-dissey-pour-homme">
+                <article class="product-card__inner" aria-labelledby="pc-masculino-leau-dissey-pour-homme">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/leau-dissey-pour-homme-400.avif 400w, ./src/assets/img/produtos/leau-dissey-pour-homme-800.avif 800w, ./src/assets/img/produtos/leau-dissey-pour-homme-853.avif 853w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/leau-dissey-pour-homme-400.webp 400w, ./src/assets/img/produtos/leau-dissey-pour-homme-800.webp 800w, ./src/assets/img/produtos/leau-dissey-pour-homme-853.webp 853w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/leau-dissey-pour-homme-400.jpg" srcset="./src/assets/img/produtos/leau-dissey-pour-homme-400.jpg 400w, ./src/assets/img/produtos/leau-dissey-pour-homme-800.jpg 800w, ./src/assets/img/produtos/leau-dissey-pour-homme-853.jpg 853w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="853" height="1066" alt="Perfume L&#39;Eau d&#39;Issey Pour Homme — família Amadeirada Aquosa — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Amadeirada Aquosa</p>
+                    <h4 class="product-card__name" id="pc-masculino-leau-dissey-pour-homme">L&#39;Eau d&#39;Issey Pour Homme</h4>
+                    <p class="product-card__ref">Ref.: Issey Miyake</p>
+                    <p class="product-card__desc">Fresco e aquático: cítricos e calone abrem para flor de lótus e gerânio sobre madeiras com um toque de tabaco.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de L&#39;Eau d&#39;Issey Pour Homme</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20L&#39;Eau%20d&#39;Issey%20Pour%20Homme%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume L&#39;Eau d&#39;Issey Pour Homme por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: L&#39;Eau d&#39;Issey Pour Homme (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="vibrato">
+                <article class="product-card__inner" aria-labelledby="pc-masculino-vibrato">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/vibrato-400.avif 400w, ./src/assets/img/produtos/vibrato-800.avif 800w, ./src/assets/img/produtos/vibrato-1200.avif 1200w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/vibrato-400.webp 400w, ./src/assets/img/produtos/vibrato-800.webp 800w, ./src/assets/img/produtos/vibrato-1200.webp 1200w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/vibrato-400.jpg" srcset="./src/assets/img/produtos/vibrato-400.jpg 400w, ./src/assets/img/produtos/vibrato-800.jpg 800w, ./src/assets/img/produtos/vibrato-1200.jpg 1200w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="1200" height="1200" alt="Perfume Vibrato — família Floral Aromático — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Floral Aromático</p>
+                    <h4 class="product-card__name" id="pc-masculino-vibrato">Vibrato</h4>
+                    <p class="product-card__ref">Ref.: Sospiro</p>
+                    <p class="product-card__desc">Floral aromático de nicho: toranja e magnólia, coração herbal de gengibre e fundo de raiz de orris, âmbar e patchouli.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Vibrato</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Vibrato%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Vibrato por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Vibrato (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="le-male">
+                <article class="product-card__inner" aria-labelledby="pc-masculino-le-male">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/le-male-400.avif 400w, ./src/assets/img/produtos/le-male-535.avif 535w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/le-male-400.webp 400w, ./src/assets/img/produtos/le-male-535.webp 535w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/le-male-400.jpg" srcset="./src/assets/img/produtos/le-male-400.jpg 400w, ./src/assets/img/produtos/le-male-535.jpg 535w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="535" height="669" alt="Perfume Le Male — família Oriental Fougère — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Oriental Fougère</p>
+                    <h4 class="product-card__name" id="pc-masculino-le-male">Le Male</h4>
+                    <p class="product-card__ref">Ref.: Jean Paul Gaultier</p>
+                    <p class="product-card__desc">Fougère clássico: menta e lavanda frescas, canela e flor de laranjeira e um fundo cremoso de baunilha e fava tonka.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Le Male</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Le%20Male%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Le Male por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Le Male (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="acqua-di-gio">
+                <article class="product-card__inner" aria-labelledby="pc-masculino-acqua-di-gio">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/acqua-di-gio-225.avif 225w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/acqua-di-gio-225.webp 225w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/acqua-di-gio-225.jpg" srcset="./src/assets/img/produtos/acqua-di-gio-225.jpg 225w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="225" height="225" alt="Perfume Acqua di Giò — família Aromática Aquosa — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Aromática Aquosa</p>
+                    <h4 class="product-card__name" id="pc-masculino-acqua-di-gio">Acqua di Giò</h4>
+                    <p class="product-card__ref">Ref.: Giorgio Armani</p>
+                    <p class="product-card__desc">Aquático e luminoso: limão e notas marinhas, coração de néroli e jasmim e fundo de cedro e musgo de carvalho.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Acqua di Giò</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Acqua%20di%20Gi%C3%B2%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Acqua di Giò por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Acqua di Giò (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+            </ul>
+          </section>
+
+          <section class="catalog__panel" id="painel-nicho" role="tabpanel" aria-labelledby="tab-nicho" tabindex="0" data-panel="nicho">
+            <header class="catalog__panel-head">
+              <h3 class="catalog__panel-title">Perfumes de Nicho</h3>
+              <p class="catalog__count"><span aria-hidden="true" data-count-visual="5">5 fragrâncias</span><span class="sr-only">5 fragrâncias</span></p>
+              <p class="catalog__phrase">Composições raras, de assinatura exclusiva.</p>
+            </header>
+            <ul class="catalog__grid" role="list">
+              <li class="product-card" data-slug="valaya">
+                <article class="product-card__inner" aria-labelledby="pc-nicho-valaya">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/valaya-400.avif 400w, ./src/assets/img/produtos/valaya-520.avif 520w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/valaya-400.webp 400w, ./src/assets/img/produtos/valaya-520.webp 520w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/valaya-400.jpg" srcset="./src/assets/img/produtos/valaya-400.jpg 400w, ./src/assets/img/produtos/valaya-520.jpg 520w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="520" height="520" alt="Perfume Valaya — família Floral Amadeirada Musk — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Floral Amadeirada Musk</p>
+                    <h4 class="product-card__name" id="pc-nicho-valaya">Valaya</h4>
+                    <p class="product-card__ref">Ref.: Parfums de Marly</p>
+                    <p class="product-card__desc">Floral delicado e luminoso: pêssego branco e flor de laranjeira repousando sobre musk e sândalo.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Valaya</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Valaya%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Valaya por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Valaya (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="delina">
+                <article class="product-card__inner" aria-labelledby="pc-nicho-delina">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/delina-400.avif 400w, ./src/assets/img/produtos/delina-520.avif 520w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/delina-400.webp 400w, ./src/assets/img/produtos/delina-520.webp 520w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/delina-400.jpg" srcset="./src/assets/img/produtos/delina-400.jpg 400w, ./src/assets/img/produtos/delina-520.jpg 520w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="520" height="520" alt="Perfume Delina — família Floral Amadeirada Musk — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Floral Amadeirada Musk</p>
+                    <h4 class="product-card__name" id="pc-nicho-delina">Delina</h4>
+                    <p class="product-card__ref">Ref.: Parfums de Marly</p>
+                    <p class="product-card__desc">Floral romântico de nicho: lichia e ruibarbo abrem para peônia e rosa turca, com fundo de cashmere e baunilha.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Delina</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Delina%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Delina por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Delina (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="oriental-ambar">
+                <article class="product-card__inner" aria-labelledby="pc-nicho-oriental-ambar">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/oriental-ambar-400.avif 400w, ./src/assets/img/produtos/oriental-ambar-800.avif 800w, ./src/assets/img/produtos/oriental-ambar-1200.avif 1200w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/oriental-ambar-400.webp 400w, ./src/assets/img/produtos/oriental-ambar-800.webp 800w, ./src/assets/img/produtos/oriental-ambar-1200.webp 1200w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/oriental-ambar-400.jpg" srcset="./src/assets/img/produtos/oriental-ambar-400.jpg 400w, ./src/assets/img/produtos/oriental-ambar-800.jpg 800w, ./src/assets/img/produtos/oriental-ambar-1200.jpg 1200w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="1200" height="1200" alt="Perfume Oriental Âmbar — família Oriental Âmbar — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Oriental Âmbar</p>
+                    <h4 class="product-card__name" id="pc-nicho-oriental-ambar">Oriental Âmbar</h4>
+                    <p class="product-card__ref">Ref.: Orientica Royal Amber</p>
+                    <p class="product-card__desc">Oriental luminoso: melão e abacaxi adoçados sobre um fundo amadeirado de âmbar, almíscar e baunilha.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Oriental Âmbar</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Oriental%20%C3%82mbar%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Oriental Âmbar por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Oriental Âmbar (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="aventus">
+                <article class="product-card__inner" aria-labelledby="pc-nicho-aventus">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/aventus-400.avif 400w, ./src/assets/img/produtos/aventus-650.avif 650w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/aventus-400.webp 400w, ./src/assets/img/produtos/aventus-650.webp 650w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/aventus-400.jpg" srcset="./src/assets/img/produtos/aventus-400.jpg 400w, ./src/assets/img/produtos/aventus-650.jpg 650w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="650" height="650" alt="Perfume Aventus — família Amadeirada Couro — 303 Parfum" data-foco="inteiro" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Amadeirada Couro</p>
+                    <h4 class="product-card__name" id="pc-nicho-aventus">Aventus</h4>
+                    <p class="product-card__ref">Ref.: Creed</p>
+                    <p class="product-card__desc">Frutado e amadeirado: abacaxi e maçã na saída, com fundo de couro, patchouli e musgo de carvalho.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Aventus</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Aventus%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Aventus por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Aventus (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="vibrato">
+                <article class="product-card__inner" aria-labelledby="pc-nicho-vibrato">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/vibrato-400.avif 400w, ./src/assets/img/produtos/vibrato-800.avif 800w, ./src/assets/img/produtos/vibrato-1200.avif 1200w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/vibrato-400.webp 400w, ./src/assets/img/produtos/vibrato-800.webp 800w, ./src/assets/img/produtos/vibrato-1200.webp 1200w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/vibrato-400.jpg" srcset="./src/assets/img/produtos/vibrato-400.jpg 400w, ./src/assets/img/produtos/vibrato-800.jpg 800w, ./src/assets/img/produtos/vibrato-1200.jpg 1200w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="1200" height="1200" alt="Perfume Vibrato — família Floral Aromático — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Floral Aromático</p>
+                    <h4 class="product-card__name" id="pc-nicho-vibrato">Vibrato</h4>
+                    <p class="product-card__ref">Ref.: Sospiro</p>
+                    <p class="product-card__desc">Floral aromático de nicho: toranja e magnólia, coração herbal de gengibre e fundo de raiz de orris, âmbar e patchouli.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Vibrato</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Vibrato%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Vibrato por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Vibrato (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+            </ul>
+          </section>
+
+          <section class="catalog__panel" id="painel-arabe" role="tabpanel" aria-labelledby="tab-arabe" tabindex="0" data-panel="arabe">
+            <header class="catalog__panel-head">
+              <h3 class="catalog__panel-title">Árabes</h3>
+              <p class="catalog__count"><span aria-hidden="true" data-count-visual="4">4 fragrâncias</span><span class="sr-only">4 fragrâncias</span></p>
+              <p class="catalog__phrase">Intensidade, riqueza de notas e fixação prolongada.</p>
+            </header>
+            <ul class="catalog__grid" role="list">
+              <li class="product-card" data-slug="delina">
+                <article class="product-card__inner" aria-labelledby="pc-arabe-delina">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/delina-400.avif 400w, ./src/assets/img/produtos/delina-520.avif 520w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/delina-400.webp 400w, ./src/assets/img/produtos/delina-520.webp 520w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/delina-400.jpg" srcset="./src/assets/img/produtos/delina-400.jpg 400w, ./src/assets/img/produtos/delina-520.jpg 520w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="520" height="520" alt="Perfume Delina — família Floral Amadeirada Musk — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Floral Amadeirada Musk</p>
+                    <h4 class="product-card__name" id="pc-arabe-delina">Delina</h4>
+                    <p class="product-card__ref">Ref.: Parfums de Marly</p>
+                    <p class="product-card__desc">Floral romântico de nicho: lichia e ruibarbo abrem para peônia e rosa turca, com fundo de cashmere e baunilha.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Delina</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Delina%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Delina por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Delina (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="oriental-ambar">
+                <article class="product-card__inner" aria-labelledby="pc-arabe-oriental-ambar">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/oriental-ambar-400.avif 400w, ./src/assets/img/produtos/oriental-ambar-800.avif 800w, ./src/assets/img/produtos/oriental-ambar-1200.avif 1200w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/oriental-ambar-400.webp 400w, ./src/assets/img/produtos/oriental-ambar-800.webp 800w, ./src/assets/img/produtos/oriental-ambar-1200.webp 1200w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/oriental-ambar-400.jpg" srcset="./src/assets/img/produtos/oriental-ambar-400.jpg 400w, ./src/assets/img/produtos/oriental-ambar-800.jpg 800w, ./src/assets/img/produtos/oriental-ambar-1200.jpg 1200w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="1200" height="1200" alt="Perfume Oriental Âmbar — família Oriental Âmbar — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Oriental Âmbar</p>
+                    <h4 class="product-card__name" id="pc-arabe-oriental-ambar">Oriental Âmbar</h4>
+                    <p class="product-card__ref">Ref.: Orientica Royal Amber</p>
+                    <p class="product-card__desc">Oriental luminoso: melão e abacaxi adoçados sobre um fundo amadeirado de âmbar, almíscar e baunilha.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Oriental Âmbar</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Oriental%20%C3%82mbar%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Oriental Âmbar por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Oriental Âmbar (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="aventus">
+                <article class="product-card__inner" aria-labelledby="pc-arabe-aventus">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/aventus-400.avif 400w, ./src/assets/img/produtos/aventus-650.avif 650w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/aventus-400.webp 400w, ./src/assets/img/produtos/aventus-650.webp 650w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/aventus-400.jpg" srcset="./src/assets/img/produtos/aventus-400.jpg 400w, ./src/assets/img/produtos/aventus-650.jpg 650w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="650" height="650" alt="Perfume Aventus — família Amadeirada Couro — 303 Parfum" data-foco="inteiro" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Amadeirada Couro</p>
+                    <h4 class="product-card__name" id="pc-arabe-aventus">Aventus</h4>
+                    <p class="product-card__ref">Ref.: Creed</p>
+                    <p class="product-card__desc">Frutado e amadeirado: abacaxi e maçã na saída, com fundo de couro, patchouli e musgo de carvalho.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de Aventus</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%20Aventus%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume Aventus por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: Aventus (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li class="product-card" data-slug="one-million-elixir">
+                <article class="product-card__inner" aria-labelledby="pc-arabe-one-million-elixir">
+                  <div class="product-card__media">
+                    <picture>
+                      <source type="image/avif" srcset="./src/assets/img/produtos/one-million-elixir-400.avif 400w, ./src/assets/img/produtos/one-million-elixir-597.avif 597w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <source type="image/webp" srcset="./src/assets/img/produtos/one-million-elixir-400.webp 400w, ./src/assets/img/produtos/one-million-elixir-597.webp 597w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" />
+                      <img class="product-card__image" src="./src/assets/img/produtos/one-million-elixir-400.jpg" srcset="./src/assets/img/produtos/one-million-elixir-400.jpg 400w, ./src/assets/img/produtos/one-million-elixir-597.jpg 597w" sizes="(min-width: 80em) 19rem, (min-width: 64em) 31vw, 48vw" width="597" height="746" alt="Perfume 1 Million Elixir — família Oriental Amadeirada — 303 Parfum" loading="lazy" decoding="async" />
+                    </picture>
+                    <span class="product-card__badge">Promoção</span>
+                  </div>
+                  <div class="product-card__body">
+                    <p class="product-card__family">Oriental Amadeirada</p>
+                    <h4 class="product-card__name" id="pc-arabe-one-million-elixir">1 Million Elixir</h4>
+                    <p class="product-card__ref">Ref.: Paco Rabanne</p>
+                    <p class="product-card__desc">Oriental intenso: maçã e canela abrem para rosa damascena e osmanthus sobre sândalo e fava tonka.</p>
+                    <p class="price product-card__price">
+                      <span class="sr-only">Preço: de 250 reais por 199 reais e 90 centavos</span>
+                      <s class="price__from" aria-hidden="true">R$ 250,00</s>
+                      <span class="price__to" aria-hidden="true">R$ 199,90</span>
+                    </p>
+                    <div class="product-card__actions">
+                      <button class="btn btn--outline btn--on-dark btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"> de 1 Million Elixir</span></button>
+                      <a class="btn btn--primary btn--sm product-card__btn" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Tenho%20interesse%20no%20perfume%201%20Million%20Elixir%20por%20R%24%20199%2C90." data-whatsapp data-whatsapp-message="Olá! Tenho interesse no perfume 1 Million Elixir por R$ 199,90." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp<span class="sr-only">: 1 Million Elixir (abre em nova aba)</span></a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+            </ul>
+          </section>
+          <!-- @endregion catalogo -->
         </div>
 
-        <!-- Card de produto: clonado e preenchido via textContent (nunca innerHTML) -->
-        <template id="tpl-product-card">
-          <li class="product-card">
-            <article class="product-card__inner">
-              <div class="product-card__media">
-                <picture>
-                  <source type="image/avif" />
-                  <img class="product-card__image" src="" alt="" width="800" height="1000" loading="lazy" decoding="async" />
-                </picture>
-                <span class="product-card__badge" hidden>Destaque</span>
-                <div class="product-card__notes">
-                  <p class="product-card__notes-title">Notas</p>
-                  <dl class="product-card__notes-list">
-                    <div class="product-card__notes-row" data-tier="topo"><dt></dt><dd></dd></div>
-                    <div class="product-card__notes-row" data-tier="coracao"><dt></dt><dd></dd></div>
-                    <div class="product-card__notes-row" data-tier="fundo"><dt></dt><dd></dd></div>
-                  </dl>
-                </div>
-              </div>
-              <div class="product-card__body">
-                <p class="product-card__category"></p>
-                <h3 class="product-card__name"></h3>
-                <p class="product-card__meta"></p>
-                <p class="product-card__price" hidden></p>
-                <div class="product-card__actions">
-                  <button class="btn btn--outline btn--on-light btn--sm product-card__btn" type="button" aria-haspopup="dialog" data-action="details">Detalhes<span class="sr-only"></span></button>
-                  <a class="btn btn--primary btn--on-light btn--sm product-card__btn product-card__btn--wa" href="https://wa.me/5587992120334" data-site-href="https://wa.me/{whatsapp.number}" target="_blank" rel="noopener noreferrer" data-action="whatsapp">Pedir no WhatsApp<span class="sr-only"></span></a>
-                </div>
-              </div>
-            </article>
-          </li>
-        </template>
-
-        <!-- Modal de detalhes -->
+        <!-- Modal de detalhes: preenchido via textContent (nunca innerHTML) -->
         <dialog class="product-modal" aria-labelledby="product-modal-title" data-product-modal>
           <div class="product-modal__inner">
             <button class="product-modal__close" type="button" autofocus data-modal-close>
@@ -542,47 +1162,35 @@
               <span class="product-modal__close-icon" aria-hidden="true"></span>
             </button>
 
-            <div class="product-modal__media">
-              <picture>
-                <source type="image/avif" />
-                <img class="product-modal__image" alt="" width="800" height="1000" decoding="async" />
-              </picture>
-              <span class="product-card__badge" hidden data-modal-badge>Destaque</span>
-            </div>
+            <div class="product-modal__media" data-modal-media></div>
 
             <div class="product-modal__content">
-              <p class="eyebrow" data-modal-category></p>
               <h2 class="product-modal__title" id="product-modal-title" data-modal-name></h2>
+              <p class="product-modal__ref" data-modal-ref></p>
+              <p class="eyebrow product-modal__family" data-modal-family></p>
               <p class="product-modal__desc" data-modal-desc></p>
+
+              <p class="price product-modal__price" data-modal-price hidden>
+                <span class="sr-only" data-price-spoken></span>
+                <s class="price__from" aria-hidden="true" data-price-from></s>
+                <span class="price__to" aria-hidden="true" data-price-to></span>
+              </p>
 
               <section class="pyramid" aria-labelledby="pyramid-title" data-modal-pyramid>
                 <h3 class="pyramid__title" id="pyramid-title">Pirâmide olfativa</h3>
-                <div class="pyramid__body">
-                  <svg class="pyramid__shape" viewBox="0 0 120 300" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-                    <path d="M60 2 L118 298 L2 298 Z" />
-                    <line x1="40.4" y1="100" x2="79.6" y2="100" />
-                    <line x1="21" y1="200" x2="99" y2="200" />
-                  </svg>
-                  <dl class="pyramid__tiers">
-                    <div class="pyramid__tier" data-tier="topo"><dt></dt><dd></dd></div>
-                    <div class="pyramid__tier" data-tier="coracao"><dt></dt><dd></dd></div>
-                    <div class="pyramid__tier" data-tier="fundo"><dt></dt><dd></dd></div>
-                  </dl>
-                </div>
+                <dl class="pyramid__tiers">
+                  <div class="pyramid__tier" data-tier="topo"><dt></dt><dd></dd></div>
+                  <div class="pyramid__tier" data-tier="corpo"><dt></dt><dd></dd></div>
+                  <div class="pyramid__tier" data-tier="fundo"><dt></dt><dd></dd></div>
+                </dl>
               </section>
 
-              <dl class="product-modal__specs">
-                <div data-spec="family"><dt>Família olfativa</dt><dd></dd></div>
-                <div data-spec="volume"><dt>Volume</dt><dd></dd></div>
-                <div data-spec="price" hidden><dt>Preço</dt><dd></dd></div>
-              </dl>
-
               <div class="product-modal__actions">
-                <a class="btn btn--primary btn--on-light" href="https://wa.me/5587992120334" data-site-href="https://wa.me/{whatsapp.number}" target="_blank" rel="noopener noreferrer" data-modal-whatsapp>
+                <a class="btn btn--primary" href="https://wa.me/5587992120334" data-site-href="https://wa.me/{whatsapp.number}" target="_blank" rel="noopener noreferrer" data-modal-whatsapp>
                   Pedir no WhatsApp<span class="sr-only"> (abre em nova aba)</span>
                 </a>
-                <a class="btn btn--outline btn--on-light" href="https://wa.me/5587992120334" data-site-href="https://wa.me/{whatsapp.number}" target="_blank" rel="noopener noreferrer" data-modal-resell>
-                  Quero revender este perfume<span class="sr-only"> (abre em nova aba)</span>
+                <a class="btn btn--outline btn--on-dark" href="https://wa.me/5587992120334" data-site-href="https://wa.me/{whatsapp.number}" target="_blank" rel="noopener noreferrer" data-modal-resell>
+                  Quero revender<span class="sr-only"> este perfume (abre em nova aba)</span>
                 </a>
               </div>
             </div>
@@ -621,21 +1229,21 @@
           </header>
 
           <!-- 3. Como funciona -->
-          <div class="resell__block">
-            <h3 class="resell__block-title">Como <em>funciona</em>.</h3>
+          <div class="resell__block resell__block--steps">
+            <h3 class="resell__block-title">Como <em>funciona</em>?</h3>
             <ol class="steps" role="list">
               <li class="step">
-                <span class="step__number" aria-hidden="true">01</span>
+                <span class="step__number" aria-hidden="true"><span class="step__digits">01</span></span>
                 <h4 class="step__title">Cadastro</h4>
                 <p class="step__text">Preencha o formulário abaixo com seus dados. É rápido e sem compromisso.</p>
               </li>
               <li class="step">
-                <span class="step__number" aria-hidden="true">02</span>
+                <span class="step__number" aria-hidden="true"><span class="step__digits">02</span></span>
                 <h4 class="step__title">Escolha seu kit</h4>
                 <p class="step__text">Nossa equipe fala com você pelo WhatsApp, apresenta as opções e tira suas dúvidas.</p>
               </li>
               <li class="step">
-                <span class="step__number" aria-hidden="true">03</span>
+                <span class="step__number" aria-hidden="true"><span class="step__digits">03</span></span>
                 <h4 class="step__title">Comece a vender</h4>
                 <p class="step__text">Receba seus perfumes e venda com confiança, com o nosso suporte por perto.</p>
               </li>
@@ -644,7 +1252,7 @@
 
           <!-- 4. Benefícios -->
           <div class="resell__block">
-            <h3 class="resell__block-title">Por que <em>vender 303</em>.</h3>
+            <h3 class="resell__block-title">Por que <em>vender 303</em>?</h3>
             <ul class="benefits" role="list">
               <li class="benefit">
                 <svg class="benefit__icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
@@ -855,7 +1463,7 @@
                 <span class="faq__icon" aria-hidden="true"></span>
               </summary>
               <div class="faq__answer">
-                <p>Atendemos em Recife e em Garanhuns, em Pernambuco. Para outras cidades, fale com a gente pelo WhatsApp e verificamos as possibilidades. [CONFIRMAR COM A CLIENTE: envio para outras cidades]</p>
+                <p>Atendemos em Recife e em Garanhuns, em Pernambuco. Para outras cidades, fale com a gente pelo WhatsApp.</p>
               </div>
             </details>
             <details class="faq__item" id="faq-pagamento">
@@ -864,7 +1472,7 @@
                 <span class="faq__icon" aria-hidden="true"></span>
               </summary>
               <div class="faq__answer">
-                <p>[CONFIRMAR COM A CLIENTE] Ex.: Pix, cartão de crédito e débito, dinheiro.</p>
+                <p>Aceitamos cartão de crédito, cartão de débito e Pix.</p>
               </div>
             </details>
             <details class="faq__item" id="faq-entrega">
@@ -873,7 +1481,7 @@
                 <span class="faq__icon" aria-hidden="true"></span>
               </summary>
               <div class="faq__answer">
-                <p>[CONFIRMAR COM A CLIENTE] Prazos para Recife, Garanhuns e demais cidades, e se há opção de retirada.</p>
+                <p>O prazo de entrega é de 5 a 7 dias.</p>
               </div>
             </details>
             <details class="faq__item" id="faq-nicho-arabe-capilar">
@@ -907,8 +1515,8 @@
               <div class="contact__item">
                 <dt>Endereços</dt>
                 <dd>
-                  <span class="contact__city">Recife</span> [CONFIRMAR COM A CLIENTE: endereço]<br />
-                  <span class="contact__city">Garanhuns</span> [CONFIRMAR COM A CLIENTE: endereço]
+                  <span class="contact__city">Recife</span> Rua Teixeira de Freitas, 135 — Várzea, Recife - PE<br />
+                  <span class="contact__city">Garanhuns</span> Rua Ary Barroso, 135 — Magano, Garanhuns - PE
                 </dd>
               </div>
               <div class="contact__item">
@@ -920,12 +1528,12 @@
               <div class="contact__item">
                 <dt>E-mail</dt>
                 <dd>
-                  <a class="contact__link link-underline" href="mailto:contato@303parfum.com.br">contato@303parfum.com.br</a>
+                  <a class="contact__link link-underline" href="mailto:larissa.ifpe4@gmail.com">larissa.ifpe4@gmail.com</a>
                 </dd>
               </div>
               <div class="contact__item">
                 <dt>Horário</dt>
-                <dd>[CONFIRMAR COM A CLIENTE] Seg. a sex., 9h às 18h · Sáb., 9h às 13h</dd>
+                <dd>Seg. a sex., 9h às 18h · Sáb., 9h às 13h</dd>
               </div>
               <div class="contact__item">
                 <dt>Regiões atendidas</dt>
@@ -954,7 +1562,7 @@
                     <svg class="map__pin" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
                       <path d="M16 29s-9-8.2-9-15a9 9 0 0 1 18 0c0 6.8-9 15-9 15z" /><circle cx="16" cy="14" r="3.5" />
                     </svg>
-                    <p class="map__label" data-map-label>Recife, PE</p>
+                    <p class="map__label" data-map-label data-site="places.recife.address">Rua Teixeira de Freitas, 135 — Várzea, Recife - PE</p>
                     <button class="btn btn--primary btn--on-dark btn--sm" type="button" data-map-load>
                       Ver no mapa<span class="sr-only" data-map-load-sr>: Recife</span>
                     </button>
@@ -965,7 +1573,7 @@
                 </div>
               </div>
 
-              <a class="map__external link-underline link-underline--persistent" href="https://www.google.com/maps/search/?api=1&amp;query=Recife%2C%20PE" target="_blank" rel="noopener noreferrer" data-map-external>
+              <a class="map__external link-underline link-underline--persistent" href="https://www.google.com/maps/search/?api=1&amp;query=Rua%20Teixeira%20de%20Freitas%2C%20135%2C%20V%C3%A1rzea%2C%20Recife%20-%20PE" target="_blank" rel="noopener noreferrer" data-map-external>
                 Abrir no Google Maps<span class="sr-only"> (abre em nova aba)</span>
               </a>
             </div>
@@ -1061,39 +1669,51 @@
     <!-- @region footer -->
     <!-- ===================================================== FOOTER (src/partials/footer.html) -->
     <!-- Links absolutos ("/#…") para funcionar também na política e no 404 -->
+    <!-- Gradiente dourado reutilizável dos ícones SVG: fill/stroke="url(#gold)" (gold.css) -->
+    <svg class="svg-defs" width="0" height="0" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#8c6b2e" />
+          <stop offset="0.22" stop-color="#c9a13b" />
+          <stop offset="0.48" stop-color="#f3e2a4" />
+          <stop offset="0.7" stop-color="#d4af37" />
+          <stop offset="1" stop-color="#8c6b2e" />
+        </linearGradient>
+      </defs>
+    </svg>
     <footer class="site-footer">
       <div class="container site-footer__inner">
         <div class="site-footer__top">
           <div class="site-footer__brand">
-            <a class="wordmark wordmark--lg" href="/#inicio" aria-label="303 Parfum — início">
-              <span class="wordmark__number" aria-hidden="true">303</span>
-              <span class="wordmark__rule" aria-hidden="true"></span>
-              <span class="wordmark__name" aria-hidden="true">Parfum</span>
+            <a class="site-footer__logo" href="/#inicio">
+              <picture>
+                <source type="image/webp" srcset="./src/assets/img/brand/logo-1x.webp 1x, ./src/assets/img/brand/logo-2x.webp 2x" />
+                <img class="brand-logo" src="./src/assets/img/brand/logo-1x.png" srcset="./src/assets/img/brand/logo-1x.png 1x, ./src/assets/img/brand/logo-2x.png 2x" width="234" height="48" alt="303 Parfum" loading="lazy" decoding="async" />
+              </picture>
             </a>
             <p class="site-footer__tagline">Alta perfumaria. <em>Preço justo.</em></p>
           </div>
 
           <nav class="site-footer__nav" aria-label="Rodapé">
             <div class="site-footer__col">
-              <h2 class="site-footer__heading">Navegação</h2>
+              <h2 class="site-footer__heading">Coleção</h2>
               <ul class="site-footer__list" role="list">
-                <li><a class="site-footer__link" href="/#colecao">Coleção</a></li>
-                <li><a class="site-footer__link" href="/#sobre">Sobre</a></li>
-                <li><a class="site-footer__link" href="/#revenda">Revenda</a></li>
-                <li><a class="site-footer__link" href="/#faq">FAQ</a></li>
-                <li><a class="site-footer__link" href="/#contato">Contato</a></li>
+                <li><a class="site-footer__link" href="/?linha=feminino#colecao" data-tab-link="feminino">Perfumes Femininos</a></li>
+                <li><a class="site-footer__link" href="/?linha=masculino#colecao" data-tab-link="masculino">Perfumes Masculinos</a></li>
+                <li><a class="site-footer__link" href="/?linha=arabe#colecao" data-tab-link="arabe">Perfumes Árabes</a></li>
+                <li><a class="site-footer__link" href="/?linha=nicho#colecao" data-tab-link="nicho">Perfumes de Nicho</a></li>
+                <li><a class="site-footer__link" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Quero%20conhecer%20os%20perfumes%20capilares%20da%20303%20Parfum." data-whatsapp data-whatsapp-message="Olá! Quero conhecer os perfumes capilares da 303 Parfum." target="_blank" rel="noopener noreferrer">Perfumes Capilares<span class="sr-only"> (WhatsApp, abre em nova aba)</span></a></li>
+                <li><a class="site-footer__link" href="https://wa.me/5587992120334?text=Ol%C3%A1!%20Quero%20conhecer%20os%20%C3%B3leos%20corporais%20da%20303%20Parfum." data-whatsapp data-whatsapp-message="Olá! Quero conhecer os óleos corporais da 303 Parfum." target="_blank" rel="noopener noreferrer">Óleos Corporais<span class="sr-only"> (WhatsApp, abre em nova aba)</span></a></li>
               </ul>
             </div>
 
             <div class="site-footer__col">
-              <h2 class="site-footer__heading">Linhas de produto</h2>
+              <h2 class="site-footer__heading">Navegação</h2>
               <ul class="site-footer__list" role="list">
-                <li><a class="site-footer__link" href="/?linha=masculino#colecao" data-category="masculino">Masculino</a></li>
-                <li><a class="site-footer__link" href="/?linha=feminino#colecao" data-category="feminino">Feminino</a></li>
-                <li><a class="site-footer__link" href="/?linha=nicho#colecao" data-category="nicho">Nicho</a></li>
-                <li><a class="site-footer__link" href="/?linha=arabe#colecao" data-category="arabe">Árabe</a></li>
-                <li><a class="site-footer__link" href="/?linha=capilar#colecao" data-category="capilar">Capilar</a></li>
-                <li><a class="site-footer__link" href="/?linha=oleo-corporal#colecao" data-category="oleo-corporal">Óleo Corporal</a></li>
+                <li><a class="site-footer__link" href="/#colecao">Coleção</a></li>
+                <li><a class="site-footer__link" href="/#revenda">Seja Revendedor</a></li>
+                <li><a class="site-footer__link" href="/#faq">FAQ</a></li>
+                <li><a class="site-footer__link" href="/#contato">Contato</a></li>
               </ul>
             </div>
 
@@ -1101,10 +1721,10 @@
               <h2 class="site-footer__heading">Contato</h2>
               <ul class="site-footer__list" role="list">
                 <li><a class="site-footer__link" href="https://wa.me/5587992120334" data-whatsapp target="_blank" rel="noopener noreferrer">WhatsApp (87) 99212-0334<span class="sr-only"> (abre em nova aba)</span></a></li>
-                <li><a class="site-footer__link" href="mailto:contato@303parfum.com.br">contato@303parfum.com.br</a></li>
-                <li class="site-footer__text"><span class="site-footer__label">Recife</span> [CONFIRMAR COM A CLIENTE: endereço]</li>
-                <li class="site-footer__text"><span class="site-footer__label">Garanhuns</span> [CONFIRMAR COM A CLIENTE: endereço]</li>
-                <li class="site-footer__text"><span class="site-footer__label">Horário</span> [CONFIRMAR COM A CLIENTE] Seg. a sex., 9h às 18h · Sáb., 9h às 13h</li>
+                <li><a class="site-footer__link" href="mailto:larissa.ifpe4@gmail.com">larissa.ifpe4@gmail.com</a></li>
+                <li class="site-footer__text"><span class="site-footer__label">Recife</span> Rua Teixeira de Freitas, 135 — Várzea, Recife - PE</li>
+                <li class="site-footer__text"><span class="site-footer__label">Garanhuns</span> Rua Ary Barroso, 135 — Magano, Garanhuns - PE</li>
+                <li class="site-footer__text"><span class="site-footer__label">Horário</span> Seg. a sex., 9h às 18h · Sáb., 9h às 13h</li>
                 <li class="site-footer__text">Atendimento em Recife e Garanhuns · Pernambuco</li>
               </ul>
             </div>
@@ -1119,9 +1739,12 @@
         </div>
 
         <div class="site-footer__bottom">
-          <p>© <span data-year>2026</span> 303 PARFUM</p>
-          <p class="site-footer__legal">[CONFIRMAR: razão social] · CNPJ [CONFIRMAR]</p>
           <a class="site-footer__link" href="/politica-de-privacidade.html">Política de Privacidade</a>
+          <p class="site-footer__copy">
+            © <span data-year>2026</span> 303 PARFUM TODOS OS DIREITOS RESERVADOS
+            <span class="site-footer__sep" aria-hidden="true">|</span>
+            <span class="site-footer__by">SITE CRIADO POR <a class="site-footer__credit" href="https://topsitebr.com.br" target="_blank" rel="noopener noreferrer">TOP SITE<span class="sr-only"> (abre em nova aba)</span></a></span>
+          </p>
         </div>
       </div>
     </footer>

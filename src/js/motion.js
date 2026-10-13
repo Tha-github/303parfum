@@ -18,10 +18,8 @@ export const prefersReducedMotion = () => reducedMotionQuery.matches;
 // ---- O que anima ------------------------------------------------------------
 const REVEAL = [
   'main .section .eyebrow',
-  '.manifesto__text',
-  '.lines__intro',
-  '.catalog__count',
-  '.catalog__filters',
+  '.catalog__tabs',
+  '.catalog__panel-head',
   '.catalog__grid',
   '.resell__intro-text',
   '.signup__text',
@@ -39,8 +37,6 @@ const REVEAL = [
 
 /** Pais cujos filhos entram em cascata. */
 const GROUPS = [
-  '.pillars',
-  '.lines__grid',
   '.steps',
   '.benefits',
   '.faq__list',
@@ -50,8 +46,6 @@ const GROUPS = [
 
 /** Títulos revelados por linha. */
 const SPLIT = [
-  '.manifesto__title',
-  '#linhas-title',
   '.resell__title',
   '.resell__block-title',
   '.signup__title',
@@ -61,13 +55,10 @@ const SPLIT = [
 ].join(',');
 
 /** Linhas finas que se desenham. */
-const DRAW = ['.eyebrow--rule', '.steps', '.manifesto__signature', '.site-footer'].join(',');
+const DRAW = ['.eyebrow--rule', '.steps', '.site-footer'].join(',');
 
 const MAX_STAGGER = 6;
 
-/** Grupos que viram carrossel horizontal no mobile (ver lines.css). */
-const CAROUSELS = '.lines__grid';
-const carouselQuery = window.matchMedia('(max-width: 47.999em)');
 
 // ==========================================================================
 
@@ -100,19 +91,15 @@ export function initMotion() {
       let i = 0;
       for (const el of batch) {
         observer.unobserve(el); // uma vez por elemento
-        const targets = el.dataset.motionGroup !== undefined ? [...el.children] : [];
-        targets.push(el);
-        for (const t of targets) {
-          // já visível no carregamento: aparece sem animar (linhas ainda desenham)
-          if (instant && t.dataset.motion) t.classList.add('is-instant');
-          reveal(t, i++);
-        }
+        // já visível no carregamento: aparece sem animar (linhas ainda desenham)
+        if (instant && el.dataset.motion) el.classList.add('is-instant');
+        reveal(el, i++);
       }
     },
     { rootMargin: '0px 0px -12% 0px', threshold: 0 },
   );
 
-  for (const el of [...targets.reveal, ...targets.groups, ...targets.draw]) observer.observe(el);
+  for (const el of [...targets.reveal, ...targets.draw]) observer.observe(el);
 
   // Se o usuário ativar "reduzir movimento" com a página aberta
   reducedMotionQuery.addEventListener('change', (event) => {
@@ -123,12 +110,11 @@ export function initMotion() {
 
 /** Fora do sistema: hero (tem entrada própria) e conteúdos que nascem
  *  ocultos e aparecem depois (modal, estado vazio, telas de sucesso). */
-const EXCLUDED = '.hero, dialog, [hidden], .form-success, .catalog__empty';
+const EXCLUDED = '.hero, dialog, [hidden], .form-success';
 
 function tagTargets() {
   const eligible = (el) => !el.closest(EXCLUDED);
   const reveal = new Set();
-  const groups = [];
 
   document.querySelectorAll(REVEAL).forEach((el) => {
     if (!eligible(el)) return;
@@ -138,17 +124,9 @@ function tagTargets() {
 
   document.querySelectorAll(GROUPS).forEach((group) => {
     if (!eligible(group)) return;
-    // Carrossel (rolagem horizontal): filhos fora da tela nunca "entrariam"
-    // pelo eixo vertical; o grupo inteiro vira o gatilho. Detectado por
-    // media query (getComputedStyle forçaria cálculo de estilo na carga).
-    const scrollsX = group.matches(CAROUSELS) && carouselQuery.matches;
-    if (scrollsX) {
-      group.dataset.motionGroup = '';
-      groups.push(group);
-    }
     for (const child of group.children) {
       child.dataset.motion = 'reveal';
-      if (!scrollsX) reveal.add(child);
+      reveal.add(child);
     }
   });
 
@@ -164,7 +142,7 @@ function tagTargets() {
     el.dataset.draw = '';
   });
 
-  return { reveal: [...reveal], draw, groups };
+  return { reveal: [...reveal], draw };
 }
 
 function reveal(el, index = 0) {

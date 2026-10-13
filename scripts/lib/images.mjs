@@ -1,9 +1,7 @@
 /**
  * Regras de imagem do site — fonte única para:
  *   - scripts/optimize-images.mjs  (fotos reais → variantes otimizadas)
- *   - scripts/generate-placeholders.mjs (provisórias)
- *
- * Os nomes gerados são os que index.html e products.json esperam.
+ *   - scripts/lib/html-context.mjs (srcset montado com o que existe em disco)
  */
 import { mkdir, readdir, rm, stat } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
@@ -13,92 +11,121 @@ export const ROOT = resolve(import.meta.dirname, '../..');
 export const IMG_DIR = resolve(ROOT, 'src/assets/img');
 
 /** Qualidade: WebP/JPEG ~78. AVIF usa outra escala: 60 equivale visualmente.
- *  PNG: paleta quantizada (mantém a transparência, ~70% menor). */
+ *  PNG: paleta quantizada (mantém a transparência). */
 export const QUALITY = { avif: 60, webp: 78, jpg: 78, png: 80 };
 
-/** Foto do hero (fundo transparente) — sem recorte, proporção original. */
-export const BANNER_SOURCE = resolve(IMG_DIR, 'banner.png');
+/** Foto do hero — sem recorte, proporção original. */
+export const BANNER_SOURCE = resolve(IMG_DIR, 'banneroficial.png');
 export const BANNER_DIR = resolve(IMG_DIR, 'hero');
+export const PRODUCTS_DIR = resolve(IMG_DIR, 'produtos');
 
-/**
- * Larguras do hero realmente geradas (lidas do disco), em ordem crescente.
- * Usado pelo build para montar o srcset — nunca anuncia um tamanho que não existe.
- */
-export async function bannerWidths() {
+export const KINDS = {
+  // Hero: src/assets/img/banneroficial.png → hero/banner-<w>.{avif,webp,jpg}
+  banner: {
+    dir: 'hero',
+    widths: [480, 800, 1200, 1600], // limitadas ao tamanho real da foto (sem ampliar)
+    formats: ['avif', 'webp', 'jpg'],
+    file: (_name, w) => `banner-${w}`,
+    budgetKB: 200, // teto por arquivo (meta de LCP)
+    keepAspect: true, // NUNCA recortar a foto do hero
+  },
+  // Produtos: images-src/produtos/<slug>.* → produtos/<slug>-<w>.{avif,webp,jpg}
+  produtos: {
+    dir: 'produtos',
+    widths: [400, 800, 1200],
+    formats: ['avif', 'webp', 'jpg'], // JPG = fallback universal
+    file: (slug, w) => `${slug}-${w}`,
+    budgetKB: 150, // máx. 150 KB por arquivo (inclui o 800w)
+    keepAspect: true,
+    // fotos mais estreitas que 4:5 ganham margem lateral na cor do fundo:
+    // o card (4:5, object-fit: cover) nunca corta o frasco
+    padToAspect: 4 / 5,
+  },
+};
+
+const ASPECT = 4 / 5; // tipos sem keepAspect: recorte 4:5
+
+/** Larguras geradas de uma imagem (lidas do disco), em ordem crescente. */
+export async function variantWidths(dir, name, ext = 'avif') {
+  const re = new RegExp(`^${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}-(\\d+)\\.${ext}$`);
   try {
-    const files = await readdir(BANNER_DIR);
-    return [...new Set(files.map((f) => /^banner-(\d+)\.avif$/.exec(f)?.[1]).filter(Boolean).map(Number))].sort((a, b) => a - b);
+    const files = await readdir(dir);
+    return [...new Set(files.map((f) => re.exec(f)?.[1]).filter(Boolean).map(Number))].sort((a, b) => a - b);
   } catch {
     return [];
   }
 }
 
-export const KINDS = {
-  // Hero: src/assets/img/banner.png → hero/banner-<w>.{avif,webp,png}
-  banner: {
-    dir: 'hero',
-    widths: [480, 800, 1200, 1600], // limitadas ao tamanho real da foto (sem ampliar)
-    formats: ['avif', 'webp', 'png'], // PNG = fallback que preserva a transparência
-    file: (_name, w) => `banner-${w}`,
-    budgetKB: 200, // teto por arquivo (meta de LCP)
-    keepAspect: true, // NUNCA recortar: o corpo da modelo tem de aparecer inteiro
-  },
-  linhas: {
-    dir: 'linhas',
-    widths: [480, 800, 1200],
-    formats: ['avif', 'webp'],
-    file: (slug, w) => `${slug}-${w}`,
-    budgetKB: 120,
-  },
-  produtos: {
-    dir: 'produtos',
-    widths: [480, 800, 1200],
-    formats: ['avif', 'webp'],
-    // products.json aponta para "<slug>.webp" (800); os demais têm sufixo
-    file: (slug, w) => (w === 800 ? slug : `${slug}-${w}`),
-    budgetKB: 120,
-    keepAspect: true, // artes com texto: nunca recortar (o card usa object-fit: contain)
-  },
-};
+export const bannerWidths = () => variantWidths(BANNER_DIR, 'banner');
+export const productWidths = (slug) => variantWidths(PRODUCTS_DIR, slug);
 
-const ASPECT = 4 / 5; // todas as fotos do site são 4:5 (retrato)
-
-const encode = (pipeline, format, quality) => {
+const encode = (pipeline, format, quality, background) => {
   if (format === 'avif') return pipeline.avif({ quality, effort: 6 });
   if (format === 'webp') return pipeline.webp({ quality, effort: 6, alphaQuality: 90 });
   if (format === 'png') return pipeline.png({ palette: true, quality, effort: 8, compressionLevel: 9 });
-  return pipeline.jpeg({ quality, mozjpeg: true, progressive: true });
+  // JPG não tem transparência: achata sobre a cor do fundo (sem isso, fica preto)
+  return pipeline.flatten({ background }).jpeg({ quality, mozjpeg: true, progressive: true });
 };
+
+/** Cor do canto superior esquerdo (fundo da foto), em hex. */
+async function cornerColor(input) {
+  const { data } = await sharp(input).rotate().flatten({ background: '#ffffff' }).extract({ left: 0, top: 0, width: 1, height: 1 }).raw().toBuffer({ resolveWithObject: true });
+  return `#${[...data.subarray(0, 3)].map((v) => v.toString(16).padStart(2, '0')).join('')}`;
+}
+
+/** Margem lateral até a proporção mínima (ex.: 4:5) — nada da foto é cortado. */
+async function padToAspect(input, aspect, background) {
+  const meta = await sharp(input).rotate().metadata();
+  const width = meta.autoOrient?.width ?? meta.width;
+  const height = meta.autoOrient?.height ?? meta.height;
+  const target = Math.round(height * aspect);
+  if (width >= target) return { buffer: null, padded: false };
+  const left = Math.floor((target - width) / 2);
+  const buffer = await sharp(input)
+    .rotate()
+    .extend({ left, right: target - width - left, background })
+    .toBuffer();
+  return { buffer, padded: true };
+}
 
 /**
  * Gera todas as variantes de uma imagem.
  * Se um arquivo passar do orçamento, reduz a qualidade em passos de 6 (até 40).
- * @returns {Promise<Array<{file: string, kb: number, quality: number, overBudget: boolean}>>}
+ * @returns {Promise<Array<{file: string, kb: number, quality: number, overBudget: boolean, padded?: boolean}>>}
  */
 export async function writeVariants(input, kind, name) {
   const spec = KINDS[kind];
   const results = [];
+  const background = await cornerColor(input);
+
+  let source = input;
+  let padded = false;
+  if (spec.padToAspect) {
+    const pad = await padToAspect(input, spec.padToAspect, background);
+    if (pad.buffer) {
+      source = pad.buffer;
+      padded = pad.padded;
+    }
+  }
 
   let widths = spec.widths;
   if (spec.keepAspect) {
     // Nunca ampliar: só larguras ≤ a original, e a original se for menor que a maior
-    const { width: original } = await sharp(input).metadata();
+    const { width: original } = await sharp(source).metadata();
     widths = spec.widths.filter((w) => w <= original);
     if (original < Math.max(...spec.widths) && !widths.includes(original)) widths.push(original);
-    // apaga variantes de uma foto anterior (ex.: maiores que a nova)
+    // apaga variantes anteriores DESTE nome (regex exata: "invictus" não pega "invictus-elixir")
     const dir = resolve(IMG_DIR, spec.dir);
     await mkdir(dir, { recursive: true });
-    for (const f of await readdir(dir)) {
-      if (f.startsWith(spec.file(name, '')) ) await rm(resolve(dir, f));
-    }
+    const mine = new RegExp(`^${spec.file(name, '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\d+\\.(avif|webp|jpg|png)$`);
+    for (const f of await readdir(dir)) if (mine.test(f)) await rm(resolve(dir, f));
   }
 
   for (const w of widths) {
-    // .rotate() aplica a orientação EXIF da câmera; o sharp NÃO copia
-    // metadados para a saída por padrão (GPS, modelo da câmera… somem).
-    const base = sharp(input, { failOn: 'error' }).rotate();
+    // .rotate() aplica a orientação EXIF; o sharp NÃO copia metadados (GPS etc.)
+    const base = sharp(source, { failOn: 'error' }).rotate();
     if (spec.keepAspect) {
-      base.resize({ width: w }); // proporção original, sem corte (srcset sempre completo)
+      base.resize({ width: w });
     } else {
       base.resize(w, Math.round(w / ASPECT), { fit: 'cover', position: sharp.strategy.attention });
     }
@@ -110,12 +137,12 @@ export async function writeVariants(input, kind, name) {
       let quality = QUALITY[format];
       let kb;
       for (;;) {
-        await encode(base.clone(), format, quality).toFile(out);
+        await encode(base.clone(), format, quality, background).toFile(out);
         kb = (await stat(out)).size / 1024;
         if (kb <= spec.budgetKB || quality <= 40) break;
         quality -= 6;
       }
-      results.push({ file: out.replace(ROOT, '.'), kb: Math.round(kb * 10) / 10, quality, overBudget: kb > spec.budgetKB });
+      results.push({ file: out.replace(ROOT, '.'), kb: Math.round(kb * 10) / 10, quality, overBudget: kb > spec.budgetKB, padded });
     }
   }
   return results;

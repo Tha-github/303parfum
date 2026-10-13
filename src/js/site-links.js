@@ -1,14 +1,13 @@
 /**
- * Links compartilhados (rodapé) e atalhos de categoria.
+ * Links compartilhados (rodapé) e atalhos para as abas do catálogo.
  *
  * - Ano do rodapé: o build grava o ano atual; aqui atualizamos no cliente.
  * - Na home, links "/#secao" viram "#secao": só rolam, sem recarregar a
  *   página (o que perderia ?linha= e o estado do catálogo).
- * - Links [data-category] (cards de Linhas e rodapé) filtram o catálogo sem
- *   recarregar; o href real (/?linha=…#colecao) segue funcionando sem JS e
- *   nas outras páginas.
+ * - Links [data-tab-link] (menu e rodapé) ativam a aba do
+ *   catálogo sem recarregar; o href real (?linha=…#colecao) segue
+ *   funcionando sem JS e nas outras páginas.
  */
-import { requestCategoryFilter } from './events.js';
 
 /**
  * Seções abaixo da dobra usam content-visibility:auto (motion.css): até
@@ -52,15 +51,19 @@ export function initSamePageLinks() {
   });
 }
 
-export function initCategoryLinks() {
+/**
+ * @param {(tab: string) => void} selectTab ativa a aba (catalog.js valida
+ *   contra a lista branca e atualiza ?linha=)
+ */
+export function initTabLinks(selectTab) {
   const catalog = document.getElementById('colecao');
-  if (!catalog) return;
+  if (!catalog || typeof selectTab !== 'function') return;
 
   document.addEventListener('click', (event) => {
-    const link = event.target.closest('a[data-category]');
+    const link = event.target.closest('a[data-tab-link]');
     if (!link || event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
     event.preventDefault();
-    requestCategoryFilter(link.dataset.category, link.closest('footer') ? 'footer' : 'lines');
+    selectTab(link.dataset.tabLink);
     // scroll-behavior e scroll-padding-top do CSS valem aqui também
     catalog.scrollIntoView({ block: 'start' });
   });

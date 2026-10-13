@@ -29,6 +29,47 @@ export function initHeader() {
 
   initScrollState(header);
   initMobileMenu(header);
+  initDropdown(header);
+}
+
+/**
+ * "Coleção" no desktop: botão com aria-expanded que abre a lista das 4 abas.
+ * Abre com clique, Enter ou Espaço (botão nativo); fecha com ESC (foco volta
+ * ao botão), clique fora, foco saindo do grupo ou escolha de um link.
+ * No mobile o botão some e a lista aparece sempre, como grupo do menu.
+ */
+function initDropdown(header) {
+  const group = header.querySelector('[data-dropdown]');
+  const button = group?.querySelector('[data-dropdown-toggle]');
+  if (!group || !button) return;
+
+  const isOpen = () => button.getAttribute('aria-expanded') === 'true';
+  const set = (open) => {
+    button.setAttribute('aria-expanded', String(open));
+    group.classList.toggle('is-open', open);
+  };
+
+  button.addEventListener('click', () => set(!isOpen()));
+
+  group.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' || !isOpen()) return;
+    event.preventDefault();
+    event.stopPropagation();
+    set(false);
+    button.focus();
+  });
+
+  group.addEventListener('focusout', (event) => {
+    if (isOpen() && !group.contains(event.relatedTarget)) set(false);
+  });
+
+  document.addEventListener('click', (event) => {
+    if (isOpen() && !group.contains(event.target)) set(false);
+  });
+
+  group.addEventListener('click', (event) => {
+    if (event.target.closest('a')) set(false);
+  });
 }
 
 /**
@@ -78,7 +119,7 @@ function initMobileMenu(header) {
 
   const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
 
-  // Ordem do DOM: wordmark → links do menu → botão. Só o que está visível.
+  // Ordem do DOM: logo → links do menu → botão. Só o que está visível.
   const focusables = () =>
     [...header.querySelectorAll(FOCUSABLE)].filter((el) => el.getClientRects().length > 0);
 

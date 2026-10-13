@@ -5,16 +5,42 @@
  * "cancel") e camada superior. Aqui acrescentamos: foco circulando só
  * dentro do diálogo, trava de rolagem, fechar no clique do backdrop e
  * devolver o foco explicitamente ao botão "Detalhes" de origem.
+ *
+ * A arte é um clone da <picture> do card (URLs já resolvidas no build);
+ * os textos entram por textContent, vindos de products.json validado.
  */
-import { formatPrice, formatVolume, TIER_LABELS } from './catalog-data.js';
-import { fillPicture } from './picture.js';
+import { formatBRL, promoSpoken } from './price.js';
+import { TIER_LABELS } from './product-schema.js';
 import { lockScroll, unlockScroll } from './scroll-lock.js';
 import { buildWhatsAppLink, MENSAGENS } from './whatsapp.js';
 
-const MODAL_SIZES = '(min-width: 64em) 30rem, 100vw';
+const MODAL_SIZES = '(min-width: 64em) 45vw, 100vw';
 const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-export function initProductModal(dialog) {
+/** Mostra o texto, ou esconde o elemento se vazio. */
+function setText(el, value) {
+  if (!el) return;
+  el.textContent = value;
+  el.hidden = !value;
+}
+
+/** Clona a arte do card para o modal: inteira, carregada já, maior. */
+function cloneArt(cardMedia) {
+  const art = cardMedia?.querySelector('picture, .product-card__placeholder');
+  if (!art) return null;
+  const clone = art.cloneNode(true);
+  for (const source of clone.querySelectorAll('source')) source.sizes = MODAL_SIZES;
+  const img = clone.querySelector('img');
+  if (img) {
+    img.className = 'product-modal__image';
+    img.removeAttribute('data-foco');
+    img.loading = 'eager';
+    img.sizes = MODAL_SIZES;
+  }
+  return clone;
+}
+
+export function initProductModal(dialog, { promo = null } = {}) {
   if (!dialog || typeof dialog.showModal !== 'function') return null;
 
   const q = (selector) => dialog.querySelector(selector);
@@ -50,51 +76,48 @@ export function initProductModal(dialog) {
     }
   });
 
+  // Preço (o mesmo para todos enquanto a promoção estiver ativa)
+  const price = q('[data-modal-price]');
+  if (price && promo) {
+    price.querySelector('[data-price-spoken]').textContent = `Preço: ${promoSpoken(promo)}`;
+    price.querySelector('[data-price-from]').textContent = formatBRL(promo.de);
+    price.querySelector('[data-price-to]').textContent = formatBRL(promo.por);
+    price.hidden = false;
+  }
+
+  /**
+   * @param {object} product produto normalizado (product-schema.js)
+   * @param {HTMLElement} origin botão "Detalhes" (recebe o foco ao fechar)
+   */
   function open(product, origin) {
     trigger = origin ?? null;
 
-    fillPicture(q('picture'), product, MODAL_SIZES);
-    q('[data-modal-badge]').hidden = !product.destaque;
-
-    const category = q('[data-modal-category]');
-    category.textContent = product.categoriaNome;
-    category.hidden = !product.categoriaNome;
+    const media = q('[data-modal-media]');
+    const art = cloneArt(origin?.closest('.product-card')?.querySelector('.product-card__media'));
+    media.replaceChildren(...(art ? [art] : []));
 
     q('[data-modal-name]').textContent = product.nome;
+    setText(q('[data-modal-ref]'), product.referencia ? `Ref.: ${product.referencia}` : '');
+    setText(q('[data-modal-family]'), product.familia);
+    setText(q('[data-modal-desc]'), product.descricao);
 
-    const desc = q('[data-modal-desc]');
-    desc.textContent = product.descricao;
-    desc.hidden = !product.descricao;
-
-    // Pirâmide olfativa
+    // Pirâmide olfativa: Topo / Corpo / Fundo
     const pyramid = q('[data-modal-pyramid]');
     pyramid.hidden = !product.temNotas;
     for (const tier of pyramid.querySelectorAll('[data-tier]')) {
-      const list = product.notas[tier.dataset.tier];
+      const list = product.notas[tier.dataset.tier] ?? [];
+      tier.hidden = list.length === 0;
       tier.querySelector('dt').textContent = TIER_LABELS[tier.dataset.tier];
-      tier.querySelector('dd').textContent = list.length ? list.join(', ') : '—';
+      tier.querySelector('dd').textContent = list.join(', ');
     }
 
-    setSpec('family', product.familia_olfativa);
-    setSpec('volume', formatVolume(product.volume_ml));
-    setSpec('price', formatPrice(product.preco));
-
-    q('[data-modal-whatsapp]').href = buildWhatsAppLink(
-      MENSAGENS.produto(product.nome, product.volume_ml),
-    );
+    q('[data-modal-whatsapp]').href = buildWhatsAppLink(MENSAGENS.produto(product.nome, promo));
     q('[data-modal-resell]').href = buildWhatsAppLink(MENSAGENS.revendaProduto(product.nome));
 
     q('.product-modal__content').scrollTop = 0;
     dialog.scrollTop = 0;
     lockScroll();
     dialog.showModal();
-  }
-
-  function setSpec(name, value) {
-    const row = q(`[data-spec="${name}"]`);
-    if (!row) return;
-    row.hidden = !value;
-    row.querySelector('dd').textContent = value;
   }
 
   return { open, close: () => dialog.close() };
