@@ -9,7 +9,7 @@
  * A arte é um clone da <picture> do card (URLs já resolvidas no build);
  * os textos entram por textContent, vindos de products.json validado.
  */
-import { formatBRL, promoSpoken } from './price.js';
+import { formatBRL, promoFor, promoSpoken } from './price.js';
 import { TIER_LABELS } from './product-schema.js';
 import { lockScroll, unlockScroll } from './scroll-lock.js';
 import { buildWhatsAppLink, MENSAGENS } from './whatsapp.js';
@@ -76,13 +76,13 @@ export function initProductModal(dialog, { promo = null } = {}) {
     }
   });
 
-  // Preço (o mesmo para todos enquanto a promoção estiver ativa)
+  // Preço: só os perfumes em promoção têm valor; os demais, sob consulta
   const price = q('[data-modal-price]');
+  const ask = q('[data-modal-ask]');
   if (price && promo) {
     price.querySelector('[data-price-spoken]').textContent = `Preço: ${promoSpoken(promo)}`;
     price.querySelector('[data-price-from]').textContent = formatBRL(promo.de);
     price.querySelector('[data-price-to]').textContent = formatBRL(promo.por);
-    price.hidden = false;
   }
 
   /**
@@ -101,6 +101,10 @@ export function initProductModal(dialog, { promo = null } = {}) {
     setText(q('[data-modal-family]'), product.familia);
     setText(q('[data-modal-desc]'), product.descricao);
 
+    const productPromo = promoFor(product, promo);
+    if (price) price.hidden = !productPromo;
+    if (ask) ask.hidden = Boolean(productPromo);
+
     // Pirâmide olfativa: Topo / Corpo / Fundo
     const pyramid = q('[data-modal-pyramid]');
     pyramid.hidden = !product.temNotas;
@@ -111,7 +115,7 @@ export function initProductModal(dialog, { promo = null } = {}) {
       tier.querySelector('dd').textContent = list.join(', ');
     }
 
-    q('[data-modal-whatsapp]').href = buildWhatsAppLink(MENSAGENS.produto(product.nome, promo));
+    q('[data-modal-whatsapp]').href = buildWhatsAppLink(MENSAGENS.produto(product.nome, productPromo));
     q('[data-modal-resell]').href = buildWhatsAppLink(MENSAGENS.revendaProduto(product.nome));
 
     q('.product-modal__content').scrollTop = 0;

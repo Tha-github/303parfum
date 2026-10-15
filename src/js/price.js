@@ -28,5 +28,8 @@ export function activePromo(config) {
   return ok ? { de: p.preco_de, por: p.preco_por, texto: String(p.texto ?? '').trim() } : null;
 }
 
+/** Promoção que vale para o produto (marcado com "promocao": true), ou null. */
+export const promoFor = (product, promo) => (product?.promocao ? promo : null);
+
 /** Texto acessível: "de 250 reais por 199 reais e 90 centavos". */
 export const promoSpoken = (promo) => `de ${priceToWords(promo.de)} por ${priceToWords(promo.por)}`;

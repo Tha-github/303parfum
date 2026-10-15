@@ -15,7 +15,7 @@ export const SITE = {
   // [DOMINIO] URL canônica, sem barra no final
   url: 'https://www.303parfum.com.br',
   description:
-    'Promoção: todos os perfumes de alta perfumaria por R$ 199,90 na 303 Parfum, em Recife e Garanhuns (PE). Femininos, masculinos, nicho e árabes. Seja revendedor.',
+    'Promoção: perfumes importados de R$ 250,00 por R$ 199,90 na 303 Parfum, em Recife e Garanhuns (PE). Femininos, masculinos, nicho e árabes. Seja revendedor.',
   locale: 'pt_BR',
 
   whatsapp: {

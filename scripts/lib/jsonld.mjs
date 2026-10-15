@@ -110,7 +110,7 @@ export function productList({ products, promo }, imageUrl) {
       if (p.descricao) product.description = p.descricao;
       const image = p.imagem && imageUrl(p.imagem);
       if (image) product.image = new URL(image, SITE.url).href;
-      if (promo) {
+      if (promo && p.promocao) {
         product.offers = {
           '@type': 'Offer',
           price: promo.por.toFixed(2),

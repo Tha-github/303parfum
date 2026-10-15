@@ -1,14 +1,15 @@
 /* ==========================================================================
-   Hero — fundo escuro, 100svh, CENTRALIZADO
-   Texto e promoção (gerada de src/data/config.json) em cima, ao centro;
-   foto (banneroficial.png) embaixo, centralizada e ancorada na base.
+   Hero — fundo escuro, 100svh
+   Celular/tablet: texto e promoção (gerada de src/data/config.json) em
+   cima, ao centro; foto (banneroficial.png) embaixo, ancorada na base.
+   Desktop (≥64em): texto à esquerda e foto à direita.
 
    REGRAS:
    - a foto aparece SEMPRE inteira: object-fit: contain, object-position:
      bottom center (cover cortaria — nunca usar aqui);
    - a foto termina exatamente onde termina a seção (sem padding embaixo);
    - o texto NUNCA cobre a foto: os dois ficam em faixas separadas (coluna
-     flex), em qualquer largura. Degradê escuro atrás do texto.
+     flex ou colunas do grid), em qualquer largura. Degradê escuro atrás do texto.
    ========================================================================== */
 
 .hero {
@@ -82,26 +83,75 @@
   color: var(--color-text-on-dark-muted);
 }
 
-/* ---- Promoção ---------------------------------------------------------- */
+/* ---- Promoção ----------------------------------------------------------
+   Cartão com moldura dourada (border-image em gold.css), brilho suave no
+   canto, selo "Promoção" e preço grande em gradiente.                    */
 .hero__promo-slot {
   width: 100%;
 }
 
 .hero__promo {
+  position: relative;
   display: grid;
   justify-items: center;
-  gap: var(--space-2);
+  gap: var(--space-3);
   width: fit-content;
   max-width: 100%;
-  margin: var(--space-6) auto 0;
-  padding: var(--space-5) var(--space-6) var(--space-6);
+  margin: var(--space-8) auto 0;
+  padding: var(--space-6) var(--space-6) var(--space-6);
   border: var(--border-hairline) solid; /* cor: border-image em gold.css */
-  background-color: rgb(10 10 10 / 0.6);
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgb(var(--gold-rgb) / 0.14), transparent 60%),
+    radial-gradient(90% 80% at 100% 100%, rgb(var(--gold-rgb) / 0.08), transparent 60%),
+    rgb(10 10 10 / 0.72);
+  box-shadow: 0 1.5rem 3rem -1.5rem rgb(0 0 0 / 0.8), inset 0 0 0 1px rgb(var(--gold-rgb) / 0.06);
   text-align: center;
 }
 
+/* Cantoneiras douradas */
+.hero__promo::before,
+.hero__promo::after {
+  content: "";
+  position: absolute;
+  width: var(--space-4);
+  height: var(--space-4);
+  border-color: var(--gold-solid);
+  border-style: solid;
+  pointer-events: none;
+}
+
+.hero__promo::before {
+  top: var(--space-2);
+  left: var(--space-2);
+  border-width: 1px 0 0 1px;
+}
+
+.hero__promo::after {
+  right: var(--space-2);
+  bottom: var(--space-2);
+  border-width: 0 1px 1px 0;
+}
+
 .hero__promo-eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2) var(--space-3);
   margin: 0;
+  font-size: var(--fs-2xs);
+  letter-spacing: var(--ls-widest);
+  text-transform: uppercase;
+}
+
+.hero__promo-tag {
+  padding: var(--space-1) var(--space-3);
+  font-weight: var(--fw-medium);
+  /* fundo em gradiente e texto preto: gold.css */
+}
+
+.hero__promo-kicker {
+  color: var(--color-text-on-dark-muted);
 }
 
 .hero__promo-price {
@@ -111,19 +161,21 @@
 }
 
 .hero__promo-from {
-  font-size: var(--fs-sm);
-  color: var(--color-text-on-dark-muted);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-light);
+  color: var(--color-text-on-dark);
 }
 
 .hero__promo-from s {
+  color: var(--color-text-on-dark-muted);
   text-decoration-thickness: 1px;
 }
 
 .hero__promo-to {
   font-family: var(--font-display);
-  font-size: var(--fs-4xl);
+  font-size: clamp(2.75rem, 5.5vw, 4.25rem);
   font-weight: var(--fw-regular);
-  line-height: var(--lh-tight);
+  line-height: 1;
 }
 
 .hero__promo-note {
@@ -131,8 +183,28 @@
   color: var(--color-text-on-dark-muted);
 }
 
-.hero__promo-cta {
-  margin-top: var(--space-3);
+.hero__promo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3) var(--space-6);
+  margin-top: var(--space-2);
+}
+
+.hero__promo-link {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--color-ivory);
+  text-decoration: underline;
+  text-decoration-color: rgb(var(--gold-rgb) / 0.6);
+  text-underline-offset: 0.4em;
+  transition: text-decoration-color var(--duration-fast) var(--ease-standard);
+}
+
+.hero__promo-link:hover {
+  text-decoration-color: var(--gold-solid);
 }
 
 /* ---- Foto ------------------------------------------------------------
@@ -224,46 +296,69 @@
   100% { transform: translateY(100%); }
 }
 
-/* Tablet/desktop: preço e botão lado a lado (bloco mais baixo) */
+/* Tablet: foto um pouco mais baixa */
 @media (min-width: 48em) {
-  .hero__promo {
-    grid-template-columns: auto auto;
-    align-items: center;
-    justify-items: center;
-    column-gap: var(--space-8);
-    padding: var(--space-4) var(--space-8) var(--space-5);
-    text-align: center;
-  }
-
-  .hero__promo-eyebrow,
-  .hero__promo-note {
-    grid-column: 1 / -1;
-    justify-self: center;
-  }
-
-  .hero__promo-price {
-    grid-column: 1;
-    justify-items: center;
-  }
-
-  .hero__promo-cta {
-    grid-column: 2;
-    grid-row: 2;
-    margin-top: 0;
-  }
-
   .hero__media {
     min-height: 42vh;
     min-height: 42svh;
   }
 }
 
-/* Desktop: foto maior (o hero pode passar um pouco da dobra; a promoção
-   continua visível no primeiro olhar) */
+/* Desktop: duas colunas — texto alinhado à esquerda, foto à direita,
+   ancorada na base da seção. Texto e foto continuam sem se sobrepor. */
 @media (min-width: 64em) {
+  .hero__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    column-gap: var(--space-12);
+    align-items: center;
+    padding-top: 0;
+  }
+
+  .hero__content {
+    align-items: flex-start;
+    max-width: 36rem;
+    padding-block: var(--space-16);
+    text-align: left;
+  }
+
+  .hero__content::before {
+    inset: -15% -25% -15% -40%;
+  }
+
+  .hero__promo {
+    justify-items: start;
+    margin-inline: 0;
+    padding: var(--space-6) var(--space-8) var(--space-8);
+    text-align: left;
+  }
+
+  .hero__promo-eyebrow,
+  .hero__promo-actions {
+    justify-content: flex-start;
+  }
+
+  .hero__promo-price {
+    justify-items: start;
+  }
+
   .hero__media {
-    min-height: 55vh;
-    min-height: 55svh;
+    align-self: stretch;
+    min-height: 0;
+    margin-top: 0;
+  }
+
+  .hero__image {
+    left: auto;
+    right: 0;
+    object-position: bottom right;
+    translate: none;
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0, #000 22%, #000 90%, transparent 100%),
+      linear-gradient(to bottom, transparent 0, #000 14%);
+    mask-image:
+      linear-gradient(to right, transparent 0, #000 22%, #000 90%, transparent 100%),
+      linear-gradient(to bottom, transparent 0, #000 14%);
   }
 }
 
@@ -271,6 +366,8 @@
 @media (min-width: 64em) and (min-height: 62em) {
   .hero__scroll {
     display: flex;
+    left: 50%; /* entre as colunas, longe do bloco de promoção */
+    translate: -50% 0;
   }
 }
 

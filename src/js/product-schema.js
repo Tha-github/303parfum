@@ -48,6 +48,7 @@ export function normalizeProduct(raw) {
     temNotas: TIERS.some((t) => notas[t].length > 0),
     imagem: typeof raw.imagem === 'string' && SLUG_RE.test(raw.imagem) ? raw.imagem : null,
     foco: FOCOS.includes(raw.foco) ? raw.foco : null,
+    promocao: raw.promocao === true, // só estes recebem o preço de config.json
   });
 }
 

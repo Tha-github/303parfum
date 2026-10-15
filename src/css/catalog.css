@@ -334,6 +334,15 @@
   margin-top: var(--space-2);
 }
 
+/* Fora da promoção: sem preço fixo */
+.product-card__ask {
+  margin-top: var(--space-2);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-text-on-dark-subtle);
+}
+
 .product-card__actions {
   display: flex;
   flex-wrap: wrap;

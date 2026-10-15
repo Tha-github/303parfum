@@ -8,7 +8,7 @@
  * preenche o modal (textContent): nunca monta HTML a partir dos dados.
  */
 import { TABS } from '../../src/data/tabs.js';
-import { formatBRL, promoSpoken } from '../../src/js/price.js';
+import { formatBRL, promoFor, promoSpoken } from '../../src/js/price.js';
 import { pluralize, productAlt, productsInTab } from '../../src/js/product-schema.js';
 import { MENSAGENS } from '../../src/js/whatsapp.js';
 
@@ -66,14 +66,17 @@ ${FORMATS.map(([ext, type]) => `  <source type="${type}" srcset="${set(ext)}" si
 </picture>`;
 }
 
-function renderCard(product, tab, { promo, images }) {
+function renderCard(product, tab, { promo: activePromo, images }) {
+  const promo = promoFor(product, activePromo);
   const nameId = `pc-${tab}-${product.slug}`;
   const ref = product.referencia ? `\n      <p class="product-card__ref">Ref.: ${e(product.referencia)}</p>` : '';
   const family = product.familia ? `\n      <p class="product-card__family">${e(product.familia)}</p>` : '';
   const desc = product.descricao ? `\n      <p class="product-card__desc">${e(product.descricao)}</p>` : '';
   const badge = promo ? '\n      <span class="product-card__badge">Promoção</span>' : '';
-  const price = promo ? `\n${indentBlock(renderPrice(promo, 'product-card__price'), '      ')}` : '';
-  return `<li class="product-card" data-slug="${e(product.slug)}">
+  const price = promo
+    ? `\n${indentBlock(renderPrice(promo, 'product-card__price'), '      ')}`
+    : '\n      <p class="product-card__ask">Valor sob consulta</p>';
+  return `<li class="product-card${promo ? ' product-card--promo' : ''}" data-slug="${e(product.slug)}">
   <article class="product-card__inner" aria-labelledby="${nameId}">
     <div class="product-card__media">
 ${indentBlock(renderPicture(product, images[product.imagem]), '      ')}${badge}
@@ -125,19 +128,25 @@ ${panels}`;
   return `\n${indentBlock(html, indent)}`;
 }
 
-/** Bloco de promoção do hero; vazio quando a promoção está desligada. */
+/**
+ * Bloco de promoção do hero; vazio quando a promoção está desligada.
+ * Vale só para os perfumes marcados com "promocao": true em products.json.
+ */
 export function renderHeroPromo(promo, indent = '            ') {
   if (!promo) return '\n';
   const note = promo.texto ? `${sentence(promo.texto)} Consulte pelo WhatsApp.` : 'Consulte pelo WhatsApp.';
   const html = `<div class="hero__promo">
-  <p class="eyebrow hero__promo-eyebrow">Promoção</p>
+  <p class="hero__promo-eyebrow"><span class="hero__promo-tag">Promoção</span><span class="hero__promo-kicker">Seleção de importados</span></p>
   <p class="hero__promo-price">
-    <span class="sr-only">Todos os perfumes ${e(promoSpoken(promo))}.</span>
-    <span class="hero__promo-from" aria-hidden="true">Todos os perfumes de <s>${e(formatBRL(promo.de))}</s></span>
+    <span class="sr-only">Perfumes ${e(promoSpoken(promo))}.</span>
+    <span class="hero__promo-from" aria-hidden="true">Perfumes de <s>${e(formatBRL(promo.de))}</s> por</span>
     <span class="hero__promo-to" aria-hidden="true">${e(formatBRL(promo.por))}</span>
   </p>
   <p class="hero__promo-note">${e(note)}</p>
-  <a class="btn btn--primary hero__promo-cta" href="https://wa.me/" data-whatsapp data-whatsapp-message="${e(MENSAGENS.promocao(promo))}" target="_blank" rel="noopener noreferrer">Aproveitar a promoção<span class="sr-only"> (abre o WhatsApp em nova aba)</span></a>
+  <div class="hero__promo-actions">
+    <a class="btn btn--primary hero__promo-cta" href="https://wa.me/" data-whatsapp data-whatsapp-message="${e(MENSAGENS.promocao(promo))}" target="_blank" rel="noopener noreferrer">Aproveitar a promoção<span class="sr-only"> (abre o WhatsApp em nova aba)</span></a>
+    <a class="hero__promo-link" href="#colecao">Ver os perfumes</a>
+  </div>
 </div>`;
   return `\n${indentBlock(html, indent)}`;
 }

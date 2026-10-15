@@ -159,6 +159,13 @@
   font-size: var(--fs-2xl);
 }
 
+.product-modal__ask {
+  font-size: var(--fs-sm);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-text-on-dark-muted);
+}
+
 .product-modal__desc {
   color: var(--section-muted);
   line-height: var(--lh-relaxed);
