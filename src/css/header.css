@@ -386,6 +386,23 @@
     display: block;
   }
 
+  /* Ponte invisível sobre o vão entre o botão e a lista: o mouse não
+     "cai" no caminho (vale para o fallback de hover abaixo) */
+  .site-nav__submenu::before {
+    content: "";
+    position: absolute;
+    inset: calc(var(--space-3) * -1 - var(--border-hairline)) 0 auto;
+    height: var(--space-3);
+  }
+
+  /* Sem JS (ex.: index.html aberto com duplo clique, file://, onde o
+     navegador bloqueia os módulos): abre no hover e com foco/clique.
+     Com JS, header.js marca .is-enhanced e vale só o botão. */
+  .site-nav__group:not(.is-enhanced):hover .site-nav__submenu,
+  .site-nav__group:not(.is-enhanced):focus-within .site-nav__submenu {
+    display: block;
+  }
+
   .site-nav__sublink {
     display: block;
     padding: var(--space-3) var(--space-5);

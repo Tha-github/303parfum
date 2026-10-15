@@ -43,6 +43,10 @@ function initDropdown(header) {
   const button = group?.querySelector('[data-dropdown-toggle]');
   if (!group || !button) return;
 
+  // Com JS, o grupo deixa de usar o fallback CSS (hover/foco) e passa a
+  // abrir só pelo botão (header.css)
+  group.classList.add('is-enhanced');
+
   const isOpen = () => button.getAttribute('aria-expanded') === 'true';
   const set = (open) => {
     button.setAttribute('aria-expanded', String(open));

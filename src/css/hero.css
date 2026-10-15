@@ -22,6 +22,13 @@
   padding-bottom: 0; /* a foto encosta na base da seção */
   overflow-x: clip;
   isolation: isolate;
+  /* preto puro: as bordas da foto (máscara) se dissolvem nele sem emenda */
+  background-color: #000;
+}
+
+/* sem o grão das seções escuras (motion.css): o preto fica liso */
+.hero::after {
+  display: none;
 }
 
 .hero__inner {
@@ -51,7 +58,7 @@
   position: absolute;
   inset: -10% -20%;
   z-index: -1;
-  background: radial-gradient(closest-side, rgb(10 10 10 / 0.85), rgb(10 10 10 / 0));
+  background: radial-gradient(closest-side, rgb(0 0 0 / 0.85), rgb(0 0 0 / 0));
   pointer-events: none;
 }
 
@@ -103,7 +110,7 @@
   background:
     radial-gradient(120% 90% at 0% 0%, rgb(var(--gold-rgb) / 0.14), transparent 60%),
     radial-gradient(90% 80% at 100% 100%, rgb(var(--gold-rgb) / 0.08), transparent 60%),
-    rgb(10 10 10 / 0.72);
+    rgb(0 0 0 / 0.72);
   box-shadow: 0 1.5rem 3rem -1.5rem rgb(0 0 0 / 0.8), inset 0 0 0 1px rgb(var(--gold-rgb) / 0.06);
   text-align: center;
 }
@@ -238,12 +245,12 @@
   /* a foto é opaca (fundo escuro próprio): bordas laterais e topo se
      dissolvem no preto. Só transparência — a imagem continua inteira. */
   -webkit-mask-image:
-    linear-gradient(to right, transparent 0, #000 16%, #000 84%, transparent 100%),
-    linear-gradient(to bottom, transparent 0, #000 14%);
+    linear-gradient(to right, transparent 0, #000 24%, #000 76%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 32%);
   -webkit-mask-composite: source-in;
   mask-image:
-    linear-gradient(to right, transparent 0, #000 16%, #000 84%, transparent 100%),
-    linear-gradient(to bottom, transparent 0, #000 14%);
+    linear-gradient(to right, transparent 0, #000 24%, #000 76%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 32%);
   mask-composite: intersect;
 }
 
@@ -351,14 +358,15 @@
   .hero__image {
     left: auto;
     right: 0;
+    /* caixa = foto (sem sobra do contain), para a máscara pegar as bordas reais */
+    width: auto;
+    height: auto;
+    max-height: 100%;
     object-position: bottom right;
     translate: none;
-    -webkit-mask-image:
-      linear-gradient(to right, transparent 0, #000 22%, #000 90%, transparent 100%),
-      linear-gradient(to bottom, transparent 0, #000 14%);
-    mask-image:
-      linear-gradient(to right, transparent 0, #000 22%, #000 90%, transparent 100%),
-      linear-gradient(to bottom, transparent 0, #000 14%);
+    /* vinheta radial: todas as bordas se dissolvem no preto #000 */
+    -webkit-mask-image: radial-gradient(ellipse 50% 54% at 50% 56%, #000 55%, transparent 100%);
+    mask-image: radial-gradient(ellipse 50% 54% at 50% 56%, #000 55%, transparent 100%);
   }
 }
 
