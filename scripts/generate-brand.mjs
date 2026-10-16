@@ -51,12 +51,18 @@ async function numberEnd(input) {
   };
   let x = 0;
   while (x < info.width && !filled(x)) x++;
-  // pula os 3 dígitos; o vão entre palavras é o primeiro com 8+ colunas vazias
+  // o vão entre palavras é o MAIOR vão interno (entre os dígitos também há
+  // vãos, que variam conforme o espaçamento do logotipo)
+  let best = { start: info.width, size: 0 };
   for (let gap = 0; x < info.width; x++) {
-    gap = filled(x) ? 0 : gap + 1;
-    if (gap >= 8) return x - gap + 1;
+    if (!filled(x)) {
+      gap++;
+      continue;
+    }
+    if (gap > best.size) best = { start: x - gap, size: gap };
+    gap = 0;
   }
-  return info.width;
+  return best.start;
 }
 
 await mkdir(OUT, { recursive: true });

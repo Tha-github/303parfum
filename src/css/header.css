@@ -370,16 +370,24 @@
     transform: rotate(-135deg);
   }
 
+  /* Caixa SEMPRE preta e opaca, igual em qualquer seção. Sobre o hero (preto
+     puro) um leve brilho dourado e a sombra separam a caixa do fundo, para
+     ela não parecer transparente. */
   .site-nav__submenu {
     position: absolute;
     top: calc(100% + var(--space-3));
     left: calc(var(--space-5) * -1);
+    z-index: var(--z-raised);
     display: none;
     min-width: 15rem;
     padding-block: var(--space-2);
-    background-color: var(--color-black);
+    background:
+      radial-gradient(120% 80% at 0% 0%, rgb(var(--gold-rgb) / 0.1), transparent 65%),
+      #0a0a0a;
     border: var(--border-hairline) solid; /* cor: border-image em gold.css */
-    box-shadow: 0 1.5rem 3rem rgb(0 0 0 / 0.5);
+    box-shadow:
+      0 1.5rem 3rem rgb(0 0 0 / 0.8),
+      0 0 0 1px rgb(0 0 0 / 0.9);
   }
 
   .site-nav__group.is-open .site-nav__submenu {

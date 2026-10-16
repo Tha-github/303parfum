@@ -38,7 +38,7 @@
       data-hero-preload
       type="image/avif"
       imagesrcset="./src/assets/img/hero/banner-480.avif 480w, ./src/assets/img/hero/banner-800.avif 800w, ./src/assets/img/hero/banner-1122.avif 1122w"
-      imagesizes="(min-width: 48em) 48vh, 80vw"
+      imagesizes="(min-width: 64em) 80vh, (min-width: 48em) 48vh, 80vw"
       fetchpriority="high"
     />
     <!-- Fontes próprias: pré-carrega só as do título do hero -->
@@ -57,7 +57,7 @@
         <a class="site-header__logo" href="#inicio">
           <picture>
             <source type="image/webp" srcset="./src/assets/img/brand/logo-1x.webp 1x, ./src/assets/img/brand/logo-2x.webp 2x" />
-            <img class="brand-logo" src="./src/assets/img/brand/logo-1x.png" srcset="./src/assets/img/brand/logo-1x.png 1x, ./src/assets/img/brand/logo-2x.png 2x" width="234" height="48" alt="303 Parfum" decoding="async" />
+            <img class="brand-logo" src="./src/assets/img/brand/logo-1x.png" srcset="./src/assets/img/brand/logo-1x.png 1x, ./src/assets/img/brand/logo-2x.png 2x" width="315" height="48" alt="303 Parfum" decoding="async" />
           </picture>
         </a>
 
@@ -149,20 +149,20 @@
                 type="image/avif"
                 data-hero-set="avif"
                 srcset="./src/assets/img/hero/banner-480.avif 480w, ./src/assets/img/hero/banner-800.avif 800w, ./src/assets/img/hero/banner-1122.avif 1122w"
-                sizes="(min-width: 48em) 48vh, 80vw"
+                sizes="(min-width: 64em) 80vh, (min-width: 48em) 48vh, 80vw"
               />
               <source
                 type="image/webp"
                 data-hero-set="webp"
                 srcset="./src/assets/img/hero/banner-480.webp 480w, ./src/assets/img/hero/banner-800.webp 800w, ./src/assets/img/hero/banner-1122.webp 1122w"
-                sizes="(min-width: 48em) 48vh, 80vw"
+                sizes="(min-width: 64em) 80vh, (min-width: 48em) 48vh, 80vw"
               />
               <img
                 class="hero__image"
                 data-hero-set="jpg"
                 src="./src/assets/img/hero/banner-1122.jpg"
                 srcset="./src/assets/img/hero/banner-480.jpg 480w, ./src/assets/img/hero/banner-800.jpg 800w, ./src/assets/img/hero/banner-1122.jpg 1122w"
-                sizes="(min-width: 48em) 48vh, 80vw"
+                sizes="(min-width: 64em) 80vh, (min-width: 48em) 48vh, 80vw"
                 width="1122"
                 height="1402"
                 alt="Mão segurando um frasco de perfume masculino sobre fundo escuro"
@@ -1037,7 +1037,7 @@
 
             <div class="product-modal__media" data-modal-media></div>
 
-            <div class="product-modal__content">
+            <div class="product-modal__head">
               <h2 class="product-modal__title" id="product-modal-title" data-modal-name></h2>
               <p class="product-modal__ref" data-modal-ref></p>
               <p class="eyebrow product-modal__family" data-modal-family></p>
@@ -1049,7 +1049,9 @@
                 <span class="price__to" aria-hidden="true" data-price-to></span>
               </p>
               <p class="product-modal__ask" data-modal-ask hidden>Valor sob consulta pelo WhatsApp</p>
+            </div>
 
+            <div class="product-modal__content">
               <section class="pyramid" aria-labelledby="pyramid-title" data-modal-pyramid>
                 <h3 class="pyramid__title" id="pyramid-title">Pirâmide olfativa</h3>
                 <dl class="pyramid__tiers">
@@ -1562,7 +1564,7 @@
             <a class="site-footer__logo" href="/#inicio">
               <picture>
                 <source type="image/webp" srcset="./src/assets/img/brand/logo-1x.webp 1x, ./src/assets/img/brand/logo-2x.webp 2x" />
-                <img class="brand-logo" src="./src/assets/img/brand/logo-1x.png" srcset="./src/assets/img/brand/logo-1x.png 1x, ./src/assets/img/brand/logo-2x.png 2x" width="234" height="48" alt="303 Parfum" loading="lazy" decoding="async" />
+                <img class="brand-logo" src="./src/assets/img/brand/logo-1x.png" srcset="./src/assets/img/brand/logo-1x.png 1x, ./src/assets/img/brand/logo-2x.png 2x" width="315" height="48" alt="303 Parfum" loading="lazy" decoding="async" />
               </picture>
             </a>
             <p class="site-footer__tagline">Alta perfumaria. <em>Preço justo.</em></p>

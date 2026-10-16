@@ -118,7 +118,7 @@ export function initProductModal(dialog, { promo = null } = {}) {
     q('[data-modal-whatsapp]').href = buildWhatsAppLink(MENSAGENS.produto(product.nome, productPromo));
     q('[data-modal-resell]').href = buildWhatsAppLink(MENSAGENS.revendaProduto(product.nome));
 
-    q('.product-modal__content').scrollTop = 0;
+    q('.product-modal__inner').scrollTop = 0;
     dialog.scrollTop = 0;
     lockScroll();
     dialog.showModal();
