@@ -27,9 +27,9 @@ body {
   background-color: var(--color-black);
   color: var(--color-text-on-dark);
   font-family: var(--font-body);
-  font-size: var(--fs-base);
-  font-weight: var(--fw-regular);
-  line-height: var(--lh-normal);
+  font-size: var(--fs-base);     /* 15px no celular, 16px no desktop */
+  font-weight: var(--fw-light);  /* Manrope 300 */
+  line-height: var(--lh-normal); /* 1.6 */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -100,8 +100,11 @@ h4 {
   text-wrap: balance;
 }
 
-h1 { font-size: var(--fs-5xl); line-height: var(--lh-tight); }
-h2 { font-size: var(--fs-3xl); }
+/* Escala leve: H1 2.25→4rem (300) · H2 1.75→2.75rem (300) · H3 1.15→1.4rem (400).
+   line-height ≥ 1.15 e sem letter-spacing negativo: acentos (Â, É) e
+   descendentes (ç, p, g, j) nunca são cortados. */
+h1 { font-size: var(--fs-5xl); }
+h2 { font-size: var(--fs-2xl); }
 h3 { font-size: var(--fs-xl); font-weight: var(--fw-regular); }
 h4 { font-size: var(--fs-lg); font-weight: var(--fw-regular); }
 
@@ -112,7 +115,7 @@ i {
 
 strong,
 b {
-  font-weight: var(--fw-semibold);
+  font-weight: var(--fw-medium); /* nada acima de 500 */
 }
 
 small {
@@ -127,8 +130,16 @@ a {
   transition: color var(--duration-fast) var(--ease-standard);
 }
 
-a:not([class]):hover {
-  color: var(--gold-solid);
+/* Links soltos: sublinhado em dourado gradiente que cresce no hover */
+a:not([class]) {
+  text-decoration: none;
+  background: var(--gold-gradient) left bottom / 0% var(--border-hairline) no-repeat;
+  transition: background-size var(--duration-slow) var(--ease-out);
+}
+
+a:not([class]):hover,
+a:not([class]):focus-visible {
+  background-size: 100% var(--border-hairline);
 }
 
 /* ---- Seleção de texto -------------------------------------------------- */
@@ -166,10 +177,10 @@ a:not([class]):hover {
   left: var(--space-4);
   z-index: var(--z-skip-link);
   padding: var(--space-3) var(--space-5);
-  background-color: var(--gold-solid);
+  background: var(--gold-gradient);
   color: var(--color-black);
   font-size: var(--fs-sm);
-  font-weight: var(--fw-semibold);
+  font-weight: var(--fw-medium);
   letter-spacing: var(--ls-wide);
   text-decoration: none;
   transform: translateY(calc(-100% - var(--space-8)));
@@ -215,4 +226,12 @@ html.is-scroll-locked body {
 /* Alvos programáticos (ex.: <main tabindex="-1"> do skip link) não ganham contorno */
 [tabindex="-1"]:focus-visible {
   outline: none;
+}
+
+/* Definições SVG compartilhadas (gradiente #gold): não ocupam espaço */
+.svg-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
 }

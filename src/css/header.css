@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Header fixo + navegação + menu mobile
+   Header fixo + logotipo + navegação (dropdown "Coleção") + menu mobile
    Estados (controlados por src/js/header.js):
      .site-header.is-scrolled     → passou de 80px: barra mais baixa (fundo sempre preto)
      .site-header.is-menu-open    → menu mobile aberto
@@ -18,7 +18,16 @@
    header o "containing block" do menu mobile (position: fixed). */
 .site-header {
   background-color: var(--color-black);
-  border-bottom: var(--border-hairline) solid rgb(var(--gold-rgb) / 0.2);
+}
+
+/* Linha inferior em dourado gradiente (gold.css), discreta */
+.site-header::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: var(--border-hairline);
+  opacity: 0.45;
+  pointer-events: none;
 }
 
 .site-header__inner {
@@ -35,58 +44,46 @@
   height: var(--header-height-compact);
 }
 
-/* ---- Wordmark ----------------------------------------------------------
-   Sem logotipo: assinatura tipográfica. "303" em itálico light, grande;
-   "PARFUM" em versalete espaçado, separados por um filete dourado.        */
-.wordmark {
+/* ---- Logotipo (src/assets/img/logo.png → npm run brand) ---------------
+   ~40px de altura no celular, ~48px no desktop; um pouco menor ao rolar.  */
+.site-header__logo {
   position: relative;
   z-index: var(--z-raised);
   display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
-  font-family: var(--font-display);
-  color: var(--color-ivory);
-  text-decoration: none;
-  line-height: 1;
-  white-space: nowrap;
+  flex-shrink: 0;
 }
 
-.wordmark__number {
-  font-size: 2rem;
-  font-style: italic;
-  font-weight: var(--fw-light);
-  letter-spacing: -0.03em;
-  font-variant-numeric: lining-nums; /* "303", não "3o3" (algarismos antigos) */
-  color: var(--gold-solid);
-  transition: font-size var(--duration-slow) var(--ease-luxe);
+.brand-logo {
+  display: block;
+  width: auto;
+  height: 2.5rem;
+  transition: height var(--duration-slow) var(--ease-luxe);
 }
 
-.wordmark__rule {
-  width: var(--border-hairline);
-  height: 1.375rem;
-  background-color: rgb(var(--gold-rgb) / 0.5);
+.site-header.is-scrolled .brand-logo {
+  height: 2.125rem;
 }
 
-.wordmark__name {
-  font-size: 0.9375rem;
-  font-weight: var(--fw-medium);
-  letter-spacing: var(--ls-widest);
-  text-transform: uppercase;
-  /* compensa o letter-spacing da última letra */
-  margin-right: calc(var(--ls-widest) * -1);
-}
+@media (min-width: 64em) {
+  .site-header__logo .brand-logo {
+    height: 3rem;
+  }
 
-.site-header.is-scrolled .wordmark__number {
-  font-size: 1.75rem;
+  .site-header.is-scrolled .site-header__logo .brand-logo {
+    height: 2.5rem;
+  }
 }
 
 /* ---- Navegação: base (desktop) --------------------------------------- */
-.site-nav__list {
+.site-nav__list,
+.site-nav__submenu {
   list-style: none;
+  margin: 0;
   padding: 0;
 }
 
-.site-nav__link {
+.site-nav__link,
+.site-nav__sublink {
   text-decoration: none;
 }
 
@@ -183,11 +180,12 @@
     gap: var(--space-2);
   }
 
-  .site-nav__link {
+  .site-nav__link,
+  .site-nav__sublink {
     display: inline-block;
     padding-block: var(--space-1);
     font-family: var(--font-display);
-    font-size: var(--fs-4xl);
+    font-size: var(--fs-2xl);
     font-weight: var(--fw-light);
     line-height: var(--lh-snug);
     letter-spacing: var(--ls-tight);
@@ -195,23 +193,42 @@
     background-image: none; /* sem sublinhado animado no mobile */
   }
 
+  .site-nav .site-nav__link {
+    background-image: none; /* sem sublinhado animado no mobile */
+  }
+
+  /* Hover: itálico; nos links das abas, também o texto em gradiente (gold.css) */
   .site-nav__link:hover,
-  .site-nav__link:focus-visible {
-    color: var(--gold-solid);
+  .site-nav__link:focus-visible,
+  .site-nav__sublink:hover,
+  .site-nav__sublink:focus-visible {
     font-style: italic;
   }
 
-  .site-nav__aside {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-6);
+  /* Grupo "Coleção": rótulo fixo + as 4 abas sempre visíveis */
+  .site-nav__trigger {
+    display: none;
   }
 
-  .site-nav__aside .btn {
-    width: 100%;
+  .site-nav__group {
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-6);
+    border-bottom: var(--border-hairline) solid var(--color-smoke);
   }
 
+  .site-nav__group-label {
+    display: block;
+    margin-bottom: var(--space-3);
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-medium);
+    letter-spacing: var(--ls-widest);
+    text-transform: uppercase;
+  }
+
+  .site-nav__submenu {
+    display: grid;
+    gap: var(--space-1);
+  }
 
   .site-nav__footer {
     display: block;
@@ -225,7 +242,6 @@
 
   /* Entrada escalonada dos itens */
   .site-nav__list > li,
-  .site-nav__aside,
   .site-nav__footer {
     opacity: 0;
     transform: translateY(var(--space-4));
@@ -235,7 +251,6 @@
   }
 
   .site-header.is-menu-open .site-nav__list > li,
-  .site-header.is-menu-open .site-nav__aside,
   .site-header.is-menu-open .site-nav__footer {
     opacity: 1;
     transform: none;
@@ -245,65 +260,167 @@
   .site-header.is-menu-open .site-nav__list > li:nth-child(2) { transition-delay: 180ms; }
   .site-header.is-menu-open .site-nav__list > li:nth-child(3) { transition-delay: 240ms; }
   .site-header.is-menu-open .site-nav__list > li:nth-child(4) { transition-delay: 300ms; }
-  .site-header.is-menu-open .site-nav__aside { transition-delay: 380ms; }
-  .site-header.is-menu-open .site-nav__footer { transition-delay: 440ms; }
+  .site-header.is-menu-open .site-nav__footer { transition-delay: 380ms; }
 }
 
-/* Tablet: menu com mais respiro e links lado a lado no rodapé */
+/* Tablet: menu com mais respiro */
 @media (min-width: 48em) and (max-width: 63.999em) {
   .site-nav {
     padding-inline: var(--space-16);
   }
-
-  .site-nav__aside {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .site-nav__aside .btn {
-    width: auto;
-  }
 }
 
 /* ==========================================================================
-   Desktop (≥ 64em): navegação em linha
+   Desktop (≥ 64em): navegação em linha, "Coleção" com dropdown
    ========================================================================== */
 @media (min-width: 64em) {
   .nav-toggle {
     display: none;
   }
 
+  /* Esquerda: só o logo. Direita, agrupados: Coleção · FAQ · Contato ·
+     [Seja Revendedor] — ~32px entre os links e ~24px até o botão. */
   .site-nav {
     display: flex;
     flex: 1;
     align-items: center;
-    justify-content: space-between;
-    gap: var(--space-8);
+    justify-content: flex-end;
   }
 
   .site-nav__list {
     display: flex;
-    gap: clamp(var(--space-6), 3vw, var(--space-10));
-    margin-inline: auto;
+    align-items: center;
+    gap: var(--space-8); /* 32px */
   }
 
   .site-nav__link {
-    font-size: var(--fs-2xs);
-    font-weight: var(--fw-medium);
-    letter-spacing: var(--ls-wider);
+    font-size: var(--fs-xs);           /* 12px */
+    font-weight: var(--fw-regular);
+    letter-spacing: var(--ls-wider);   /* 0.2em */
     text-transform: uppercase;
     color: var(--color-ivory);
   }
 
-  .site-nav__link:hover {
-    color: var(--gold-solid);
+  /* Sublinhado em dourado gradiente (link-underline + gold.css) */
+  .site-nav__group.is-open .site-nav__trigger {
+    background-position: left bottom;
+    background-size: 100% var(--border-hairline);
   }
 
-  .site-nav__aside {
-    display: flex;
+  /* "Seja Revendedor": último item, botão com contorno dourado */
+  .site-nav__cta {
+    order: 1;
+    margin-left: calc(var(--space-6) - var(--space-8)); /* 24px até o botão */
+  }
+
+  .site-nav__cta .site-nav__link {
+    display: inline-flex;
     align-items: center;
-    gap: var(--space-6);
+    min-height: 2.75rem;
+    padding-inline: var(--space-5);
+    border: var(--border-hairline) solid; /* cor: border-image em gold.css */
+    background-image: none;
+    background-size: 200% 100%;
+    background-position: 0% 50%;
+    transition:
+      background-position 900ms var(--ease-luxe),
+      color var(--duration-base) var(--ease-standard);
   }
 
+  /* Hover: preenchimento em gradiente com brilho deslizante e texto preto */
+  .site-nav__cta .site-nav__link:hover {
+    background-image: var(--gold-gradient);
+    background-position: 100% 50%;
+    color: var(--color-black);
+  }
+
+  /* ---- Dropdown "Coleção" ---- */
+  .site-nav__group {
+    position: relative;
+  }
+
+  .site-nav__group-label {
+    display: none; /* continua nomeando a lista (aria-labelledby) */
+  }
+
+  .site-nav__trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 2.75rem;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  .site-nav__chevron {
+    width: 0.4rem;
+    height: 0.4rem;
+    margin-top: -0.2rem;
+    border-right: var(--border-hairline) solid currentColor;
+    border-bottom: var(--border-hairline) solid currentColor;
+    transform: rotate(45deg);
+    transition: transform var(--duration-base) var(--ease-standard);
+  }
+
+  .site-nav__group.is-open .site-nav__chevron {
+    margin-top: 0.2rem;
+    transform: rotate(-135deg);
+  }
+
+  /* Caixa SEMPRE preta e opaca, igual em qualquer seção. Sobre o hero (preto
+     puro) um leve brilho dourado e a sombra separam a caixa do fundo, para
+     ela não parecer transparente. */
+  .site-nav__submenu {
+    position: absolute;
+    top: calc(100% + var(--space-3));
+    left: calc(var(--space-5) * -1);
+    z-index: var(--z-raised);
+    display: none;
+    min-width: 15rem;
+    padding-block: var(--space-2);
+    background:
+      radial-gradient(120% 80% at 0% 0%, rgb(var(--gold-rgb) / 0.1), transparent 65%),
+      #0a0a0a;
+    border: var(--border-hairline) solid; /* cor: border-image em gold.css */
+    box-shadow:
+      0 1.5rem 3rem rgb(0 0 0 / 0.8),
+      0 0 0 1px rgb(0 0 0 / 0.9);
+  }
+
+  .site-nav__group.is-open .site-nav__submenu {
+    display: block;
+  }
+
+  /* Ponte invisível sobre o vão entre o botão e a lista: o mouse não
+     "cai" no caminho (vale para o fallback de hover abaixo) */
+  .site-nav__submenu::before {
+    content: "";
+    position: absolute;
+    inset: calc(var(--space-3) * -1 - var(--border-hairline)) 0 auto;
+    height: var(--space-3);
+  }
+
+  /* Sem JS (ex.: index.html aberto com duplo clique, file://, onde o
+     navegador bloqueia os módulos): abre no hover e com foco/clique.
+     Com JS, header.js marca .is-enhanced e vale só o botão. */
+  .site-nav__group:not(.is-enhanced):hover .site-nav__submenu,
+  .site-nav__group:not(.is-enhanced):focus-within .site-nav__submenu {
+    display: block;
+  }
+
+  .site-nav__sublink {
+    display: block;
+    padding: var(--space-3) var(--space-5);
+    font-size: var(--fs-sm);
+    color: var(--color-ivory);
+    text-decoration: none;
+    transition:
+      color var(--duration-fast) var(--ease-standard),
+      background-color var(--duration-fast) var(--ease-standard);
+  }
+
+  /* Hover: texto em dourado gradiente (gold.css) */
 }

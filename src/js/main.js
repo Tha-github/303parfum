@@ -9,14 +9,14 @@ import { initHeader } from './header.js';
 import { initMap } from './map.js';
 import { initMotion } from './motion.js';
 import { initResellerForm } from './reseller-form.js';
-import { initCategoryLinks, initFooterYear, initHashLanding, initSamePageLinks } from './site-links.js';
+import { initTabLinks, initFooterYear, initHashLanding, initSamePageLinks } from './site-links.js';
 import { initWhatsAppLinks } from './whatsapp.js';
 
 initHashLanding();
 initHeader();
 initSamePageLinks();
-initCategoryLinks();
-initCatalog();
+const catalog = initCatalog();
+initTabLinks((tab) => catalog?.select(tab));
 initResellerForm();
 initFaq();
 initMap();

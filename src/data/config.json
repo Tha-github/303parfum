@@ -1,0 +1,8 @@
+{
+  "promocao": {
+    "ativa": true,
+    "preco_de": 250.00,
+    "preco_por": 199.90,
+    "texto": "Por tempo limitado"
+  }
+}

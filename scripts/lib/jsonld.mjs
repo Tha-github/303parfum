@@ -1,26 +1,31 @@
 /**
  * JSON-LD (schema.org) gerado no build e gravado no HTML (vite.config.js).
  *
- * Publica só o que é verdadeiro e válido:
- *   - Organization + WebSite: sempre.
+ *   - Organization + WebSite.
+ *   - Store (LocalBusiness) ×2: Recife e Garanhuns, com endereço, telefone,
+ *     e-mail, horário e área atendida (config/site.mjs).
  *   - FAQPage: só perguntas cujas respostas não têm [CONFIRMAR].
- *   - ItemList de Product: só quando TODOS os produtos têm preço. Sem
- *     "offers", o Google acusa erro em cada Product (Rich Results Test);
- *     por isso, enquanto os preços não forem definidos, nada é publicado.
+ *   - ItemList com os produtos válidos de products.json. Com a promoção
+ *     ativa (src/data/config.json), cada Product leva offers (preço, BRL,
+ *     InStock); sem ela, sai sem offers.
  */
 import { SITE } from '../../config/site.mjs';
+import { TABS } from '../../src/data/tabs.js';
 
 const isConfirmed = (...texts) => !texts.some((t) => String(t).includes('[CONFIRMAR'));
 const e164 = (digits) => `+${digits}`;
+const ORG_ID = `${SITE.url}/#organizacao`;
+const TAB_LABEL = Object.fromEntries(TABS.map((t) => [t.slug, t.label]));
 
 export function organization() {
   const org = {
     '@type': 'Organization',
-    '@id': `${SITE.url}/#organizacao`,
+    '@id': ORG_ID,
     name: SITE.name,
     url: `${SITE.url}/`,
+    logo: `${SITE.url}/apple-touch-icon.png`,
     description: SITE.description,
-    areaServed: Object.values(SITE.places).map((p) => ({ '@type': 'City', name: p.label })),
+    areaServed: Object.values(SITE.places).map((p) => ({ '@type': 'City', name: p.city })),
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer service',
@@ -40,8 +45,31 @@ export function website() {
     url: `${SITE.url}/`,
     name: SITE.name,
     inLanguage: 'pt-BR',
-    publisher: { '@id': `${SITE.url}/#organizacao` },
+    publisher: { '@id': ORG_ID },
   };
+}
+
+/** Uma Store (LocalBusiness) por unidade. */
+export function stores() {
+  return Object.entries(SITE.places).map(([key, p]) => ({
+    '@type': 'Store',
+    '@id': `${SITE.url}/#loja-${key}`,
+    name: `${SITE.name} — ${p.city}`,
+    url: `${SITE.url}/#contato`,
+    image: `${SITE.url}/og-image.jpg`,
+    telephone: SITE.whatsapp.e164,
+    email: SITE.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: `${p.street} — ${p.district}`,
+      addressLocality: p.city,
+      addressRegion: p.region,
+      addressCountry: 'BR',
+    },
+    openingHours: SITE.openingHours,
+    areaServed: { '@type': 'City', name: p.city },
+    parentOrganization: { '@id': ORG_ID },
+  }));
 }
 
 export function faqPage(items) {
@@ -59,40 +87,38 @@ export function faqPage(items) {
 }
 
 /**
- * @param {object} catalog products.json
- * @param {(path: string) => string | null} resolveImage caminho do JSON → URL final (hash do build)
+ * @param {{ products: object[], promo: {por:number}|null }} catalog loadCatalogContext()
+ * @param {(slug: string) => string | null} imageUrl imagem do produto → URL final (hash do build)
  */
-export function productList(catalog, resolveImage) {
-  const produtos = Array.isArray(catalog?.produtos) ? catalog.produtos : [];
-  const allPriced = produtos.length > 0 && produtos.every((p) => typeof p.preco === 'number' && p.preco >= 0);
-  if (!allPriced) return null;
-
-  const categoryName = Object.fromEntries((catalog.categorias ?? []).map((c) => [c.slug, c.nome]));
+export function productList({ products, promo }, imageUrl) {
+  if (!products.length) return null;
   return {
     '@type': 'ItemList',
     '@id': `${SITE.url}/#colecao`,
     name: `Coleção ${SITE.name}`,
-    numberOfItems: produtos.length,
-    itemListElement: produtos.map((p, index) => {
-      const url = `${SITE.url}/?linha=${encodeURIComponent(p.categoria)}#produto-${encodeURIComponent(p.slug)}`;
-      const image = resolveImage(p.imagem);
+    numberOfItems: products.length,
+    itemListElement: products.map((p, index) => {
+      const url = `${SITE.url}/?linha=${encodeURIComponent(p.categorias[0])}#colecao`;
       const product = {
         '@type': 'Product',
         name: p.nome,
-        sku: p.id,
         url,
-        brand: { '@type': 'Brand', name: SITE.name },
-        offers: {
-          '@type': 'Offer',
-          price: p.preco.toFixed(2),
-          priceCurrency: 'BRL',
-          availability: 'https://schema.org/InStock', // [CONFIRMAR] controle de estoque
-          url,
-        },
+        brand: { '@type': 'Brand', name: '303 Parfum' },
+        category: p.categorias.map((c) => TAB_LABEL[c]).join(', '),
       };
+      if (p.id !== null) product.sku = String(p.id);
       if (p.descricao) product.description = p.descricao;
+      const image = p.imagem && imageUrl(p.imagem);
       if (image) product.image = new URL(image, SITE.url).href;
-      if (categoryName[p.categoria]) product.category = categoryName[p.categoria];
+      if (promo && p.promocao) {
+        product.offers = {
+          '@type': 'Offer',
+          price: promo.por.toFixed(2),
+          priceCurrency: 'BRL',
+          availability: 'https://schema.org/InStock',
+          url,
+        };
+      }
       return { '@type': 'ListItem', position: index + 1, item: product };
     }),
   };
@@ -100,7 +126,7 @@ export function productList(catalog, resolveImage) {
 
 /** <script type="application/ld+json"> com "<" escapado (um "</script>" nos dados não fecha a tag). */
 export function jsonLdScript(nodes) {
-  const graph = { '@context': 'https://schema.org', '@graph': nodes.filter(Boolean) };
+  const graph = { '@context': 'https://schema.org', '@graph': nodes.flat().filter(Boolean) };
   const json = JSON.stringify(graph, null, 2).replace(/</g, '\\u003c');
   return `<script type="application/ld+json">\n${json}\n    </script>`;
 }

@@ -29,7 +29,7 @@ function netlify() {
     block('/assets/*', { 'Cache-Control': CACHE.immutable }),
     block('/', { 'Cache-Control': CACHE.html }),
     block('/*.html', { 'Cache-Control': CACHE.html }),
-    block('/favicon.svg', { 'Cache-Control': CACHE.short }),
+    block('/favicon-32.png', { 'Cache-Control': CACHE.short }),
     block('/og-image.jpg', { 'Cache-Control': CACHE.short }),
     block('/apple-touch-icon.png', { 'Cache-Control': CACHE.short }),
     block('/.well-known/*', { 'Cache-Control': CACHE.short }),
@@ -124,7 +124,7 @@ ${headerLines}
   <FilesMatch "-[A-Za-z0-9_-]{8}\\.(js|css|avif|webp|jpe?g|png|svg|woff2?)$">
     Header set Cache-Control "${CACHE.immutable}"
   </FilesMatch>
-  <FilesMatch "^(favicon\\.svg|og-image\\.jpg|apple-touch-icon\\.png|robots\\.txt|sitemap\\.xml|security\\.txt)$">
+  <FilesMatch "^(favicon-32\\.png|og-image\\.jpg|apple-touch-icon\\.png|robots\\.txt|sitemap\\.xml|security\\.txt)$">
     Header set Cache-Control "${CACHE.short}"
   </FilesMatch>
 </IfModule>

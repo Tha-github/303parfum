@@ -37,18 +37,18 @@ export const faqItems = [
     id: 'regioes',
     pergunta: 'Quais regiões vocês atendem?',
     resposta: [
-      'Atendemos em Recife e em Garanhuns, em Pernambuco. Para outras cidades, fale com a gente pelo WhatsApp e verificamos as possibilidades. [CONFIRMAR COM A CLIENTE: envio para outras cidades]',
+      'Atendemos em Recife e em Garanhuns, em Pernambuco. Para outras cidades, fale com a gente pelo WhatsApp.',
     ],
   },
   {
     id: 'pagamento',
     pergunta: 'Quais são as formas de pagamento?',
-    resposta: ['[CONFIRMAR COM A CLIENTE] Ex.: Pix, cartão de crédito e débito, dinheiro.'],
+    resposta: ['Aceitamos cartão de crédito, cartão de débito e Pix.'],
   },
   {
     id: 'entrega',
     pergunta: 'Qual é o prazo de entrega?',
-    resposta: ['[CONFIRMAR COM A CLIENTE] Prazos para Recife, Garanhuns e demais cidades, e se há opção de retirada.'],
+    resposta: ['O prazo de entrega é de 5 a 7 dias.'],
   },
   {
     id: 'nicho-arabe-capilar',

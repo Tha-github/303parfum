@@ -10,7 +10,7 @@
   --field-muted: var(--color-text-on-dark-muted);
   --field-subtle: var(--color-text-on-dark-subtle);
   --field-line: var(--color-input-line-on-dark);
-  --field-focus: var(--gold-solid);
+  --field-focus: var(--color-ivory); /* linhas/rótulos dourados: gold.css */
   --field-error: var(--color-error-on-dark);
   --field-bg: var(--color-ink);
 }
@@ -21,7 +21,7 @@
   --field-muted: var(--color-text-on-light-muted);
   --field-subtle: var(--color-text-on-light-subtle);
   --field-line: var(--color-input-line-on-light);
-  --field-focus: var(--gold-deep);
+  --field-focus: var(--color-black);
   --field-error: var(--color-error-on-light);
   --field-bg: var(--color-paper);
 }
@@ -84,8 +84,8 @@
 
 .field__control:focus {
   outline: none;
-  border-bottom-color: var(--field-focus);
-  box-shadow: 0 1px 0 0 var(--field-focus); /* linha "engrossa" para 2px no foco */
+  border-bottom-width: 2px; /* linha em gradiente no foco: gold.css */
+  padding-bottom: calc(var(--space-2) - 1px);
 }
 
 .field__control--textarea {
@@ -180,10 +180,6 @@
 
 .field__counter {
   font-variant-numeric: tabular-nums;
-}
-
-.field__counter.is-near-limit {
-  color: var(--gold-solid);
 }
 
 .field__error {

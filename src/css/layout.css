@@ -70,7 +70,7 @@
   background-color: var(--color-black);
   color: var(--color-text-on-dark);
   --section-muted: var(--color-text-on-dark-muted);
-  --section-accent: var(--gold-solid);
+  --section-accent: var(--color-ivory); /* dourado só via gold.css */
   --section-border: var(--color-smoke);
 }
 
@@ -91,10 +91,19 @@
   --section-border: #e8e3da;
 }
 
+/* Cabeçalho de seção (eyebrow, título, apoio): sempre CENTRALIZADO, ~720px */
 .section__header {
   display: grid;
+  justify-items: center;
   gap: var(--space-4);
-  margin-bottom: var(--space-16);
+  max-width: var(--container-sm);
+  margin-inline: auto;
+  margin-bottom: var(--space-12);
+  text-align: center;
+}
+
+.section__header p {
+  margin-inline: auto;
 }
 
 /* ---- Divisor de 1px ---------------------------------------------------- */
@@ -106,7 +115,7 @@
 }
 
 .divider--accent {
-  border-top-color: var(--section-accent, var(--gold-solid));
+  border-top: 0; /* linha em gradiente: gold.css */
 }
 
 .divider--short {

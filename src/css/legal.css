@@ -18,15 +18,13 @@
 
 .legal-header__back {
   font-size: var(--fs-2xs);
-  font-weight: var(--fw-semibold);
+  font-weight: var(--fw-medium);
   letter-spacing: var(--ls-wider);
   text-transform: uppercase;
   color: var(--color-text-on-dark-muted);
 }
 
-.legal-header__back:hover {
-  color: var(--gold-solid);
-}
+/* .legal-header__back:hover → texto em gradiente (gold.css) */
 
 /* ---- Política --------------------------------------------------------- */
 .legal__title {
@@ -136,9 +134,7 @@
   font-weight: var(--fw-light);
   font-variant-numeric: lining-nums;
   line-height: 0.8;
-  letter-spacing: -0.04em;
-  color: transparent;
-  -webkit-text-stroke: var(--border-hairline) rgb(var(--gold-rgb) / 0.35);
+  opacity: 0.16; /* numeral decorativo em gradiente (gold.css) */
   transform: translateY(-50%);
   pointer-events: none;
   user-select: none;
@@ -156,10 +152,6 @@
   line-height: var(--lh-tight);
 }
 
-.not-found__title em {
-  color: var(--gold-solid);
-}
-
 .not-found__text {
   max-width: 40ch;
   color: var(--section-muted);
@@ -171,4 +163,18 @@
   flex-wrap: wrap;
   gap: var(--space-3);
   margin-top: var(--space-4);
+}
+
+.legal-header__logo {
+  display: inline-flex;
+}
+
+.legal-header__logo .brand-logo {
+  height: 2.5rem;
+}
+
+@media (min-width: 64em) {
+  .legal-header__logo .brand-logo {
+    height: 3rem;
+  }
 }

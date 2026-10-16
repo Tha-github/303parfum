@@ -9,46 +9,50 @@
  *   - segurança: headers, redirecionamento www, security.txt
  *
  * Arquivo importado também pelo navegador: só dados, nada de Node.
- * Itens com [CONFIRMAR] dependem da cliente.
  */
 export const SITE = {
   name: '303 Parfum',
-  // [DOMINIO] [CONFIRMAR] URL canônica, sem barra no final
+  // [DOMINIO] URL canônica, sem barra no final
   url: 'https://www.303parfum.com.br',
   description:
-    'Alta perfumaria a preço justo: fragrâncias com rigor técnico, notas ricas e desempenho de padrão internacional. Recife e Garanhuns. Seja revendedor.',
+    'Promoção: perfumes importados de R$ 250,00 por R$ 199,90 na 303 Parfum, em Recife e Garanhuns (PE). Femininos, masculinos, nicho e árabes. Seja revendedor.',
   locale: 'pt_BR',
 
   whatsapp: {
     number: '5587992120334', // só dígitos, com DDI 55
     display: '(87) 99212-0334',
+    e164: '+55 87 99212-0334',
   },
-  email: 'contato@303parfum.com.br', // [CONFIRMAR]
+  email: 'larissa.ifpe4@gmail.com',
   instagram: {
-    handle: '@303parfum', // [CONFIRMAR]
-    url: 'https://www.instagram.com/303parfum/', // [CONFIRMAR]
+    handle: '@303parfum', // a confirmar com a cliente
+    url: 'https://www.instagram.com/303parfum/',
   },
 
-  hours: '[CONFIRMAR COM A CLIENTE] Seg. a sex., 9h às 18h · Sáb., 9h às 13h',
+  hours: 'Seg. a sex., 9h às 18h · Sáb., 9h às 13h',
+  // Mesmo horário no formato schema.org (JSON-LD)
+  openingHours: ['Mo-Fr 09:00-18:00', 'Sa 09:00-13:00'],
 
-  // Endereços das unidades. `mapsQuery` é o que o mapa busca no Google:
-  // troque pelo endereço completo quando confirmado.
+  // Unidades. `mapsQuery` é o que o mapa busca no Google (após o clique).
   places: {
     recife: {
       label: 'Recife, PE',
-      address: '[CONFIRMAR COM A CLIENTE: endereço]',
-      mapsQuery: 'Recife, PE',
+      address: 'Rua Teixeira de Freitas, 135 — Várzea, Recife - PE',
+      street: 'Rua Teixeira de Freitas, 135',
+      district: 'Várzea',
+      city: 'Recife',
+      region: 'PE',
+      mapsQuery: 'Rua Teixeira de Freitas, 135, Várzea, Recife - PE',
     },
     garanhuns: {
       label: 'Garanhuns, PE',
-      address: '[CONFIRMAR COM A CLIENTE: endereço]',
-      mapsQuery: 'Garanhuns, PE',
+      address: 'Rua Ary Barroso, 135 — Magano, Garanhuns - PE',
+      street: 'Rua Ary Barroso, 135',
+      district: 'Magano',
+      city: 'Garanhuns',
+      region: 'PE',
+      mapsQuery: 'Rua Ary Barroso, 135, Magano, Garanhuns - PE',
     },
-  },
-
-  legal: {
-    companyName: '[CONFIRMAR: razão social]',
-    cnpj: '[CONFIRMAR]',
   },
 };
 

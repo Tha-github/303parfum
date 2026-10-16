@@ -17,7 +17,7 @@
   left: 0;
   right: 0;
   height: var(--border-hairline);
-  background-color: rgb(var(--gold-rgb) / 0.35);
+  opacity: 0.6; /* gradiente: gold.css */
   transform-origin: left center;
   transition: transform 1800ms var(--ease-reveal);
 }
@@ -26,37 +26,33 @@
   max-width: var(--container-lg);
 }
 
+/* Tudo centralizado: marca em cima, colunas ao centro, base ao centro */
 .site-footer__top {
   display: grid;
-  gap: var(--space-16);
+  justify-items: center;
+  gap: var(--space-12);
+  text-align: center;
+}
+
+.site-footer__brand {
+  display: grid;
+  justify-items: center;
 }
 
 /* ---- Marca -------------------------------------------------------------- */
-.wordmark--lg {
-  gap: var(--space-5);
+.site-footer__logo {
+  display: inline-flex;
 }
 
-.wordmark--lg .wordmark__number {
-  font-size: clamp(4rem, 2.5rem + 6vw, 7.5rem);
-}
-
-.wordmark--lg .wordmark__rule {
-  height: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
-}
-
-.wordmark--lg .wordmark__name {
-  font-size: clamp(1.25rem, 1rem + 1vw, 1.875rem);
+.site-footer__logo .brand-logo {
+  height: 3rem;
 }
 
 .site-footer__tagline {
-  margin-top: var(--space-6);
+  margin-top: var(--space-5);
   font-family: var(--font-display);
-  font-size: var(--fs-xl);
+  font-size: var(--fs-lg);
   font-weight: var(--fw-light);
-}
-
-.site-footer__tagline em {
-  color: var(--gold-solid);
 }
 
 .site-footer__text {
@@ -68,7 +64,7 @@
 .site-footer__label {
   display: block;
   font-size: var(--fs-2xs);
-  font-weight: var(--fw-semibold);
+  font-weight: var(--fw-medium);
   letter-spacing: var(--ls-wider);
   text-transform: uppercase;
   color: var(--color-ivory);
@@ -86,21 +82,23 @@
 .site-footer__nav {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-10) var(--space-6);
+  justify-items: center;
+  gap: var(--space-10) var(--space-10);
+  width: 100%;
 }
 
 .site-footer__heading {
   margin-bottom: var(--space-5);
   font-family: var(--font-body);
   font-size: var(--fs-2xs);
-  font-weight: var(--fw-semibold);
+  font-weight: var(--fw-medium);
   letter-spacing: var(--ls-widest);
   text-transform: uppercase;
-  color: var(--gold-solid);
 }
 
 .site-footer__list {
   display: grid;
+  justify-items: center;
   gap: var(--space-3);
 }
 
@@ -115,16 +113,14 @@
   transition: color var(--duration-fast) var(--ease-standard);
 }
 
-.site-footer__link:hover {
-  color: var(--gold-solid);
-}
-
 /* ---- Base ------------------------------------------------------------- */
+/* Política de Privacidade em cima; direitos e crédito embaixo — ao centro */
 .site-footer__bottom {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
-  gap: var(--space-3) var(--space-8);
+  gap: var(--space-3);
+  text-align: center;
   margin-top: var(--space-20);
   padding-top: var(--space-6);
   border-top: var(--border-hairline) solid var(--color-smoke);
@@ -138,27 +134,52 @@
   letter-spacing: inherit;
 }
 
+.site-footer__copy {
+  max-width: none;
+}
+
+.site-footer__sep {
+  margin-inline: var(--space-2);
+}
+
+/* Celular: crédito na linha de baixo, sem a barra sobrando */
+@media (max-width: 47.999em) {
+  .site-footer__sep {
+    display: none;
+  }
+
+  .site-footer__by {
+    display: block;
+    margin-top: var(--space-1);
+  }
+}
+
+/* Crédito: TOP SITE em negrito (única exceção ao teto de peso 500) */
+.site-footer__credit {
+  font-weight: 700;
+  color: var(--color-ivory);
+  text-decoration: none;
+  background: var(--gold-gradient) left bottom / 0% var(--border-hairline) no-repeat;
+  transition: background-size var(--duration-slow) var(--ease-out);
+}
+
+.site-footer__credit:hover,
+.site-footer__credit:focus-visible {
+  background-size: 100% var(--border-hairline);
+}
+
+/* Colunas lado a lado e centralizadas a partir do tablet; empilhadas no celular */
 @media (min-width: 48em) {
   .site-footer__nav {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 15rem));
+    justify-content: center;
+    align-items: start;
   }
 }
 
 @media (min-width: 64em) {
   .site-footer__nav {
-    /* a coluna Contato (endereços, horário) é a mais longa */
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, 0.8fr);
-  }
-}
-
-@media (min-width: 64em) {
-  .site-footer__top {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    column-gap: var(--space-16);
-  }
-
-  .site-footer__bottom .site-footer__link {
-    margin-left: auto;
+    grid-template-columns: repeat(4, minmax(0, 15rem));
   }
 }
 

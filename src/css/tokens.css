@@ -24,7 +24,9 @@
      - --gold-gradient       linhas, bordas, botões, ícones e texto GRANDE no escuro
      - --gold-gradient-text  texto PEQUENO no escuro (pontas ≥ 5,7:1 sobre #141414)
      - --gold-gradient-deep  texto GRANDE/ícones sobre claro (≥ 3,8:1 sobre marfim)
-     Texto pequeno sobre fundo claro: preto (nunca dourado).               */
+     - --gold-gradient-ink   texto PEQUENO sobre claro (todas as paradas ≥ 4,8:1)
+     Todo dourado visível é gradiente (gold.css). --gold-solid só existe como
+     fallback em @supports not (background-clip: text).                    */
   --gold-solid: #c9a13b;   /* fallback, ícones e bordas simples (8,2:1 no preto) */
   --gold-light: #f3e2a4;
   --gold-deep: #7a5c1e;    /* dourado legível sobre claro (6,2:1 no branco) */
@@ -32,19 +34,22 @@
   --gold-gradient: linear-gradient(135deg, #8c6b2e 0%, #c9a13b 22%, #f3e2a4 48%, #d4af37 70%, #8c6b2e 100%);
   --gold-gradient-text: linear-gradient(135deg, #b08a3a 0%, #c9a13b 22%, #f3e2a4 48%, #d4af37 70%, #b08a3a 100%);
   --gold-gradient-deep: linear-gradient(135deg, #5e4719 0%, #7a5c1e 30%, #9a7628 55%, #7a5c1e 80%, #5e4719 100%);
+  --gold-gradient-ink: linear-gradient(135deg, #4a3812 0%, #6b5019 30%, #86662a 55%, #6b5019 80%, #4a3812 100%);
 
   /* ---- Cores: texto -------------------------------------------------- */
-  --color-text-on-dark: var(--color-ivory);          /* 17.6:1 */
+  --color-text-on-dark: rgb(246 244 240 / 0.9);      /* leve transparência — ~14:1 */
   --color-text-on-dark-muted: #a8a29a;               /* 7.8:1 */
   --color-text-on-dark-subtle: #8a8378;              /* 5.3:1 — mínimo AA */
-  --color-text-on-light: var(--color-black);         /* 17.6:1 */
+  --color-text-on-light: rgb(10 10 10 / 0.88);       /* leve transparência — ~13:1 */
   --color-text-on-light-muted: #5c5650;              /* 6.6:1 */
   --color-text-on-light-subtle: #6b655e;             /* 5.2:1 */
 
   /* ---- Cores: funcionais --------------------------------------------- */
-  --color-focus: var(--gold-solid);       /* sobre claro: --gold-deep (gold.css) */
-  --color-selection-bg: var(--gold-solid);
-  --color-selection-text: var(--color-black);
+  /* Foco e seleção não podem ter gradiente (outline/::selection só aceitam
+     cor): ficam neutros para não haver dourado chapado. */
+  --color-focus: var(--color-ivory);      /* sobre claro: preto (gold.css) */
+  --color-selection-bg: #5c5650;
+  --color-selection-text: var(--color-white);
   --color-whatsapp: #25d366; /* reservado; o botão usa a paleta da marca */
   --color-error-on-dark: #f0a59c;   /* 9.3:1 sobre ink */
   --color-input-line-on-dark: #6b655e; /* 3.2:1 — mínimo para bordas de controle */
@@ -59,34 +64,36 @@
   --fw-light: 300;
   --fw-regular: 400;
   --fw-medium: 500;
-  --fw-semibold: 600;
+  --fw-semibold: 500; /* teto do site: nada acima de 500 */
 
   /* ---- Tipografia: escala fluida ------------------------------------
      Interpolação linear entre 360px (min) e 1440px (max) de viewport.
      Fórmula: clamp(min, min + (max-min) * (100vw - 360px) / 1080, max)
      expressa como rem + vw.                                             */
-  --fs-2xs: clamp(0.6875rem, 0.6563rem + 0.139vw, 0.75rem);   /* 11 → 12 */
-  --fs-xs:  clamp(0.75rem, 0.7188rem + 0.139vw, 0.8125rem);    /* 12 → 13 */
-  --fs-sm:  clamp(0.875rem, 0.8438rem + 0.139vw, 0.9375rem);   /* 14 → 15 */
-  --fs-base: clamp(1rem, 0.9583rem + 0.185vw, 1.0625rem);      /* 16 → 17 */
-  --fs-md:  clamp(1.125rem, 1.0417rem + 0.37vw, 1.25rem);      /* 18 → 20 */
-  --fs-lg:  clamp(1.25rem, 1.0833rem + 0.741vw, 1.5rem);       /* 20 → 24 */
-  --fs-xl:  clamp(1.5rem, 1.1667rem + 1.481vw, 2rem);          /* 24 → 32 */
-  --fs-2xl: clamp(1.875rem, 1.25rem + 2.778vw, 2.8125rem);     /* 30 → 45 */
-  --fs-3xl: clamp(2.25rem, 1.25rem + 4.444vw, 3.75rem);        /* 36 → 60 */
-  --fs-4xl: clamp(2.75rem, 1.4167rem + 5.926vw, 4.75rem);      /* 44 → 76 */
-  --fs-5xl: clamp(3.125rem, 1.375rem + 7.778vw, 5.75rem);      /* 50 → 92 */
+  /* Escala ~15–20% menor que a versão anterior (letras mais leves). */
+  --fs-2xs: 0.6875rem;                                          /* 11 — eyebrows, rótulos */
+  --fs-xs:  0.75rem;                                            /* 12 — botões, links do header */
+  --fs-sm:  clamp(0.8125rem, 0.7917rem + 0.093vw, 0.875rem);   /* 13 → 14 */
+  --fs-base: clamp(0.9375rem, 0.9167rem + 0.093vw, 1rem);      /* 15 → 16 — texto corrido */
+  --fs-md:  clamp(1rem, 0.9583rem + 0.185vw, 1.125rem);        /* 16 → 18 */
+  --fs-lg:  clamp(1.0625rem, 0.9931rem + 0.309vw, 1.25rem);    /* 17 → 20 */
+  --fs-xl:  clamp(1.15rem, 1.6vw, 1.4rem);                      /* H3 / nome do produto */
+  --fs-2xl: clamp(1.75rem, 3.5vw, 2.75rem);                     /* H2 */
+  --fs-3xl: clamp(1.75rem, 3.5vw, 2.75rem);                     /* H2 de destaque (= H2) */
+  --fs-4xl: clamp(2rem, 4.2vw, 3.25rem);                        /* números/preço grandes */
+  --fs-5xl: clamp(2.25rem, 5vw, 4rem);                          /* H1 (hero) */
+  --fs-faq: clamp(1.15rem, 2vw, 1.5rem);                        /* perguntas do FAQ */
 
-  --lh-tight: 1.02;
+  --lh-tight: 1.15; /* mínimo para Cormorant: acentos e descendentes inteiros */
   --lh-snug: 1.15;
-  --lh-normal: 1.5;
+  --lh-normal: 1.6; /* texto corrido */
   --lh-relaxed: 1.7;
 
-  --ls-tight: -0.02em;
+  --ls-tight: 0; /* sem letter-spacing negativo */
   --ls-normal: 0;
   --ls-wide: 0.08em;
-  --ls-wider: 0.18em;
-  --ls-widest: 0.32em;
+  --ls-wider: 0.2em;  /* botões e links do header */
+  --ls-widest: 0.28em; /* eyebrows */
 
   --measure: 62ch; /* largura máxima de parágrafo */
 
@@ -109,7 +116,7 @@
 
   /* Espaçamentos fluidos de seção (mobile → desktop) */
   /* Ritmo vertical. 360px → 1440px, interpolação linear real. */
-  --space-section: clamp(6rem, 4.667rem + 5.926vw, 10rem); /* 96 → 160 entre seções */
+  --space-section: clamp(5rem, 10vw, 8.75rem); /* 80 → 140 entre seções */
   --space-block: clamp(4rem, 3.333rem + 2.963vw, 6rem);    /* 64 → 96 entre blocos de uma seção */
   --space-gutter: clamp(var(--space-4), 0.75rem + 1.111vw, var(--space-8));     /* 16 → 32 */
 

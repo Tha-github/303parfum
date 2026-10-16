@@ -3,11 +3,10 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { defineConfig } from 'vite';
 import { CACHE, SECURITY_HEADERS } from './config/security-headers.mjs';
-import { FAQ_DATA, loadSyncContext, PAGES, PARTIALS_DIR, SITE_CONFIG } from './scripts/lib/html-context.mjs';
+import { FAQ_DATA, loadCatalogContext, loadSyncContext, PAGES, PARTIALS_DIR, PRODUCTS_DATA, PROMO_CONFIG, SITE_CONFIG } from './scripts/lib/html-context.mjs';
 import { syncHtml } from './scripts/lib/html-sync.mjs';
 
 const root = import.meta.dirname;
-const PRODUCTS_DATA = resolve(root, 'src/data/products.json');
 const JSONLD_LIB = resolve(root, 'scripts/lib/jsonld.mjs');
 
 /** Importa um módulo sempre fresco (no dev, edições aparecem sem reiniciar). */
@@ -16,8 +15,9 @@ const freshImport = (file) => import(`${pathToFileURL(file).href}?t=${Date.now()
 /**
  * Os HTML da raiz já são completos (abrem até com duplo clique). Este plugin
  * só garante que, no build e no dev, as regiões geradas (rodapé, FAQ,
- * contato, SEO), os dados da empresa (data-site) e a foto do hero estejam
- * em dia com config/site.mjs, src/data/faq.js e src/partials/ — a mesma
+ * contato, SEO, catálogo, promoção), os dados da empresa (data-site) e a
+ * foto do hero estejam em dia com config/site.mjs, src/data/ (faq.js,
+ * products.json, config.json) e src/partials/ — a mesma
  * lógica do `npm run sync` (scripts/lib/html-sync.mjs).
  */
 function htmlSync() {
@@ -31,7 +31,10 @@ function htmlSync() {
     },
     // No dev: editou dados/partials → regrava os HTML da raiz e recarrega
     async handleHotUpdate({ file, server }) {
-      if (!file.startsWith(PARTIALS_DIR) && ![FAQ_DATA, SITE_CONFIG].includes(file)) return;
+      // o Vite entrega caminhos com "/"; resolve() no Windows usa "\"
+      const norm = (p) => p.replace(/\\/g, '/');
+      const watched = [FAQ_DATA, SITE_CONFIG, PRODUCTS_DATA, PROMO_CONFIG].map(norm);
+      if (!norm(file).startsWith(norm(PARTIALS_DIR)) && !watched.includes(norm(file))) return;
       const ctx = await loadSyncContext();
       for (const page of PAGES) {
         const before = await readFile(page, 'utf8');
@@ -44,8 +47,9 @@ function htmlSync() {
 }
 
 /**
- * JSON-LD na fase "post": aqui o bundle já existe, então dá para trocar o
- * caminho de cada imagem de produto pela URL final com hash.
+ * JSON-LD na fase "post": aqui o bundle já existe, então dá para trocar a
+ * imagem de cada produto (variante JPG de 800px, ou a maior) pela URL final
+ * com hash.
  */
 function jsonLd() {
   return {
@@ -54,21 +58,22 @@ function jsonLd() {
       order: 'post',
       async handler(html, ctx) {
         if (!html.includes('<!-- @jsonld -->')) return html;
-        const { organization, website, faqPage, productList, jsonLdScript } = await freshImport(JSONLD_LIB);
+        const { organization, website, stores, faqPage, productList, jsonLdScript } = await freshImport(JSONLD_LIB);
         const { faqItems } = await freshImport(FAQ_DATA);
-        const catalog = JSON.parse(await readFile(PRODUCTS_DATA, 'utf8'));
+        const catalog = await loadCatalogContext();
 
-        const resolveImage = (srcPath) => {
-          if (typeof srcPath !== 'string') return null;
-          if (!ctx.bundle) return srcPath; // dev: caminho original funciona
-          const wanted = srcPath.replace(/^\//, '');
+        const imageUrl = (slug) => {
+          const widths = catalog.images[slug]?.widths;
+          if (!widths) return null;
+          const file = `${slug}-${widths.includes(800) ? 800 : widths.at(-1)}.jpg`;
+          if (!ctx.bundle) return `/src/assets/img/produtos/${file}`; // dev: caminho original
           const asset = Object.values(ctx.bundle).find(
-            (out) => out.type === 'asset' && (out.originalFileNames ?? []).some((n) => n.replace(/\\/g, '/').endsWith(wanted)),
+            (out) => out.type === 'asset' && (out.originalFileNames ?? []).some((n) => n.replace(/\\/g, '/').endsWith(`produtos/${file}`)),
           );
           return asset ? `/${asset.fileName}` : null;
         };
 
-        const script = jsonLdScript([organization(), website(), faqPage(faqItems), productList(catalog, resolveImage)]);
+        const script = jsonLdScript([organization(), website(), stores(), faqPage(faqItems), productList(catalog, imageUrl)]);
         return html.replace('<!-- @jsonld -->', script);
       },
     },

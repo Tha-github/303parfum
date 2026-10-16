@@ -1,22 +1,20 @@
 /**
  * Otimiza as FOTOS REAIS do site.
  *
- * 1. Foto do hero: substitua src/assets/img/banner.png (PNG com fundo
- *    transparente, a pessoa inteira, quanto maior melhor). É convertida
- *    sozinha a cada build (npm run build) e por este script.
- *    Demais fotos (JPG/PNG/WebP/TIFF, quanto maior melhor) em:
- *      images-src/linhas/<slug>.jpg          → masculino, feminino, nicho,
- *                                              arabe, capilar, oleo-corporal
+ * 1. Foto do hero: substitua src/assets/img/banneroficial.png (quanto maior
+ *    melhor). É convertida sozinha a cada build (npm run build) e por este
+ *    script, sem recorte.
+ *    Fotos dos produtos (JPG/PNG/WebP/TIFF, quanto maior melhor) em:
  *      images-src/produtos/<slug>.jpg        → mesmo slug do products.json
  * 2. Rode:  npm run images
  *
- * Linhas/produtos: recorte 4:5 (foco automático no assunto), AVIF/WebP em
- * 480/800/1200w. Hero (banner.png): proporção original SEM recorte,
- * AVIF/WebP/PNG em 480/800/1200/1600w. Remove metadados EXIF e confere o
- * orçamento de peso (hero ≤ 200 KB por arquivo).
+ * Produtos: SEM recorte (fotos mais estreitas que 4:5 ganham margem na cor
+ * do fundo), AVIF/WebP/JPG em 400/800/1200w, ≤ 150 KB por arquivo.
+ * Hero (banneroficial.png): proporção original, AVIF/WebP/JPG em
+ * 480/800/1200/1600w, ≤ 200 KB. Nunca amplia; remove metadados EXIF.
  *
  *   node scripts/optimize-images.mjs --banner   → só o hero, e só se o
- *   banner.png for mais novo que as variantes (é o que o prebuild usa)
+ *   banneroficial.png for mais novo que as variantes (é o que o prebuild usa)
  */
 import { access, readdir, stat } from 'node:fs/promises';
 import { extname, parse, resolve } from 'node:path';
@@ -29,7 +27,7 @@ async function bannerIsStale() {
   try {
     await access(BANNER_SOURCE);
   } catch {
-    console.error('✗ src/assets/img/banner.png não encontrado (foto do hero).');
+    console.error('✗ src/assets/img/banneroficial.png não encontrado (foto do hero).');
     process.exit(1);
   }
   const src = (await stat(BANNER_SOURCE)).mtimeMs;
@@ -52,17 +50,17 @@ const log = (results) => {
   total += results.length;
   for (const r of results) {
     if (r.overBudget) over += 1;
-    console.log(`${r.overBudget ? '⚠' : '✓'} ${r.file}  ${r.kb} KB  (q${r.quality})`);
+    console.log(`${r.overBudget ? '⚠' : '✓'} ${r.file}  ${r.kb} KB  (q${r.quality})${r.padded ? '  [margem lateral p/ 4:5]' : ''}`);
   }
 };
 
-// Hero (banner.png)
+// Hero (banneroficial.png)
 if (!bannerOnly || (await bannerIsStale())) {
   const { width } = await sharp(BANNER_SOURCE).metadata();
-  if (width < 1600) console.warn(`⚠ banner.png tem ${width}px de largura; o ideal é ≥ 1600px (telas grandes vão ampliar a foto).`);
+  if (width < 1600) console.warn(`⚠ banneroficial.png tem ${width}px de largura; o ideal é ≥ 1600px (telas grandes vão ampliar a foto).`);
   log(await writeVariants(BANNER_SOURCE, 'banner', 'banner'));
 } else {
-  console.log('✓ hero: variantes do banner.png já estão atualizadas');
+  console.log('✓ hero: variantes do banneroficial.png já estão atualizadas');
 }
 
 for (const kind of bannerOnly ? [] : Object.keys(KINDS).filter((k) => k !== 'banner')) {
@@ -80,7 +78,7 @@ for (const kind of bannerOnly ? [] : Object.keys(KINDS).filter((k) => k !== 'ban
 }
 
 if (total === 0) {
-  if (!bannerOnly) console.log('Nenhuma foto encontrada em images-src/{linhas,produtos}/. Veja o README.');
+  if (!bannerOnly) console.log('Nenhuma foto encontrada em images-src/produtos/. Veja o README.');
 } else {
   console.log(`\n${total} arquivos gerados${over ? `, ${over} acima do orçamento (use uma foto mais simples/menor)` : ', todos dentro do orçamento'}.`);
   if (over) process.exitCode = 1;

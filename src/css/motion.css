@@ -8,8 +8,7 @@
      não sobrescrevem as transições próprias de cada componente e, ao
      terminar, devolvem o elemento aos estilos normais.
    - Deslocamentos usam a propriedade `translate`, independente de
-     `transform`: não briga com transforms já existentes (ex.: card do meio
-     deslocado nas Linhas).
+     `transform`: não briga com transforms já existentes (ex.: zoom dos cards).
    ========================================================================== */
 
 /* ---- 1. Revelação ao rolar ------------------------------------------- */
@@ -29,15 +28,11 @@
   }
 }
 
-/* ---- 2. Títulos linha a linha ----------------------------------------- */
+/* ---- 2. Títulos linha a linha -----------------------------------------
+   Só opacity + translate, SEM máscara (overflow: hidden cortava itálicos,
+   descendentes e acentos). */
 .split-word {
   display: inline-block;
-  overflow: hidden;
-  /* folga para descendentes (g, p, ç) e o caimento do itálico não serem
-     cortados pela máscara; a margem negativa devolve o espaço */
-  padding: 0 0.08em 0.18em;
-  margin: 0 -0.08em -0.18em;
-  vertical-align: bottom;
 }
 
 .split-word__inner {
@@ -45,29 +40,29 @@
 }
 
 .has-motion [data-motion="split"]:not(.is-revealed) .split-word__inner {
-  translate: 0 110%;
+  opacity: 0;
+  translate: 0 0.35em;
 }
 
 .has-motion [data-motion="split"].is-revealed:not(.is-instant) .split-word__inner {
-  animation: motion-line-up 1100ms var(--ease-reveal) backwards;
+  animation: motion-line-up 1000ms var(--ease-reveal) backwards;
   animation-delay: calc(var(--line, 0) * 120ms);
 }
 
 @keyframes motion-line-up {
   from {
-    translate: 0 110%;
+    opacity: 0;
+    translate: 0 0.35em;
   }
 }
 
 /* ---- 3. Linhas douradas que desenham -------------------------------- */
-.eyebrow--rule::before,
-.manifesto__signature::before {
+.eyebrow--rule::before {
   transform-origin: left center;
   transition: transform 1100ms var(--ease-reveal) 200ms;
 }
 
-.has-motion [data-draw]:not(.is-drawn).eyebrow--rule::before,
-.has-motion [data-draw]:not(.is-drawn).manifesto__signature::before {
+.has-motion [data-draw]:not(.is-drawn).eyebrow--rule::before {
   transform: scaleX(0);
 }
 
@@ -96,112 +91,33 @@
   transform: scaleX(0);
 }
 
-/* ---- 5. Botão primário: preenchimento que desliza da esquerda ------- */
-@media (hover: hover) and (pointer: fine) {
-  .btn--primary {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
+/* ---- 6. Troca de aba do catálogo: cards entram em cascata ------------
+   .is-switching (catalog.js) só depois de o usuário trocar de aba; a
+   animação recomeça sozinha quando o painel deixa de ser [hidden].     */
+@media (prefers-reduced-motion: no-preference) {
+  .catalog.is-switching .product-card {
+    animation: catalog-card-in 600ms var(--ease-reveal) both;
+    animation-delay: calc(var(--i, 8) * 60ms);
   }
 
-  .btn--primary::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: var(--btn-fill, var(--btn-bg-hover));
-    background-size: 200% 100%;
-    background-position: 0% 50%;
-    transform: scaleX(0);
-    transform-origin: right center; /* sai pela direita */
-    transition:
-      transform 550ms var(--ease-reveal),
-      background-position 1600ms var(--ease-luxe);
+  .catalog.is-switching .catalog__panel-head {
+    animation: catalog-card-in 400ms var(--ease-reveal) both;
   }
 
-  .btn--primary:hover {
-    background-color: var(--btn-bg); /* a cor nova vem do preenchimento */
-  }
-
-  .btn--primary:hover::before {
-    transform: scaleX(1);
-    transform-origin: left center; /* entra pela esquerda */
-    background-position: 100% 50%; /* brilho: o gradiente desliza */
-  }
+  .product-card:nth-child(1) { --i: 0; }
+  .product-card:nth-child(2) { --i: 1; }
+  .product-card:nth-child(3) { --i: 2; }
+  .product-card:nth-child(4) { --i: 3; }
+  .product-card:nth-child(5) { --i: 4; }
+  .product-card:nth-child(6) { --i: 5; }
+  .product-card:nth-child(7) { --i: 6; }
+  .product-card:nth-child(8) { --i: 7; }
 }
 
-/* ---- 6. Transição entre filtros do catálogo -------------------------- */
-.catalog__grid {
-  transition:
-    opacity 180ms var(--ease-standard),
-    translate 180ms var(--ease-standard);
-}
-
-.catalog__grid.is-leaving {
-  opacity: 0;
-  translate: 0 8px;
-}
-
-/* ---- 7. Faixa (marquee) com as linhas -------------------------------- */
-.marquee {
-  position: relative;
-  overflow: hidden;
-  padding-block: var(--space-8);
-  background-color: var(--color-black);
-  color: var(--color-text-on-dark-subtle);
-  border-block: var(--border-hairline) solid var(--color-smoke);
-  /* bordas laterais esfumadas */
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
-  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
-}
-
-.marquee__track {
-  display: flex;
-  width: max-content;
-  animation: marquee-scroll 60s linear infinite;
-}
-
-.marquee:hover .marquee__track {
-  animation-play-state: paused;
-}
-
-.marquee__group {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-}
-
-.marquee__item {
-  padding-inline: var(--space-6);
-  font-family: var(--font-display);
-  font-size: var(--fs-3xl);
-  font-style: italic;
-  font-weight: var(--fw-light);
-  line-height: 1;
-  white-space: nowrap;
-  transition: color var(--duration-base) var(--ease-standard);
-}
-
-.marquee:hover .marquee__item {
-  color: var(--color-text-on-dark-muted);
-}
-
-.marquee__sep {
-  color: var(--gold-solid);
-  font-family: var(--font-display);
-  font-size: var(--fs-xl);
-}
-
-/* Duas cópias idênticas: andar 50% fecha o ciclo sem emenda */
-@keyframes marquee-scroll {
-  to {
-    translate: -50% 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .marquee__track {
-    animation: none;
+@keyframes catalog-card-in {
+  from {
+    opacity: 0;
+    translate: 0 16px;
   }
 }
 
@@ -209,14 +125,12 @@
    WebP estático de 128px em mosaico (ruído pré-renderizado: nada de
    filtro SVG calculado na pintura). Custo de pintura desprezível.        */
 .section--dark,
-.site-footer,
-.marquee {
+.site-footer {
   isolation: isolate;
 }
 
 .section--dark::after,
-.site-footer::after,
-.marquee::after {
+.site-footer::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -241,8 +155,7 @@
   }
 
   .section--dark::after,
-  .site-footer::after,
-  .marquee {
+  .site-footer::after {
     display: none;
   }
 }

@@ -8,18 +8,22 @@
  */
 
 import { SITE } from '../../config/site.mjs';
+import { formatBRLText } from './price.js';
 
 export const WHATSAPP_NUMBER = SITE.whatsapp.number; // editar em config/site.mjs
 
+// `promo` = activePromo(config) de price.js (ou null, sem promoção)
 export const MENSAGENS = Object.freeze({
   geral: 'Olá! Vim pelo site da 303 Parfum e gostaria de saber mais sobre as fragrâncias.',
   revenda: 'Olá! Vim pelo site da 303 Parfum e tenho interesse em ser revendedor(a).',
-  produto: (nome, volumeMl) =>
-    volumeMl
-      ? `Olá! Tenho interesse no perfume ${nome} (${volumeMl}ml).`
+  produto: (nome, promo) =>
+    promo
+      ? `Olá! Tenho interesse no perfume ${nome} por ${formatBRLText(promo.por)}.`
       : `Olá! Tenho interesse no perfume ${nome}.`,
   revendaProduto: (nome) => `Olá! Tenho interesse em revender o perfume ${nome}.`,
-  linha: (linha) => `Olá! Gostaria de saber quando chegam novidades da linha ${linha}.`,
+  promocao: (promo) => `Olá! Quero aproveitar a promoção dos perfumes por ${formatBRLText(promo.por)}.`,
+  capilar: 'Olá! Quero conhecer os perfumes capilares da 303 Parfum.',
+  oleo: 'Olá! Quero conhecer os óleos corporais da 303 Parfum.',
 });
 
 /**
